@@ -27,11 +27,12 @@
 *******************************************************************************/
 
 #include "refString.h"
+#include "nedit_malloc.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define RCS_SIZE 10000
+#define RCS_SIZE 100000
 
 struct rcs;
 
@@ -50,21 +51,31 @@ struct rcs
 static struct rcs       *Rcs[RCS_SIZE];
 static struct rcs_stats  RcsStats;
 
-/*      Compute hash address from a string key */
+static unsigned const DJB2_SEED = 5381;
+/* djb2s hash for null-terminated string, seeded version */
+unsigned djb2s_(char const* key, unsigned hash)
+{
+    char c;
+    while (c = *key++) hash = ((hash << 5) + hash) ^ c;
+    return hash;
+}
+
+/* Compute hash address from a string key */
 unsigned StringHashAddr(const char *key)
 {
-    unsigned s=strlen(key);
-    unsigned a=0,x=0,i;
-    
-    for (i=0; (i+3)<s; i += 4) {
-        strncpy((char*)&a,&key[i],4);
-        x += a;
-    }
-    
-    for (a=1; i<(s+1); i++, a *= 256)
-        x += key[i] * a;
-        
-    return x;
+    unsigned hash = DJB2_SEED;
+    hash = djb2s_(key, hash);
+    return hash;
+}
+
+/* Compute hash address from a null-termintated list of strings */
+unsigned StringsHashAddr(const char** keys)
+{
+    unsigned hash = DJB2_SEED;
+    char const* key;
+    while (key = *keys++)
+        hash = djb2s_(key, hash);
+    return hash;
 }
 
 /*
@@ -76,43 +87,20 @@ unsigned StringHashAddr(const char *key)
 
 const char *RefStringDup(const char *str)
 {
-    int bucket;
-    size_t len;
-    struct rcs *rp;
-    struct rcs *prev = NULL;
-  
-    char *newstr = NULL;
-    
     if (str == NULL)
         return NULL;
-        
-    bucket = StringHashAddr(str) % RCS_SIZE;
-    len = strlen(str);
-    
+
+    size_t len = strlen(str);
+
     RcsStats.talloc++;
 
-#if 0  
-    /* Don't share if it won't save space.
-    
-       Doesn't save anything - if we have lots of small-size objects,
-       it's beneifical to share them.  We don't know until we make a full
-       count.  My tests show that it's better to leave this out.  */
-    if (len <= sizeof(struct rcs))
-    {
-        new_str = strdup(str); /* GET RID OF strdup() IF EVER ENABLED (not ANSI) */ 
-        RcsStats.tgiveup++;
-        return;
-    }
-#endif
-
     /* Find it in hash */
-    for (rp = Rcs[bucket]; rp; rp = rp->next)
-    {
-        if (!strcmp(str, rp->string))
-            break;
-        prev = rp;
-    }
+    unsigned bucket = StringHashAddr(str) % RCS_SIZE;
+    struct rcs *rp = Rcs[bucket];
+    for (; rp; rp = rp->next)
+        if (!strcmp(str, rp->string)) break;
 
+    char *newstr = NULL;
     if (rp)  /* It exists, return it and bump ref ct */
     {
         rp->usage++;
@@ -123,29 +111,14 @@ const char *RefStringDup(const char *str)
     }
     else     /* Doesn't exist, conjure up a new one. */
     {
-        struct rcs* newrcs;
-        if (NULL == (newrcs = (struct rcs*) malloc(sizeof(struct rcs)))) {
-            /*  Not much to fall back to here.  */
-            fprintf(stderr, "nedit: rcs_strdup(): out of heap space!\n");
-/*            XBell(TheDisplay, 0); */
-            exit(EXIT_FAILURE);
-        }
-
-        if (NULL == (newrcs->string = (char*) malloc(len + 1))) {
-            /*  Not much to fall back to here.  */
-            fprintf(stderr, "nedit: rcs_strdup(): out of heap space!\n");
-/*            XBell(TheDisplay, 0); */
-            exit(EXIT_FAILURE);
-        }
-        strcpy(newrcs->string, str);
+        struct rcs* newrcs = (struct rcs*) NEditMalloc(sizeof(struct rcs));
         newrcs->usage = 1;
-        newrcs->next = NULL;
+        newrcs->next = Rcs[bucket];
+        Rcs[bucket] = newrcs;
 
-        if (Rcs[bucket])
-            prev->next = newrcs;
-        else
-            Rcs[bucket] = newrcs;
-            
+        newrcs->string = (char*) NEditMalloc(len + 1);
+        memcpy(newrcs->string, str, len + 1);
+
         newstr = newrcs->string;
     }
 
@@ -189,12 +162,12 @@ void RefStringFree(const char *rcs_str)
 
         if (rp->usage == 0)  /* Last one- free the storage */
         {
-            free(rp->string);
+            NEditFree(rp->string);
             if (prev)
                 prev->next = rp->next;
             else
                 Rcs[bucket] = rp->next;
-            free(rp);
+            NEditFree(rp);
         }
     }
     else    /* Doesn't appear to be a shared string */

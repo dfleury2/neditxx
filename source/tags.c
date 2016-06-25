@@ -102,7 +102,7 @@ typedef struct _tag {
 
 enum searchDirection {FORWARD, BACKWARD};
 
-static int loadTagsFile(const char *tagSpec, int index, int recLevel);
+static int loadTagsFile(tag** table, const char *tagSpec, int index, int recLevel);
 static void findDefCB(Widget widget, XtPointer closure, Atom *sel,
         Atom *type, XtPointer value, unsigned long *length, int *format);
 static void setTag(tag *t, const char *name, const char *file,
@@ -179,8 +179,7 @@ static tagFile *setFileListHead(tagFile *t, int file_type )
 static tag *getTag(const char *name, int search_type)
 {
     static char lastName[MAXLINE];
-    static tag *t;
-    static int addr;
+    static tag *t = NULL;
     tag **table;
     
     if (search_type == TIP)
@@ -191,7 +190,7 @@ static tag *getTag(const char *name, int search_type)
     if (table == NULL) return NULL;
     
     if (name) {
-        addr = StringHashAddr(name) % DefTagHashSize;
+        unsigned const addr = StringHashAddr(name) % DefTagHashSize;
         t = table[addr];
         strcpy(lastName,name);
     }
@@ -206,6 +205,76 @@ static tag *getTag(const char *name, int search_type)
     return NULL;
 }
 
+/*
+** Rearranges tags from `src` into `dst` hash table using `name` as the key.
+** Post-processing step after loading tags with `preloadTag()`
+*/
+static void rehashPreloadedTags(tag** dst, tag** src)
+{
+    for (unsigned i = 0; i < DefTagHashSize; ++i)
+    {
+        for (tag* tt = src[i]; tt;) {
+            tag* const ttt = tt; tt = tt->next;
+            unsigned const addr = StringHashAddr(ttt->name) % DefTagHashSize;
+            ttt->next = dst[addr];
+            dst[addr] = ttt;
+        }
+    }
+}
+
+/*
+** Searches for `tpl` tag in the list `bkt`
+*/
+static tag* findTagRec(tag const* tpl, tag* bkt)
+{
+    /* pointers comparison can be used instead of strcmp because strings
+       are made shared by setTag() */
+    for (tag *t = bkt; t; t = t->next)
+        if ((tpl->language == t->language) && (tpl->posInf == t->posInf) &&
+            (tpl->name == t->name) && (tpl->searchString == t->searchString) &&
+            (tpl->file == t->file)) return t;
+
+    return NULL;
+}
+
+/*
+** Pre-loads tags into a temporary hash table with composite key made of
+** `name`, `file`, and `search` arguments.
+** The `rehashPreloadedTags()`, invoked after all tags are preloaded,
+** is rearranging tags into `Tags` hash table using `name` as the key.
+*/
+static int preloadTag(tag** table, const char *name, const char *file, int lang,
+        const char *search, int posInf, const char *path, int index)
+{
+    char newfile[MAXPATHLEN];
+
+    if (*file == '/')
+        strncpy(newfile, file, MAXPATHLEN);
+    else
+        snprintf(newfile, MAXPATHLEN, "%s%s", path, file);
+
+    NormalizePathname(newfile);
+
+    tag tpl;
+    setTag(&tpl, name, newfile, lang, search, posInf, path);
+
+    char const* key[] = { tpl.name, tpl.file, tpl.searchString, NULL };
+    unsigned const addr = StringsHashAddr(key) % DefTagHashSize;
+
+    tag *t = findTagRec(&tpl, table[addr]);
+    if (t)
+        return 0;
+
+    t = (tag *) NEditMalloc(sizeof(tag));
+    memcpy(t, &tpl, sizeof(tag));
+    t->index = index;
+
+    t->next = table[addr];
+    table[addr] = t;
+
+    return 1;
+}
+
 /* Add a tag specification to the hash table 
 **   Return Value:  0 ... tag already existing, spec not added
 **                  1 ... tag spec is new, added.
@@ -215,8 +284,6 @@ static tag *getTag(const char *name, int search_type)
 static int addTag(const char *name, const char *file, int lang, 
                     const char *search, int posInf, const char *path, int index)
 {
-    int addr = StringHashAddr(name) % DefTagHashSize;
-    tag *t;
     char newfile[MAXPATHLEN];
     tag **table;
     
@@ -236,19 +303,19 @@ static int addTag(const char *name, const char *file, int lang,
         sprintf(newfile,"%s%s", path, file);
     
     NormalizePathname(newfile);
-        
-    for (t = table[addr]; t; t = t->next) {
-        if (lang != t->language) continue;
-        if (posInf != t->posInf) continue;
-        if (strcmp(name, t->name)) continue;
-        if (strcmp(search, t->searchString)) continue;
-        if (strcmp(newfile, t->file)) continue;
+    
+    tag tpl;
+    setTag(&tpl, name, newfile, lang, search, posInf, path);
+    
+    unsigned const addr = StringHashAddr(name) % DefTagHashSize;
+    tag *t = findTagRec(&tpl, table[addr]);
+    if (t)
         return 0;
-    }
-        
+    
     t = (tag *) NEditMalloc(sizeof(tag));
-    setTag(t, name, newfile, lang, search, posInf, path);
+    memcpy(t, &tpl, sizeof(tag));
     t->index = index;
+    
     t->next = table[addr];
     table[addr] = t;
     return 1;
@@ -280,21 +347,24 @@ static int delTag(const char *name, const char *file, int lang,
         start = 0;
         finish = DefTagHashSize;
     }
+
     for (i = start; i<finish; i++) {
         for (last = NULL, t = table[i]; t; last = t, t = t?t->next:table[i]) {
-            if (name && strcmp(name,t->name)) continue;
             if (index && index != t->index) continue;
-            if (file && strcmp(file,t->file)) continue;
+            if (posInf != t->posInf) continue;
             if (lang >= PLAIN_LANGUAGE_MODE && lang != t->language) continue;
+            if (name && strcmp(name,t->name)) continue;
+            if (file && strcmp(file,t->file)) continue;
             if (search && strcmp(search,t->searchString)) continue;
-            if (posInf == t->posInf) continue;
+
             if (last)
                 last->next = t->next;
             else
                 table[i] = t->next;
+
             RefStringFree(t->name);
             RefStringFree(t->file);
-            NEditFree(t->searchString);
+            RefStringFree(t->searchString);
             RefStringFree(t->path);
             NEditFree(t);
             t = NULL;
@@ -530,23 +600,24 @@ static void updateMenuItems(void)
 ** Scans one <line> from a ctags tags file (<index>) in tagPath.
 ** Return value: Number of tag specs added.
 */
-static int scanCTagsLine(const char *line, const char *tagPath, int index) 
+static int scanCTagsLine(tag** table, char *line, const char *tagPath, int index)
 {
-    char name[MAXLINE], searchString[MAXLINE];
-    char file[MAXPATHLEN];
-    char *posTagREEnd, *posTagRENull;
-    int  nRead, pos;
-
-    nRead = sscanf(line, "%s\t%s\t%[^\n]", name, file, searchString);
-    if (nRead != 3) 
-        return 0;
-    if ( *name == '!' )
-        return 0;
+    /* [name]\t[file]\t[searchString]\n */
+    char *file = NULL, *searchString = NULL, *name = line;
+    if ((*name != '!') && (file = strchr(name, '\t')) != NULL)
+    {
+        *file++ = '\0';
+        if ((searchString = strchr(file, '\t')) != NULL)
+            *searchString++ = '\0';
+        else return 0;
+    }
+    else return 0;
 
     /* 
     ** Guess the end of searchString:
     ** Try to handle original ctags and exuberant ctags format: 
     */
+    int pos = -1;
     if(searchString[0] == '/' || searchString[0] == '?') {
 
         pos=-1; /* "search expr without pos info" */
@@ -556,8 +627,8 @@ static int scanCTagsLine(const char *line, const char *tagPath, int index)
         **             /<ANY expr>/;"  <flags>
         **             ?<ANY expr>?;"  <flags> --> exuberant ctags 
         */
-        posTagREEnd = strrchr(searchString, ';');
-        posTagRENull = strchr(searchString, 0); 
+        char *posTagREEnd = strrchr(searchString, ';');
+        char *posTagRENull = strchr(searchString, 0); 
         if(!posTagREEnd || (posTagREEnd[1] != '"') || 
             (posTagRENull[-1] == searchString[0])) {
             /*  -> original ctags format = exuberant ctags format 1 */
@@ -583,9 +654,9 @@ static int scanCTagsLine(const char *line, const char *tagPath, int index)
         *searchString=0;
     }
     /* No ability to read language mode right now */
-    return addTag(name, file, PLAIN_LANGUAGE_MODE, searchString, pos, tagPath, 
-            index);
-}  
+    return preloadTag(table, name, file, PLAIN_LANGUAGE_MODE, searchString, pos,
+            tagPath, index);
+}
 
 /* 
  * Scans one <line> from an etags (emacs) tags file (<index>) in tagPath.
@@ -593,7 +664,7 @@ static int scanCTagsLine(const char *line, const char *tagPath, int index)
  * file = destination definition file. possibly modified. len=MAXPATHLEN!
  * Return value: Number of tag specs added.
  */
-static int scanETagsLine(const char *line, const char * tagPath, int index,
+static int scanETagsLine(tag** table, char const *line, const char * tagPath, int index,
                          char * file, int recLevel) 
 {
     char name[MAXLINE], searchString[MAXLINE];
@@ -621,7 +692,7 @@ static int scanETagsLine(const char *line, const char * tagPath, int index,
         name[len]=0;
         pos=atoi(posCOM+1);
         /* No ability to set language mode for the moment */
-        return addTag(name, file, PLAIN_LANGUAGE_MODE, searchString, pos, 
+        return preloadTag(table, name, file, PLAIN_LANGUAGE_MODE, searchString, pos, 
                 tagPath, index);
     } 
     if (*file && posDEL && (posCOM > posDEL)) {
@@ -644,7 +715,7 @@ static int scanETagsLine(const char *line, const char * tagPath, int index,
         strncpy(name, searchString + pos + 1, len - pos);
         name[len - pos] = 0; /* name ready */
         pos=atoi(posCOM+1);
-        return addTag(name, file, PLAIN_LANGUAGE_MODE, searchString, pos, 
+        return preloadTag(table, name, file, PLAIN_LANGUAGE_MODE, searchString, pos, 
                 tagPath, index);
     }
     /* check for destination file spec */
@@ -663,9 +734,9 @@ static int scanETagsLine(const char *line, const char * tagPath, int index,
                 strcpy(incPath, tagPath);
                 strcat(incPath, file);
                 CompressPathname(incPath);
-                return(loadTagsFile(incPath, index, recLevel+1));
+                return(loadTagsFile(table, incPath, index, recLevel+1));
             } else {
-                return(loadTagsFile(file, index, recLevel+1));
+                return(loadTagsFile(table, file, index, recLevel+1));
             }
         }
     }
@@ -681,7 +752,7 @@ typedef enum {
 ** Loads tagsFile into the hash table. 
 ** Returns the number of added tag specifications.
 */
-static int loadTagsFile(const char *tagsFile, int index, int recLevel)
+static int loadTagsFile(tag** table, const char *tagsFile, int index, int recLevel)
 {
     FILE *fp = NULL;
     char line[MAXLINE];
@@ -727,9 +798,9 @@ static int loadTagsFile(const char *tagsFile, int index, int recLevel)
                 tagFileType=TFT_CTAGS;
         }
         if(tagFileType==TFT_CTAGS) {
-            nTagsAdded += scanCTagsLine(line, tagPath, index);
+            nTagsAdded += scanCTagsLine(table, line, tagPath, index);
         } else {
-            nTagsAdded += scanETagsLine(line, tagPath, index, file, recLevel);
+            nTagsAdded += scanETagsLine(table, line, tagPath, index, file, recLevel);
         }
     }
     fclose(fp);
@@ -767,7 +838,9 @@ int LookupTag(const char *name, const char **file, int *language,
         FileList = TipsFileList;
     else
         FileList = TagsFileList;
-    
+
+    tag** buffer = NULL;
+
     /*
     ** Go through the list of all tags Files:
     **   - load them (if not already loaded)
@@ -795,8 +868,14 @@ int LookupTag(const char *name, const char **file, int *language,
         if (FileList == TipsFileList)
             load_status = loadTipsFile(tf->filename, tf->index, 0);
         else
-            load_status = loadTagsFile(tf->filename, tf->index, 0);
+        {
+            if (!buffer)
+                buffer = (tag **)NEditCalloc(DefTagHashSize, sizeof(tag*));
+            load_status = loadTagsFile(buffer, tf->filename, tf->index, 0);
+        }
+
         if(load_status) {
+
             if (stat(tf->filename,&statbuf) != 0) {
                 if(!tf->loaded) {
                     /* if tf->loaded == 1 we already have seen the error msg */
@@ -810,7 +889,16 @@ int LookupTag(const char *name, const char **file, int *language,
             tf->loaded = 0;
         }
     }
-    
+
+    if (buffer)
+    {
+        if (!Tags)
+            Tags = (tag **)NEditCalloc(DefTagHashSize, sizeof(tag*));
+        rehashPreloadedTags(Tags, buffer);
+
+        NEditFree(buffer);
+    }
+
     t = getTag(name, search_type);
     
     if (!t) {
