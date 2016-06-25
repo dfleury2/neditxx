@@ -134,7 +134,7 @@ static int loadTipsFile(const char *tipsFile, int index, int recLevel);
 /* Hash table of tags, implemented as an array.  Each bin contains a 
     NULL-terminated linked list of parsed tags */
 static tag **Tags = NULL;
-static int DefTagHashSize = 100000;
+static unsigned DefTagHashSize = 100000u;
 /* list of loaded tags files */
 tagFile *TagsFileList = NULL;
 
@@ -211,11 +211,14 @@ static tag *getTag(const char *name, int search_type)
 */
 static void rehashPreloadedTags(tag** dst, tag** src)
 {
-    for (unsigned i = 0; i < DefTagHashSize; ++i)
+    unsigned i = 0;
+    for (; i < DefTagHashSize; ++i)
     {
-        for (tag* tt = src[i]; tt;) {
-            tag* const ttt = tt; tt = tt->next;
+        tag *tt = src[i];
+        while (tt) {
+            tag *const ttt = tt; 
             unsigned const addr = StringHashAddr(ttt->name) % DefTagHashSize;
+            tt = tt->next;
             ttt->next = dst[addr];
             dst[addr] = ttt;
         }
@@ -229,12 +232,70 @@ static tag* findTagRec(tag const* tpl, tag* bkt)
 {
     /* pointers comparison can be used instead of strcmp because strings
        are made shared by setTag() */
-    for (tag *t = bkt; t; t = t->next)
+    tag *t = bkt;
+    for (; t; t = t->next)
         if ((tpl->language == t->language) && (tpl->posInf == t->posInf) &&
             (tpl->name == t->name) && (tpl->searchString == t->searchString) &&
             (tpl->file == t->file)) return t;
 
     return NULL;
+}
+
+/*
+** Calculates hash for the tag using `name` fields
+*/
+static unsigned calcTagNameHash(tag const* t)
+{
+    return StringHashAddr(t->name) % DefTagHashSize;
+}
+
+/*
+** Calculates hash for the tag using `name`, `file`, and `search` fields
+*/
+static unsigned calcTagFullHash(tag const* t)
+{
+    char const* key[] = { t->name, t->file, t->searchString, NULL };
+    return StringsHashAddr(key) % DefTagHashSize;
+}
+
+/*
+** Common part of `preloadTag` and `addTag`
+*/
+static int addTagWithHash(tag** table, unsigned(*hasher)(tag const*), const char *name,
+        const char *file, int lang, const char *search, int posInf,
+        const char *path, int index)
+{
+    char newfile[MAXPATHLEN];
+
+    if (*file == '/')
+        strncpy(newfile, file, MAXPATHLEN);
+    else
+        snprintf(newfile, MAXPATHLEN, "%s%s", path, file);
+    newfile[MAXPATHLEN - 1] = '\0';
+
+    NormalizePathname(newfile);
+
+    {
+        tag tpl;
+        setTag(&tpl, name, newfile, lang, search, posInf, path);
+
+        {
+            unsigned const addr = hasher(&tpl);
+
+            tag *t = findTagRec(&tpl, table[addr]);
+            if (t)
+                return 0;
+
+            t = (tag *) NEditMalloc(sizeof(tag));
+            memcpy(t, &tpl, sizeof(tag));
+            t->index = index;
+
+            t->next = table[addr];
+            table[addr] = t;
+        }
+    }
+
+    return 1;
 }
 
 /*
@@ -246,33 +307,8 @@ static tag* findTagRec(tag const* tpl, tag* bkt)
 static int preloadTag(tag** table, const char *name, const char *file, int lang,
         const char *search, int posInf, const char *path, int index)
 {
-    char newfile[MAXPATHLEN];
-
-    if (*file == '/')
-        strncpy(newfile, file, MAXPATHLEN);
-    else
-        snprintf(newfile, MAXPATHLEN, "%s%s", path, file);
-
-    NormalizePathname(newfile);
-
-    tag tpl;
-    setTag(&tpl, name, newfile, lang, search, posInf, path);
-
-    char const* key[] = { tpl.name, tpl.file, tpl.searchString, NULL };
-    unsigned const addr = StringsHashAddr(key) % DefTagHashSize;
-
-    tag *t = findTagRec(&tpl, table[addr]);
-    if (t)
-        return 0;
-
-    t = (tag *) NEditMalloc(sizeof(tag));
-    memcpy(t, &tpl, sizeof(tag));
-    t->index = index;
-
-    t->next = table[addr];
-    table[addr] = t;
-
-    return 1;
+    return addTagWithHash(table, calcTagFullHash, name, file, lang, search, posInf,
+            path, index);
 }
 
 /* Add a tag specification to the hash table 
@@ -284,9 +320,7 @@ static int preloadTag(tag** table, const char *name, const char *file, int lang,
 static int addTag(const char *name, const char *file, int lang, 
                     const char *search, int posInf, const char *path, int index)
 {
-    char newfile[MAXPATHLEN];
-    tag **table;
-    
+    tag **table = NULL;
     if (searchMode == TIP) {
         if (Tips == NULL) 
             Tips = (tag **)NEditCalloc(DefTagHashSize, sizeof(tag*));
@@ -296,29 +330,9 @@ static int addTag(const char *name, const char *file, int lang,
             Tags = (tag **)NEditCalloc(DefTagHashSize, sizeof(tag*));
         table = Tags;
     }
-    
-    if (*file == '/')
-        strcpy(newfile,file);
-    else
-        sprintf(newfile,"%s%s", path, file);
-    
-    NormalizePathname(newfile);
-    
-    tag tpl;
-    setTag(&tpl, name, newfile, lang, search, posInf, path);
-    
-    unsigned const addr = StringHashAddr(name) % DefTagHashSize;
-    tag *t = findTagRec(&tpl, table[addr]);
-    if (t)
-        return 0;
-    
-    t = (tag *) NEditMalloc(sizeof(tag));
-    memcpy(t, &tpl, sizeof(tag));
-    t->index = index;
-    
-    t->next = table[addr];
-    table[addr] = t;
-    return 1;
+
+    return addTagWithHash(table, calcTagNameHash, name, file, lang, search, posInf,
+            path, index);
 }
 
 /*  Delete a tag from the cache.  
@@ -602,6 +616,8 @@ static void updateMenuItems(void)
 */
 static int scanCTagsLine(tag** table, char *line, const char *tagPath, int index)
 {
+    int pos = -1;
+
     /* [name]\t[file]\t[searchString]\n */
     char *file = NULL, *searchString = NULL, *name = line;
     if ((*name != '!') && (file = strchr(name, '\t')) != NULL)
@@ -617,10 +633,8 @@ static int scanCTagsLine(tag** table, char *line, const char *tagPath, int index
     ** Guess the end of searchString:
     ** Try to handle original ctags and exuberant ctags format: 
     */
-    int pos = -1;
     if(searchString[0] == '/' || searchString[0] == '?') {
 
-        pos=-1; /* "search expr without pos info" */
         
         /* Situations: /<ANY expr>/\0     
         **             ?<ANY expr>?\0          --> original ctags 
@@ -649,6 +663,8 @@ static int scanCTagsLine(tag** table, char *line, const char *tagPath, int index
             if(searchString[0] == *posTagREEnd)
                 *posTagREEnd=0;
         }
+
+        pos=-1; /* "search expr without pos info" */
     } else {
         pos=atoi(searchString);
         *searchString=0;
@@ -832,14 +848,13 @@ int LookupTag(const char *name, const char **file, int *language,
     struct stat statbuf;
     tagFile *FileList;
     int load_status;
+    tag** buffer = NULL;
     
     searchMode = search_type;
     if (searchMode == TIP)
         FileList = TipsFileList;
     else
         FileList = TagsFileList;
-
-    tag** buffer = NULL;
 
     /*
     ** Go through the list of all tags Files:
@@ -1880,6 +1895,7 @@ static int loadTipsFile(const char *tipsFile, int index, int recLevel)
 #ifndef VMS
     /* Allow ~ in Unix filenames */
     strncpy(tipPath, tipsFile, MAXPATHLEN);    /* ExpandTilde is destructive */
+    tipPath[MAXPATHLEN - 1] = '\0';
     ExpandTilde(tipPath);
     if(!ResolvePath(tipPath, resolvedTipsFile))
         return 0;

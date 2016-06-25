@@ -53,10 +53,11 @@ static struct rcs_stats  RcsStats;
 
 static unsigned const DJB2_SEED = 5381;
 /* djb2s hash for null-terminated string, seeded version */
-unsigned djb2s_(char const* key, unsigned hash)
+static unsigned djb2s_(char const* key, unsigned hash)
 {
     char c;
-    while (c = *key++) hash = ((hash << 5) + hash) ^ c;
+    while (!!(c = *key++))
+        hash = ((hash << 5) + hash) ^ c;
     return hash;
 }
 
@@ -73,7 +74,7 @@ unsigned StringsHashAddr(const char** keys)
 {
     unsigned hash = DJB2_SEED;
     char const* key;
-    while (key = *keys++)
+    while (!!(key = *keys++))
         hash = djb2s_(key, hash);
     return hash;
 }
@@ -87,20 +88,25 @@ unsigned StringsHashAddr(const char** keys)
 
 const char *RefStringDup(const char *str)
 {
+    size_t len;
+    unsigned bucket;
+    struct rcs *rp;
+    char *newstr;
+
     if (str == NULL)
         return NULL;
 
-    size_t len = strlen(str);
+    len = strlen(str);
 
     RcsStats.talloc++;
 
     /* Find it in hash */
-    unsigned bucket = StringHashAddr(str) % RCS_SIZE;
-    struct rcs *rp = Rcs[bucket];
+    bucket = StringHashAddr(str) % RCS_SIZE;
+    rp = Rcs[bucket];
     for (; rp; rp = rp->next)
         if (!strcmp(str, rp->string)) break;
 
-    char *newstr = NULL;
+    newstr = NULL;
     if (rp)  /* It exists, return it and bump ref ct */
     {
         rp->usage++;
@@ -111,15 +117,15 @@ const char *RefStringDup(const char *str)
     }
     else     /* Doesn't exist, conjure up a new one. */
     {
-        struct rcs* newrcs = (struct rcs*) NEditMalloc(sizeof(struct rcs));
-        newrcs->usage = 1;
-        newrcs->next = Rcs[bucket];
-        Rcs[bucket] = newrcs;
+        rp = (struct rcs*) NEditMalloc(sizeof(struct rcs));
+        rp->usage = 1;
+        rp->next = Rcs[bucket];
+        Rcs[bucket] = rp;
 
-        newrcs->string = (char*) NEditMalloc(len + 1);
-        memcpy(newrcs->string, str, len + 1);
+        rp->string = (char*) NEditMalloc(len + 1);
+        memcpy(rp->string, str, len + 1);
 
-        newstr = newrcs->string;
+        newstr = rp->string;
     }
 
     RcsStats.tbytes += len;
