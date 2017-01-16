@@ -1,4 +1,23 @@
-                    NEdit Version 5.6, July 2010
+#############################################################################################
+#### This is a fork of Nedit official source based on Source Forge                       ####
+#### At this time, I have just added a cpp branch to migrate all the code base to C++    ####
+#### (Very) Long term objectives and wishes are (and for fun only):                      ####
+####   - Adds support to Xft                                                             ####
+####   - Adds simple (left-to-right) Utf8 support                                        ####
+####   - Full C++ convertion                                                             ####
+####   - JSON config file (remove the Xressource file)                                   ####
+####   - Motif removal... (and old dream), replaced by FLTK, ImGui, Nanovg, or whatever  ####
+####   - Win32 availablility, natively, and Visual Studio compatibility                  ####
+####   - C++ development support using clang                                             ####
+####   - Adds Python bindings and extension                                              ####
+####                                                                                     ####
+#### Short term objective is to have fun with C++ and programmation, learn new things    ####
+#############################################################################################
+
+
+
+
+			NEdit Version 5.6, July 2010
 
 NEdit is a multi-purpose text editor for the X Window System, which combines a
 standard, easy to use, graphical user interface with the thorough functionality
@@ -42,7 +61,7 @@ AUTHORS
 
 NEdit was written by Mark Edel, Joy Kyriakopulos, Christopher Conrad,
 Jim Clark, Arnulfo Zepeda-Navratil, Suresh Ravoor, Tony Balinski, Max
-Vohlken, Yunliang Yu, Donna Reid, Arne Førlie, Eddy De Greef, Steve
+Vohlken, Yunliang Yu, Donna Reid, Arne FÃ¸rlie, Eddy De Greef, Steve
 LoBasso, Alexander Mai, Scott Tringali, Thorsten Haude, Steve Haehn,
 Andrew Hood, Nathaniel Gray, and TK Soh.
 
