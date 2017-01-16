@@ -28,13 +28,13 @@ nc: nc.o server_common.o ../util/libNUtil.a
 	$(CC) $(CFLAGS) nc.o server_common.o ../util/libNUtil.a $(LIBS) -o $@
 
 help.o: help.cpp
-	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c help.cpp -o $@
+	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c help.cpp -Wno-write-strings -o $@
 
 smartIndent.o: smartIndent.cpp
-	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c smartIndent.cpp -o $@
+	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c smartIndent.cpp -Wno-write-strings -o $@
 
 highlightData.o: highlightData.cpp
-	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c highlightData.cpp -o $@
+	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c highlightData.cpp -Wno-write-strings -o $@
 
 clean:
 	rm -f $(OBJS) nedit nc nc.o parse.cpp linkdate.o
