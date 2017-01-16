@@ -107,9 +107,9 @@ static int eq(void);
 static int ne(void);
 static int bitAnd(void);
 static int bitOr(void);
-static int and(void);
-static int or(void);
-static int not(void);
+static int c_and(void);
+static int c_or(void);
+static int c_not(void);
 static int power(void);
 static int concat(void);
 static int assign(void);
@@ -204,7 +204,7 @@ static int PreemptRequest;  	    /* passes preemption requests from called
    Must correspond to the enum called "operations" in interpret.h */
 static int (*OpFns[N_OPS])() = {returnNoVal, returnVal, pushSymVal, dupStack,
     add, subtract, multiply, divide, modulo, negate, increment, decrement,
-    gt, lt, ge, le, eq, ne, bitAnd, bitOr, and, or, not, power, concat,
+    gt, lt, ge, le, eq, ne, bitAnd, bitOr, c_and, c_or, c_not, power, concat,
     assign, callSubroutine, fetchRetVal, branch, branchTrue, branchFalse,
     branchNever, arrayRef, arrayAssign, beginArrayIter, arrayIter, inArray,
     deleteArrayElement, pushArraySymVal,
@@ -1664,7 +1664,7 @@ static int eq(void)
 static int ne(void)
 {
     eq();
-    return not();
+    return c_not();
 }
 
 /*
@@ -1798,17 +1798,17 @@ static int bitOr(void)
     return(STAT_OK);
 }
 
-static int and(void)
+static int c_and(void)
 { 
     BINARY_NUMERIC_OPERATION(&&)
 }
 
-static int or(void)
+static int c_or(void)
 {
     BINARY_NUMERIC_OPERATION(||)
 }
     
-static int not(void)
+static int c_not(void)
 {
     UNARY_NUMERIC_OPERATION(!)
 }

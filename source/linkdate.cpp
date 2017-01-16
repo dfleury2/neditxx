@@ -34,5 +34,5 @@
 #include "../debug.h"
 #endif
 
-const char linkdate[] = __DATE__;
-const char linktime[] = __TIME__;
+const char* linkdate = __DATE__;
+const char* linktime = __TIME__;

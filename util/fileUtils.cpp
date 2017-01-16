@@ -101,7 +101,7 @@ ParseFilename(const char *fullname, char *filename, char *pathname)
 	    break;
     }
 #else  /* UNIX */
-    char *viewExtendPath;
+    const char* viewExtendPath;
     int scanStart;
     
     /* For clearcase version extended paths, slash characters after the "@@/"

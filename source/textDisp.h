@@ -63,7 +63,10 @@ typedef struct graphicExposeTranslationEntry {
     struct graphicExposeTranslationEntry *next;
 } graphicExposeTranslationEntry;
 
-typedef void (*unfinishedStyleCBProc)();
+
+struct textDisp;
+
+typedef void (*unfinishedStyleCBProc)(const textDisp*, int, void*);
 
 typedef struct _calltipStruct {
     int ID;                 /* ID of displayed calltip.  Equals
@@ -75,7 +78,7 @@ typedef struct _calltipStruct {
     int alignMode;          /* Strict or sloppy alignment */
 } calltipStruct;
 
-typedef struct _textDisp {
+struct textDisp {
     Widget w;
     int top, left, width, height, lineNumLeft, lineNumWidth;
     int cursorPos;
@@ -160,7 +163,7 @@ typedef struct _textDisp {
     Boolean pointerHidden;              /* true if the mouse pointer is 
                                            hidden */
     graphicExposeTranslationEntry *graphicsExposeQueue;
-} textDisp;
+};
 
 textDisp *TextDCreate(Widget widget, Widget hScrollBar, Widget vScrollBar,
 	Position left, Position top, Position width, Position height,

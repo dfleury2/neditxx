@@ -52,11 +52,11 @@
 
 #define DEFAULT_NEDIT_HOME ".nedit"
 #ifdef VMS
-    static char* hiddenFileNames[N_FILE_TYPES] = {".nedit", ".neditmacro", ".neditdb;1"};
-    static char* plainFileNames[N_FILE_TYPES] = {"nedit.rc", "autoload.nm", "nedit.history;1"};
+    static const char* hiddenFileNames[N_FILE_TYPES] = {".nedit", ".neditmacro", ".neditdb;1"};
+    static const char* plainFileNames[N_FILE_TYPES] = {"nedit.rc", "autoload.nm", "nedit.history;1"};
 #else
-    static char* hiddenFileNames[N_FILE_TYPES] = {".nedit", ".neditmacro", ".neditdb"};
-    static char* plainFileNames[N_FILE_TYPES] = {"nedit.rc", "autoload.nm", "nedit.history"};
+    static const char* hiddenFileNames[N_FILE_TYPES] = {".nedit", ".neditmacro", ".neditdb"};
+    static const char* plainFileNames[N_FILE_TYPES] = {"nedit.rc", "autoload.nm", "nedit.history"};
 #endif
 
 static void buildFilePath(char* fullPath, const char* dir, const char* file);
@@ -143,7 +143,7 @@ const char
        return getenv("USER");
     }
     else {
-       userName=malloc(strlen(passwdEntry->pw_name)+1);
+       userName=(char*)malloc(strlen(passwdEntry->pw_name)+1);
        strcpy(userName, passwdEntry->pw_name);
        return userName;
     }

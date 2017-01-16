@@ -326,7 +326,7 @@ set_values(Widget old, Widget request, Widget new_w, ArgList args, Cardinal *num
 /*
  * Short-term solution. Doesn't belong here. See SF bug #923924.
  */
-extern XmString _XmStringCreateExternal(XmFontList fontlist, _XmString cs);
+extern "C" XmString _XmStringCreateExternal(XmFontList fontlist, _XmString cs);
 
 static void
 _XmExportLabelString(Widget w, int offset, XtArgVal *value)

@@ -86,7 +86,7 @@
 #endif
 
 #ifndef LESSTIF_VERSION
-extern void _XmDismissTearOff(Widget w, XtPointer call, XtPointer x);
+extern "C" void _XmDismissTearOff(Widget w, XtPointer call, XtPointer x);
 #endif
 
 /* structure for passing history-recall data to callbacks */
@@ -147,7 +147,7 @@ static void histArrowKeyEH(Widget w, XtPointer callData, XEvent *event,
 static ArgList addParentVisArgs(Widget parent, ArgList arglist, 
    Cardinal *argcount);
 static Widget addParentVisArgsAndCall(MotifDialogCreationCall callRoutine,
-	Widget parent, char *name, ArgList arglist, Cardinal  argcount);
+	Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
 static void scrollDownAP(Widget w, XEvent *event, String *args, 
 	Cardinal *nArgs);
 static void scrollUpAP(Widget w, XEvent *event, String *args, 
@@ -175,8 +175,8 @@ void AddMotifCloseCallback(Widget shell, XtCallbackProc closeCB, void *arg)
 
     /* add a delete window protocol callback instead */
     if (dwAtom == 0) {
-    	wmpAtom = XmInternAtom(display, "WM_PROTOCOLS", FALSE);
-    	dwAtom = XmInternAtom(display, "WM_DELETE_WINDOW", FALSE);
+    	wmpAtom = XmInternAtom(display, (char*)"WM_PROTOCOLS", FALSE);
+    	dwAtom = XmInternAtom(display, (char*)"WM_DELETE_WINDOW", FALSE);
     }
     XmAddProtocolCallback(shell, wmpAtom, dwAtom, closeCB, arg);
 }
@@ -223,7 +223,7 @@ void SuppressPassiveGrabWarnings(void)
 void RemapDeleteKey(Widget w)
 {
     static XtTranslations table = NULL;
-    static char *translations =
+    static char translations[] =
     	"~Shift~Ctrl~Meta~Alt<Key>osfDelete: delete-previous-character()\n";
 
     if (RemapDeleteEnabled) {
@@ -254,7 +254,7 @@ static void setWindowGroup(Widget shell) {
 
     if (firstTime) {
     	/* Create a dummy window to be the group leader for our windows */
-        String name, class;
+        String name, wclass;
     	XClassHint *classHint;
 	
     	groupLeader = XCreateSimpleWindow(display, 
@@ -263,10 +263,10 @@ static void setWindowGroup(Widget shell) {
 		
 	/* Set it's class hint so it will be identified correctly by the 
 	   window manager */
-    	XtGetApplicationNameAndClass(display, &name, &class);
+    	XtGetApplicationNameAndClass(display, &name, &wclass);
 	classHint = XAllocClassHint();
 	classHint->res_name = name;
-	classHint->res_class = class;
+	classHint->res_class = wclass;
 	XSetClassHint(display, groupLeader, classHint);
 	XFree(classHint);
 	
@@ -451,7 +451,7 @@ Boolean FindBestVisual(Display *display, const char *appName, const char *appCla
 	    fprintf(stderr, "VisualID resource value not valid\n");
     }
     if (visList == NULL && reqClass != -1 && reqDepth != -1) {
-	visTemplate.class = reqClass;
+	visTemplate.c_class = reqClass;
 	visTemplate.depth = reqDepth;
     	visList = XGetVisualInfo(display,
 		                 VisualScreenMask| VisualClassMask | VisualDepthMask,
@@ -460,7 +460,7 @@ Boolean FindBestVisual(Display *display, const char *appName, const char *appCla
 	    fprintf(stderr, "Visual class/depth combination not available\n");
     }
     if (visList == NULL && reqClass != -1) {
- 	visTemplate.class = reqClass;
+ 	visTemplate.c_class = reqClass;
     	visList = XGetVisualInfo(display, VisualScreenMask|VisualClassMask, 
                                  &visTemplate, &nVis);
     	if (visList == NULL)
@@ -517,7 +517,7 @@ Boolean FindBestVisual(Display *display, const char *appName, const char *appCla
 		bestVisual = i;
 	    if (visList[bestVisual].visual != DefaultVisual(display, screen)) {
 		for (j = 0; j < (int)XtNumber(bestClasses); j++) {
-		    if (visList[i].class == bestClasses[j] && j > bestClass) {
+		    if (visList[i].c_class == bestClasses[j] && j > bestClass) {
 			bestClass = j;
 			bestVisual = i;
 		    }
@@ -554,7 +554,7 @@ Boolean FindBestVisual(Display *display, const char *appName, const char *appCla
 ** from the parent widget (CreatePopupMenu and CreatePulldownMenu), or from the
 ** best visual, obtained via FindBestVisual above (CreateShellWithBestVis).
 */
-Widget CreateDialogShell(Widget parent, char *name,
+Widget CreateDialogShell(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreateDialogShell, parent, name, arglist,
@@ -562,7 +562,7 @@ Widget CreateDialogShell(Widget parent, char *name,
 }
 
 
-Widget CreatePopupMenu(Widget parent, char *name, ArgList arglist,
+Widget CreatePopupMenu(Widget parent, const char *name, ArgList arglist,
 	Cardinal argcount)
 {
     return addParentVisArgsAndCall(XmCreatePopupMenu, parent, name,
@@ -570,7 +570,7 @@ Widget CreatePopupMenu(Widget parent, char *name, ArgList arglist,
 }
 
 
-Widget CreatePulldownMenu(Widget parent, char *name,
+Widget CreatePulldownMenu(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreatePulldownMenu, parent, name, arglist,
@@ -578,7 +578,7 @@ Widget CreatePulldownMenu(Widget parent, char *name,
 }
 
 
-Widget CreatePromptDialog(Widget parent, char *name,
+Widget CreatePromptDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreatePromptDialog, parent, name, arglist,
@@ -586,7 +586,7 @@ Widget CreatePromptDialog(Widget parent, char *name,
 }
 
 
-Widget CreateSelectionDialog(Widget parent, char *name,
+Widget CreateSelectionDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     Widget dialog = addParentVisArgsAndCall(XmCreateSelectionDialog, parent, name,
@@ -596,7 +596,7 @@ Widget CreateSelectionDialog(Widget parent, char *name,
 }
 
 
-Widget CreateFormDialog(Widget parent, char *name,
+Widget CreateFormDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreateFormDialog, parent, name, arglist,
@@ -604,7 +604,7 @@ Widget CreateFormDialog(Widget parent, char *name,
 }
 
 
-Widget CreateFileSelectionDialog(Widget parent, char *name,
+Widget CreateFileSelectionDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     Widget dialog = addParentVisArgsAndCall(XmCreateFileSelectionDialog, parent, 
@@ -616,7 +616,7 @@ Widget CreateFileSelectionDialog(Widget parent, char *name,
 }
 
 
-Widget CreateQuestionDialog(Widget parent, char *name,
+Widget CreateQuestionDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreateQuestionDialog, parent, name,
@@ -624,7 +624,7 @@ Widget CreateQuestionDialog(Widget parent, char *name,
 }
 
 
-Widget CreateMessageDialog(Widget parent, char *name,
+Widget CreateMessageDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreateMessageDialog, parent, name,
@@ -632,25 +632,25 @@ Widget CreateMessageDialog(Widget parent, char *name,
 }
 
 
-Widget CreateErrorDialog(Widget parent, char *name,
+Widget CreateErrorDialog(Widget parent, const char *name,
 	ArgList arglist, Cardinal  argcount)
 {
     return addParentVisArgsAndCall(XmCreateErrorDialog, parent, name, arglist,
 	    argcount);
 }
 
-Widget CreateWidget(Widget parent, const char *name, WidgetClass class,
+Widget CreateWidget(Widget parent, const char *name, WidgetClass wclass,
 	ArgList arglist, Cardinal  argcount)
 {
     Widget result;
     ArgList al = addParentVisArgs(parent, arglist, &argcount);
-    result = XtCreateWidget(name, class, parent, al, argcount);
+    result = XtCreateWidget(name, wclass, parent, al, argcount);
     NEditFree((char *)al);
     return result;
 }
 
 Widget CreateShellWithBestVis(String appName, String appClass,
-	   WidgetClass class, Display *display, ArgList args, Cardinal nArgs)
+	   WidgetClass wclass, Display *display, ArgList args, Cardinal nArgs)
 {
     Visual *visual;
     int depth;
@@ -666,18 +666,18 @@ Widget CreateShellWithBestVis(String appName, String appClass,
     XtSetArg(al[ac], XtNvisual, visual); ac++;
     XtSetArg(al[ac], XtNdepth, depth); ac++;
     XtSetArg(al[ac], XtNcolormap, colormap); ac++;
-    result = XtAppCreateShell(appName, appClass, class, display, al, ac);
+    result = XtAppCreateShell(appName, appClass, wclass, display, al, ac);
     NEditFree((char *)al);
     return result;
 }
 
 
-Widget CreatePopupShellWithBestVis(String shellName, WidgetClass class,
+Widget CreatePopupShellWithBestVis(String shellName, WidgetClass wclass,
     Widget parent, ArgList arglist, Cardinal argcount)
 {
    Widget result;
    ArgList al = addParentVisArgs(parent, arglist, &argcount);
-   result = XtCreatePopupShell(shellName, class, parent, al, argcount);
+   result = XtCreatePopupShell(shellName, wclass, parent, al, argcount);
    NEditFree((char *)al);
    return result;
 }
@@ -734,11 +734,11 @@ static ArgList addParentVisArgs(Widget parent, ArgList arglist,
 ** arguments for visual, colormap, and depth.
 */
 static Widget addParentVisArgsAndCall(MotifDialogCreationCall createRoutine,
-	Widget parent, char *name, ArgList arglist, Cardinal argcount)
+	Widget parent, const char *name, ArgList arglist, Cardinal argcount)
 {
     Widget result;
     ArgList al = addParentVisArgs(parent, arglist, &argcount);
-    result = (*createRoutine)(parent, name, al, argcount);
+    result = (*createRoutine)(parent, (char*)name, al, argcount);
     NEditFree((char *)al);
     return result;
 }
@@ -1304,7 +1304,7 @@ int TextWidgetIsBlank(Widget textW)
 void MakeSingleLineTextW(Widget textW)
 {
     static XtTranslations noReturnTable = NULL;
-    static char *noReturnTranslations = "<Key>Return: activate()\n";
+    static char noReturnTranslations[] = "<Key>Return: activate()\n";
     
     if (noReturnTable == NULL)
     	noReturnTable = XtParseTranslationTable(noReturnTranslations);
@@ -1370,8 +1370,8 @@ static void histArrowKeyEH(Widget w, XtPointer callData, XEvent *event,
     }
     
     /* Change the text field contents */
-    XmTextSetString(w, histData->index == -1 ? "" :
-	    (*histData->list)[histData->index]);
+    XmTextSetString(w, (char*)(histData->index == -1 ? "" :
+	    (*histData->list)[histData->index]));
 }
 
 /*
@@ -1803,7 +1803,7 @@ static int parseAccelString(Display *display, const char *string, KeySym *keySym
 {
 #define N_MODIFIERS 12
     /*... Is NumLock always Mod3? */
-    static char *modifierNames[N_MODIFIERS] = {"Ctrl", "Shift", "Alt", "Mod2",
+    static char modifierNames[][N_MODIFIERS] = {"Ctrl", "Shift", "Alt", "Mod2",
 	    "Mod3", "Mod4", "Mod5", "Button1", "Button2", "Button3", "Button4",
 	    "Button5"};
     static unsigned int modifierMasks[N_MODIFIERS] = {ControlMask, ShiftMask,
@@ -1938,10 +1938,10 @@ static int findAndActivateAccel(Widget w, unsigned int keyCode,
 void InstallMouseWheelActions(XtAppContext context)
 {   
     static XtActionsRec Actions[] = {
-      	{"scrolled-window-scroll-up",   scrollUpAP},
-      	{"scrolled-window-page-up",     pageUpAP},
-      	{"scrolled-window-scroll-down", scrollDownAP},
-      	{"scrolled-window-page-down",   pageDownAP} 
+      	{(char*)"scrolled-window-scroll-up",   scrollUpAP},
+      	{(char*)"scrolled-window-page-up",     pageUpAP},
+      	{(char*)"scrolled-window-scroll-down", scrollDownAP},
+      	{(char*)"scrolled-window-page-down",   pageDownAP} 
     };
 
     XtAppAddActions(context, Actions, XtNumber(Actions));
@@ -1977,7 +1977,7 @@ static void pageUpAP(Widget w, XEvent *event, String *args, Cardinal *nArgs)
     Widget scrolledWindow, scrollBar;
     String al[1];
     
-    al[0] = "Up";
+    al[0] = (char*)"Up";
     scrolledWindow = XtParent(w);
     scrollBar = XtNameToWidget (scrolledWindow, "VertScrollBar");
     if (scrollBar)
@@ -1990,7 +1990,7 @@ static void pageDownAP(Widget w, XEvent *event, String *args, Cardinal *nArgs)
     Widget scrolledWindow, scrollBar;
     String al[1];
     
-    al[0] = "Down";
+    al[0] = (char*)"Down";
     scrolledWindow = XtParent(w);
     scrollBar = XtNameToWidget (scrolledWindow, "VertScrollBar");
     if (scrollBar)
@@ -2006,7 +2006,7 @@ static void scrollUpAP(Widget w, XEvent *event, String *args, Cardinal *nArgs)
     
     if (*nArgs == 0 || sscanf(args[0], "%d", &nLines) != 1)
        return;
-    al[0] = "Up";
+    al[0] = (char*)"Up";
     scrolledWindow = XtParent(w);
     scrollBar = XtNameToWidget (scrolledWindow, "VertScrollBar");
     if (scrollBar)
@@ -2023,7 +2023,7 @@ static void scrollDownAP(Widget w, XEvent *event, String *args, Cardinal *nArgs)
     
     if (*nArgs == 0 || sscanf(args[0], "%d", &nLines) != 1)
        return;
-    al[0] = "Down";
+    al[0] = (char*)"Down";
     scrolledWindow = XtParent(w);
     scrollBar = XtNameToWidget (scrolledWindow, "VertScrollBar");
     if (scrollBar)
