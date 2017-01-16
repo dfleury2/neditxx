@@ -4324,7 +4324,7 @@ static int showFontStatus(fontDialog *fd, Widget fontTextFieldW,
 {
     int status;
     XmString s;
-    char *msg;
+    const char *msg;
     
     status = checkFontStatus(fd, fontTextFieldW);
     if (status == BAD_PRIMARY)
@@ -4338,35 +4338,27 @@ static int showFontStatus(fontDialog *fd, Widget fontTextFieldW,
     else
     	msg = "";
     
-    XtVaSetValues(errorLabelW, XmNlabelString, s=XmStringCreateSimple(msg),
-	    NULL);
+    XtVaSetValues(errorLabelW, XmNlabelString, s=XmStringCreateSimple((char*)msg), NULL);
     XmStringFree(s);
     return status;
 }
 
-/*
-** Put up a font selector panel to set the font name in the text widget "fontTextW"
-*/
+// Put up a font selector panel to set the font name in the text widget "fontTextW"
 static void browseFont(Widget parent, Widget fontTextW)
 {
-    char *origFontName, *newFontName;
     Pixel fgPixel, bgPixel;
     int dummy;
     
-    origFontName = XmTextGetString(fontTextW);
+    std::string origFontName = nedit::XmTextGetString(fontTextW);
 
-    /* Get the values from the defaults */
-    fgPixel = AllocColor(parent, GetPrefColorName(TEXT_FG_COLOR),
-            &dummy, &dummy, &dummy);
-    bgPixel = AllocColor(parent, GetPrefColorName(TEXT_BG_COLOR),
-            &dummy, &dummy, &dummy);
+    // Get the values from the defaults
+    fgPixel = AllocColor(parent, GetPrefColorName(TEXT_FG_COLOR), &dummy, &dummy, &dummy);
+    bgPixel = AllocColor(parent, GetPrefColorName(TEXT_BG_COLOR), &dummy, &dummy, &dummy);
 
-    newFontName = FontSel(parent, PREF_FIXED, origFontName, fgPixel, bgPixel);
-    NEditFree(origFontName);
-    if (newFontName == NULL)
+    std::string newFontName = FontSel(parent, PREF_FIXED, origFontName, fgPixel, bgPixel);
+    if (newFontName.empty())
     	return;
-    XmTextSetString(fontTextW, newFontName);
-    NEditFree(newFontName);
+    nedit::XmTextSetString(fontTextW, newFontName);
 }
 
 /*

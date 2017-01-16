@@ -29,6 +29,8 @@
 
 #include <X11/Intrinsic.h>
 
+#include <string>
+
 /*******************************************************************************
 *                                                                              *
 *     FontSel ()                                                               *
@@ -79,7 +81,7 @@
 
 /* function prototype */
 
-char    *FontSel(Widget parent, int showPropFont, const char *currFont,
+std::string FontSel(Widget parent, int showPropFont, const std::string& currFont,
         Pixel sampleFG, Pixel sampleBG);
 
 #endif /* NEDIT_FONTSEL_H_INCLUDED */
