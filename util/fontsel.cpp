@@ -541,7 +541,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
         XmFontListFree(ctrlBlk.oldFontList);
     }
 
-    return(ctrlBlk.fontName);
+    return(ctrlBlk.fontName?ctrlBlk.fontName:"");
 }
 
 
