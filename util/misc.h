@@ -86,35 +86,24 @@ void EndWait(Widget topCursorWidget);
 void PasswordText(Widget w, char *passTxt);
 void AddHistoryToTextWidget(Widget textW, char ***historyList, int *nItems);
 void AddToHistoryList(char *newItem, char ***historyList, int *nItems);
-void CreateGeometryString(char *string, int x, int y,
-	int width, int height, int bitmask);
+void CreateGeometryString(char *string, int x, int y, int width, int height, int bitmask);
 Boolean FindBestVisual(Display *display, const char *appName, const char *appClass,
 	Visual **visual, int *depth, Colormap *colormap);
-Widget CreateDialogShell(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreatePopupMenu(Widget parent, char *name, ArgList arglist,
-	Cardinal argcount);
-Widget CreatePulldownMenu(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreatePromptDialog(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreateSelectionDialog(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreateFormDialog(Widget parent, char *name, ArgList arglist,
-    	Cardinal  argcount);
-Widget CreateFileSelectionDialog(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreateQuestionDialog(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreateMessageDialog(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
-Widget CreateErrorDialog(Widget parent, char *name, ArgList arglist,
-	Cardinal  argcount);
+Widget CreateDialogShell(Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
+Widget CreatePopupMenu(Widget parent, const char *name, ArgList arglist, Cardinal argcount);
+Widget CreatePulldownMenu(Widget parent, const char *name, ArgList arglist,	Cardinal  argcount);
+Widget CreatePromptDialog(Widget parent, const char *name, ArgList arglist,	Cardinal  argcount);
+Widget CreateSelectionDialog(Widget parent, const char *name, ArgList arglist,Cardinal  argcount);
+Widget CreateFormDialog(Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
+Widget CreateFileSelectionDialog(Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
+Widget CreateQuestionDialog(Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
+Widget CreateMessageDialog(Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
+Widget CreateErrorDialog(Widget parent, const char *name, ArgList arglist, Cardinal  argcount);
 Widget CreateShellWithBestVis(String appName, String appClass, 
-	WidgetClass class, Display *display, ArgList args, Cardinal nArgs);
-Widget CreatePopupShellWithBestVis(String shellName, WidgetClass class,
+	WidgetClass wclass, Display *display, ArgList args, Cardinal nArgs);
+Widget CreatePopupShellWithBestVis(String shellName, WidgetClass wclass,
     Widget parent, ArgList arglist, Cardinal argcount);
-Widget CreateWidget(Widget parent, const char *name, WidgetClass class,
+Widget CreateWidget(Widget parent, const char *name, WidgetClass wclass,
 	ArgList arglist, Cardinal  argcount);
 Modifiers GetNumLockModMask(Display *display);
 void InstallMouseWheelActions(XtAppContext context);

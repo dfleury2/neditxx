@@ -2,13 +2,17 @@
 *.a
 Microline/XmL/Makefile.linux
 Microline/XmL/Makefile.linux-static
+Microline/XmL/Makefile.linux-xft
 Xlt/Makefile.linux
 Xlt/Makefile.linux-static
+Xlt/Makefile.linux-xft
 source/Makefile.linux
 source/Makefile.linux-static
+source/Makefile.linux-xft
 source/nc
 source/nedit
 source/parse.c
 util/Makefile.linux
 util/Makefile.linux-static
+util/Makefile.linux-xft
 util/check_lin_tif

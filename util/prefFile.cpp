@@ -216,7 +216,7 @@ static void readPrefs(XrmDatabase prefDB, XrmDatabase appDB,
        the application database, then the default value if neither are found */
     for (i=0; i<nRsrc; i++) {
     	sprintf(rsrcName,"%s.%s", appName, rsrcDescrip[i].name);
-    	sprintf(rsrcClass, "%s.%s", appClass, rsrcDescrip[i].class);
+    	sprintf(rsrcClass, "%s.%s", appClass, rsrcDescrip[i].c_class);
     	if (prefDB!=NULL &&
     	       XrmGetResource(prefDB, rsrcName, rsrcClass, &type, &rsrcValue)) {
     	    if (strcmp(type, XmRString)) {
@@ -357,7 +357,7 @@ static int stringToPref(const char *string, PrefDescripRec *rsrcDescrip)
       case PREF_STRING:
 	if (strlen(string) >= (size_t)(intptr_t)rsrcDescrip->arg)
       	    return False;
-	strncpy(rsrcDescrip->valueAddr, string, (size_t)(intptr_t)rsrcDescrip->arg);
+	strncpy((char*)rsrcDescrip->valueAddr, string, (size_t)(intptr_t)rsrcDescrip->arg);
       	return True;
       case PREF_ALLOC_STRING:
       	*(char **)rsrcDescrip->valueAddr = NEditStrdup(string);

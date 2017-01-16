@@ -34,7 +34,7 @@ enum PrefDataTypes {PREF_INT, PREF_BOOLEAN, PREF_ENUM, PREF_STRING,
 
 typedef struct _PrefDescripRec {
     char *name;
-    char *class;
+    char *c_class;
     int dataType;
     char *defaultString;
     void *valueAddr;

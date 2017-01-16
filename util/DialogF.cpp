@@ -169,7 +169,7 @@ unsigned DialogF(int dialog_type, Widget parent, unsigned n, const char* title,
 		XmDIALOG_WARNING,
 		XmDIALOG_PROMPT
     };
-    static char *dialog_name[] = {		/* Corresponding dialog names */
+    static const char *dialog_name[] = {		/* Corresponding dialog names */
 		"Error",
 		"Information",
 		"Message",
@@ -390,7 +390,7 @@ unsigned DialogF(int dialog_type, Widget parent, unsigned n, const char* title,
 
 	dialog_shell = CreateDialogShell (parent, dialog_name[dialog_num],
 			0, 0);
-	dialog = XmCreateMessageBox (dialog_shell, "msg box", args, argcount);
+	dialog = XmCreateMessageBox (dialog_shell, (char*)"msg box", args, argcount);
         
 	XtAddCallback (dialog, XmNokCallback, (XtCallbackProc)ok_callback,
 		(char *)&df);

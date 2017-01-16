@@ -12,8 +12,8 @@ all: libNUtil.a
 libNUtil.a: $(OBJS)
 	$(AR) $(ARFLAGS) libNUtil.a $(OBJS)
 
-printUtils.o: printUtils.c
-	$(CC) -c $(CFLAGS) $(PRINTFLAGS) -o $@ printUtils.c
+printUtils.o: printUtils.cpp
+	$(CC) -c $(CFLAGS) $(PRINTFLAGS) -o $@ printUtils.cpp
 
 # This is for any platform where bogus OpenMotif or LessTif versions might
 # be found in the wild.  The rule needs a different name from the executable
@@ -21,7 +21,7 @@ printUtils.o: printUtils.c
 # do not cache the .o file - this is so if the build fails, you can jump
 # and retry on another system without worrying that it will be different.
 check_tif_rule: motif.o
-	$(CC) $(CFLAGS) -o check_lin_tif check_lin_tif.c motif.c
+	$(CC) $(CFLAGS) -o check_lin_tif check_lin_tif.cpp motif.cpp
 	./check_lin_tif
 
 clean:

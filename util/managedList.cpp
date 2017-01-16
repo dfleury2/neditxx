@@ -70,8 +70,7 @@ static void deleteCB(Widget w, XtPointer clientData, XtPointer callData);
 static void copyCB(Widget w, XtPointer clientData, XtPointer callData);
 static void moveUpCB(Widget w, XtPointer clientData, XtPointer callData);
 static void moveDownCB(Widget w, XtPointer clientData, XtPointer callData);
-static int incorporateDialogData(managedListData *ml, int listPos,
-    	int explicit);
+static int incorporateDialogData(managedListData *ml, int listPos, int c_explicit);
 static void updateDialogFromList(managedListData *ml, int selection);
 static void updateListWidgetItem(managedListData *ml, int listPos);
 static void listSelectionCB(Widget w, XtPointer clientData, XtPointer callData);
@@ -542,7 +541,7 @@ static void listSelectionCB(Widget w, XtPointer clientData, XtPointer callData)
 ** is allowed to reject whatever request triggered the update.  If the
 ** request is rejected, the return value from this function will be False.
 */
-static int incorporateDialogData(managedListData *ml, int listPos, int explicit)
+static int incorporateDialogData(managedListData *ml, int listPos, int c_explicit)
 {
     int abort = False;
     void *item;
@@ -550,7 +549,7 @@ static int incorporateDialogData(managedListData *ml, int listPos, int explicit)
     /* Get the current contents of the dialog fields.  Callback will set
        abort to True if canceled */
     item = (*ml->getDialogDataCB)(listPos == 1 ? NULL : ml->itemList[
-    	    listPos-2], explicit, &abort, ml->getDialogDataArg);
+    	    listPos-2], c_explicit, &abort, ml->getDialogDataArg);
     if (abort)
     	return False;
     if (item == NULL) /* don't modify if fields are empty */
