@@ -1,2 +1,2 @@
-BubbleButton.o: BubbleButton.c BubbleButton.h BubbleButtonP.h
-SlideC.o: SlideC.c SlideC.h SlideCP.h
+BubbleButton.o: BubbleButton.cpp BubbleButton.h BubbleButtonP.h
+SlideC.o: SlideC.cpp SlideC.h SlideCP.h

@@ -27,5 +27,8 @@ check_tif_rule: motif.o
 clean:
 	rm -f $(OBJS) libNUtil.a check_lin_tif
 
+%.o:%.cpp
+	$(CC) -c $(CFLAGS) -o $@ $<
+
 # Get the dependencies for all objects
 include Makefile.dependencies

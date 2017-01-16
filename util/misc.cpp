@@ -86,7 +86,7 @@
 #endif
 
 #ifndef LESSTIF_VERSION
-extern void _XmDismissTearOff(Widget w, XtPointer call, XtPointer x);
+extern "C" void _XmDismissTearOff(Widget w, XtPointer call, XtPointer x);
 #endif
 
 /* structure for passing history-recall data to callbacks */

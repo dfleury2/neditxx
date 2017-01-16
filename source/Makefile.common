@@ -11,15 +11,15 @@ OBJS =	nedit.o file.o menu.o window.o selection.o search.o undo.o shift.o \
 XLTLIB = ../Xlt/libXlt.a
 XMLLIB = ../Microline/XmL/libXmL.a
 
-.c.o:
+.cpp.o:
 	$(CC) -c -I../Microline -I../Xlt $(CFLAGS) -o $@ $<
 
 all: nedit nc
 
-# Note there is no depedency for linkdate.c/o.  This is intentional,
+# Note there is no depedency for linkdate.cpp/o.  This is intentional,
 # we only want natural rebuilds to regenerate the link date.
 nedit: $(OBJS) ../util/libNUtil.a $(XMLLIB) $(XLTLIB)
-	$(CC) $(CFLAGS) -c linkdate.c -o linkdate.o
+	$(CC) $(CFLAGS) -c linkdate.cpp -o linkdate.o
 	$(CC) $(CFLAGS) $(OBJS) linkdate.o $(XMLLIB) \
 	 $(XLTLIB) ../util/libNUtil.a $(LIBS) -o $@
 
@@ -27,23 +27,27 @@ nedit: $(OBJS) ../util/libNUtil.a $(XMLLIB) $(XLTLIB)
 nc: nc.o server_common.o ../util/libNUtil.a
 	$(CC) $(CFLAGS) nc.o server_common.o ../util/libNUtil.a $(LIBS) -o $@
 
-help.o: help.c
-	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c help.c -o $@
+help.o: help.cpp
+	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c help.cpp -o $@
 
-smartIndent.o: smartIndent.c
-	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c smartIndent.c -o $@
+smartIndent.o: smartIndent.cpp
+	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c smartIndent.cpp -o $@
 
-highlightData.o: highlightData.c
-	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c highlightData.c -o $@
+highlightData.o: highlightData.cpp
+	$(CC) $(CFLAGS) $(BIGGER_STRINGS) -c highlightData.cpp -o $@
 
 clean:
-	rm -f $(OBJS) nedit nc nc.o parse.c linkdate.o
+	rm -f $(OBJS) nedit nc nc.o parse.cpp linkdate.o
 
-parse.c: parse.y
+parse.cpp: parse.y
 	@echo "NOTE:  Don't worry about 'command not found' errors here"
 	@echo "       unless you have changed the parse.y file."
-	bison -o parse.c parse.y || ( yacc parse.y && mv y.tab.c parse.c ) || \
-		cp parse_noyacc.c parse.c
+	bison -o parse.cpp parse.y || ( yacc parse.y && mv y.tab.cpp parse.cpp ) || \
+		cp parse_noyacc.cpp parse.cpp
+
+%.o:%.cpp
+	$(CC) -c $(CFLAGS) -o $@ $<
+
 
 
 # Get the dependencies for all objects

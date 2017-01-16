@@ -62,8 +62,8 @@ typedef struct Href             /* Source to topic internal hyperlinks */
 
 extern HelpMenu H_M[];
 extern char *HelpTitles[];
-extern const char linkdate[];
-extern const char linktime[];
+extern const char* linkdate;
+extern const char* linktime;
 
 /*============================================================================*/
 /*                             PROGRAM PROTOTYPES                             */

@@ -259,7 +259,7 @@ static const char *getBuildInfo(void)
                                                         &depth, &map);
             sprintf(visualStr,"%d-bit %s (ID %#lx%s)",
                     depth,
-                    visualClass[visual->class],
+                    visualClass[visual->c_class],
                     visual->visualid,
                     usingDefaultVisual ? ", Default" : "");
         }
@@ -554,7 +554,7 @@ static void setHelpWinTitle(Widget win, enum HelpTopic topic)
     char * buf, *topStr=HelpTitles[topic];
     
     buf=(char*)NEditMalloc(strlen(topStr) + 24);
-    topic++; 
+    topic = topic + 1;
     
     sprintf(buf, "NEdit Help (%d)", (int)topic);
     XtVaSetValues(win, XmNiconName, buf, NULL);

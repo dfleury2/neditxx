@@ -145,7 +145,7 @@ static unsigned char isrcClear_bits[] = {
    0x00, 0x00, 0x00, 0x00, 0x04, 0x01, 0x84, 0x01, 0xc4, 0x00, 0x64, 0x00,
    0xc4, 0x00, 0x84, 0x01, 0x04, 0x01, 0x00, 0x00, 0x00, 0x00};
 
-extern void _XmDismissTearOff(Widget, XtPointer, XtPointer);
+extern "C" void _XmDismissTearOff(Widget, XtPointer, XtPointer);
 
 static void hideTooltip(Widget tab);
 static Pixmap createBitmapWithDepth(Widget w, char *data, unsigned int width,

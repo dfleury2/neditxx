@@ -5536,7 +5536,7 @@ static void updatePatternsTo5dot6(void)
  *      2.  The X resource is not equal to the default entry
  */
 static void migrateColor(XrmDatabase prefDB, XrmDatabase appDB,
-        char *class, char *name, int color_index, char *default_val)
+        char *c_class, char *name, int color_index, char *default_val)
 {
     char *type, *valueString;
     XrmValue rsrcValue;
@@ -5547,17 +5547,15 @@ static void migrateColor(XrmDatabase prefDB, XrmDatabase appDB,
         return;
     
     /* Retrieve the value of the resource from the DB */
-    if (XrmGetResource(prefDB, name, class, &type, &rsrcValue)) {
+    if (XrmGetResource(prefDB, name, c_class, &type, &rsrcValue)) {
         if (strcmp(type, XmRString)) {
-            fprintf(stderr,"Internal Error: Unexpected resource type, %s\n",
-                    type);
+            fprintf(stderr,"Internal Error: Unexpected resource type, %s\n", type);
             return;
         }
         valueString = rsrcValue.addr;
-    } else if (XrmGetResource(appDB, name, class, &type, &rsrcValue)) {
+    } else if (XrmGetResource(appDB, name, c_class, &type, &rsrcValue)) {
         if (strcmp(type, XmRString)) {
-            fprintf(stderr,"Internal Error: Unexpected resource type, %s\n",
-                    type);
+            fprintf(stderr,"Internal Error: Unexpected resource type, %s\n", type);
             return;
         }
         valueString = rsrcValue.addr;
@@ -5567,8 +5565,7 @@ static void migrateColor(XrmDatabase prefDB, XrmDatabase appDB,
     
     /* An X resource is set.  If it's non-default, update the prefs. */
     if ( strcmp(valueString, default_val) ) {
-        strncpy(PrefData.colorNames[color_index], valueString, 
-                MAX_COLOR_LEN);
+        strncpy(PrefData.colorNames[color_index], valueString, MAX_COLOR_LEN);
     }
 }
 

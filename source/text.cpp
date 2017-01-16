@@ -81,7 +81,7 @@
 /* Length of delay in milliseconds for vertical autoscrolling */
 #define VERTICAL_SCROLL_DELAY 50
 
-static void initialize(TextWidget request, TextWidget new);
+static void initialize(TextWidget request, TextWidget c_new);
 static void handleHidePointer(Widget w, XtPointer unused, 
         XEvent *event, Boolean *continue_to_dispatch);
 static void handleShowPointer(Widget w, XtPointer unused, 
@@ -91,8 +91,7 @@ static void redisplayGE(TextWidget w, XtPointer client_data,
                     XEvent *event, Boolean *continue_to_dispatch_return);
 static void destroy(TextWidget w);
 static void resize(TextWidget w);
-static Boolean setValues(TextWidget current, TextWidget request,
-	TextWidget new);
+static Boolean setValues(TextWidget current, TextWidget request, TextWidget c_new);
 static void realize(Widget w, XtValueMask *valueMask,
 	XSetWindowAttributes *attributes);
 static XtGeometryResult queryGeometry(Widget w, XtWidgetGeometry *proposed,
@@ -771,9 +770,9 @@ static Cursor empty_cursor = 0;
 /*
 ** Widget initialize method
 */
-static void initialize(TextWidget request, TextWidget new)
+static void initialize(TextWidget request, TextWidget c_new)
 {
-    XFontStruct *fs = new->text.fontStruct;
+    XFontStruct *fs = c_new->text.fontStruct;
     char *delimiters;
     textBuffer *buf;
     Pixel white, black;
@@ -783,30 +782,29 @@ static void initialize(TextWidget request, TextWidget new)
     int lineNumCols;
 
     charWidth = fs->max_bounds.width;
-    marginWidth = new->text.marginWidth;
-    lineNumCols = new->text.lineNumCols;
+    marginWidth = c_new->text.marginWidth;
+    lineNumCols = c_new->text.lineNumCols;
     
     /* Set the initial window size based on the rows and columns resources */
     if (request->core.width == 0)
-    	new->core.width = charWidth * new->text.columns + marginWidth*2 +
+        c_new->core.width = charWidth * c_new->text.columns + marginWidth*2 +
 	       (lineNumCols == 0 ? 0 : marginWidth + charWidth * lineNumCols);
     if (request->core.height == 0)
-   	new->core.height = (fs->ascent + fs->descent) * new->text.rows +
-   		new->text.marginHeight * 2;
+        c_new->core.height = (fs->ascent + fs->descent) * c_new->text.rows + c_new->text.marginHeight * 2;
     
     /* The default colors work for B&W as well as color, except for
        selectFGPixel and selectBGPixel, where color highlighting looks
        much better without reverse video, so if we get here, and the
        selection is totally unreadable because of the bad default colors,
        swap the colors and make the selection reverse video */
-    white = WhitePixelOfScreen(XtScreen((Widget)new));
-    black = BlackPixelOfScreen(XtScreen((Widget)new));
-    if (    new->text.selectBGPixel == white &&
-    	    new->core.background_pixel == white &&
-    	    new->text.selectFGPixel == black &&
-    	    new->primitive.foreground == black) {
-    	new->text.selectBGPixel = black;
-    	new->text.selectFGPixel = white;
+    white = WhitePixelOfScreen(XtScreen((Widget)c_new));
+    black = BlackPixelOfScreen(XtScreen((Widget)c_new));
+    if (c_new->text.selectBGPixel == white &&
+            c_new->core.background_pixel == white &&
+            c_new->text.selectFGPixel == black &&
+            c_new->primitive.foreground == black) {
+        c_new->text.selectBGPixel = black;
+        c_new->text.selectFGPixel = white;
     }
     
     /* Create the initial text buffer for the widget to display (which can
@@ -814,72 +812,71 @@ static void initialize(TextWidget request, TextWidget new)
     buf = BufCreate();
     
     /* Create and initialize the text-display part of the widget */
-    textLeft = new->text.marginWidth +
-	    (lineNumCols == 0 ? 0 : marginWidth + charWidth * lineNumCols);
-    new->text.textD = TextDCreate((Widget)new, new->text.hScrollBar,
-	    new->text.vScrollBar, textLeft, new->text.marginHeight,
-	    new->core.width - marginWidth - textLeft,
-	    new->core.height - new->text.marginHeight * 2,
+    textLeft = c_new->text.marginWidth + (lineNumCols == 0 ? 0 : marginWidth + charWidth * lineNumCols);
+    c_new->text.textD = TextDCreate((Widget)c_new, c_new->text.hScrollBar,
+            c_new->text.vScrollBar, textLeft, c_new->text.marginHeight,
+            c_new->core.width - marginWidth - textLeft,
+            c_new->core.height - c_new->text.marginHeight * 2,
 	    lineNumCols == 0 ? 0 : marginWidth,
 	    lineNumCols == 0 ? 0 : lineNumCols * charWidth,
-	    buf, new->text.fontStruct, new->core.background_pixel,
-	    new->primitive.foreground, new->text.selectFGPixel,
-	    new->text.selectBGPixel, new->text.highlightFGPixel,
-	    new->text.highlightBGPixel, new->text.cursorFGPixel,
-	    new->text.lineNumFGPixel,
-          new->text.continuousWrap, new->text.wrapMargin,
-          new->text.backlightCharTypes, new->text.calltipFGPixel,
-          new->text.calltipBGPixel);
+	    buf, c_new->text.fontStruct, c_new->core.background_pixel,
+	    c_new->primitive.foreground, c_new->text.selectFGPixel,
+	    c_new->text.selectBGPixel, c_new->text.highlightFGPixel,
+	    c_new->text.highlightBGPixel, c_new->text.cursorFGPixel,
+	    c_new->text.lineNumFGPixel,
+	    c_new->text.continuousWrap, c_new->text.wrapMargin,
+	    c_new->text.backlightCharTypes, c_new->text.calltipFGPixel,
+	    c_new->text.calltipBGPixel);
 
     /* Add mandatory delimiters blank, tab, and newline to the list of
        delimiters.  The memory use scheme here is that new values are
        always copied, and can therefore be safely freed on subsequent
        set-values calls or destroy */
-    delimiters = (char*)NEditMalloc(strlen(new->text.delimiters) + 4);
-    sprintf(delimiters, "%s%s", " \t\n", new->text.delimiters);
-    new->text.delimiters = delimiters;
+    delimiters = (char*)NEditMalloc(strlen(c_new->text.delimiters) + 4);
+    sprintf(delimiters, "%s%s", " \t\n", c_new->text.delimiters);
+    c_new->text.delimiters = delimiters;
 
     /* Start with the cursor blanked (widgets don't have focus on creation,
        the initial FocusIn event will unblank it and get blinking started) */
-    new->text.textD->cursorOn = False;
+    c_new->text.textD->cursorOn = False;
     
     /* Initialize the widget variables */
-    new->text.autoScrollProcID = 0;
-    new->text.cursorBlinkProcID = 0;
-    new->text.dragState = NOT_CLICKED;
-    new->text.multiClickState = NO_CLICKS;
-    new->text.lastBtnDown = 0;
-    new->text.selectionOwner = False;
-    new->text.motifDestOwner = False;
-    new->text.emTabsBeforeCursor = 0;
+    c_new->text.autoScrollProcID = 0;
+    c_new->text.cursorBlinkProcID = 0;
+    c_new->text.dragState = NOT_CLICKED;
+    c_new->text.multiClickState = NO_CLICKS;
+    c_new->text.lastBtnDown = 0;
+    c_new->text.selectionOwner = False;
+    c_new->text.motifDestOwner = False;
+    c_new->text.emTabsBeforeCursor = 0;
 
 #ifndef NO_XMIM
     /* Register the widget to the input manager */
-    XmImRegister((Widget)new, 0);
+    XmImRegister((Widget)c_new, 0);
     /* In case some Resources for the IC need to be set, add them below */
-    XmImVaSetValues((Widget)new, NULL);
+    XmImVaSetValues((Widget)c_new, NULL);
 #endif
 
-    XtAddEventHandler((Widget)new, GraphicsExpose, True,
+    XtAddEventHandler((Widget)c_new, GraphicsExpose, True,
             (XtEventHandler)redisplayGE, (Opaque)NULL);
 
-    if (new->text.hidePointer) {
+    if (c_new->text.hidePointer) {
         Display *theDisplay;
         Pixmap empty_pixmap;
         XColor black_color;
         /* Set up the empty Cursor */
         if (empty_cursor == 0) {
-            theDisplay = XtDisplay((Widget)new);
+            theDisplay = XtDisplay((Widget)c_new);
             empty_pixmap = XCreateBitmapFromData(theDisplay,
-                    RootWindowOfScreen(XtScreen((Widget)new)), empty_bits, 1, 1);
-            XParseColor(theDisplay, DefaultColormapOfScreen(XtScreen((Widget)new)), 
+                    RootWindowOfScreen(XtScreen((Widget)c_new)), empty_bits, 1, 1);
+            XParseColor(theDisplay, DefaultColormapOfScreen(XtScreen((Widget)c_new)),
                     "black", &black_color);
             empty_cursor = XCreatePixmapCursor(theDisplay, empty_pixmap, 
                     empty_pixmap, &black_color, &black_color, 0, 0);
         }
 
         /* Add event handler to hide the pointer on keypresses */
-        XtAddEventHandler((Widget)new, NEDIT_HIDE_CURSOR_MASK, False, 
+        XtAddEventHandler((Widget)c_new, NEDIT_HIDE_CURSOR_MASK, False,
                 handleHidePointer, (Opaque)NULL);
     }
 }
@@ -1103,11 +1100,11 @@ void HandleAllPendingGraphicsExposeNoExposeEvents(TextWidget w, XEvent *event)
 ** Widget setValues method
 */
 static Boolean setValues(TextWidget current, TextWidget request,
-	TextWidget new)
+	TextWidget c_new)
 {
     Boolean redraw = False, reconfigure = False;
     
-    if (new->text.overstrike != current->text.overstrike) {
+    if (c_new->text.overstrike != current->text.overstrike) {
     	if (current->text.textD->cursorStyle == BLOCK_CURSOR)
     	    TextDSetCursorStyle(current->text.textD,
     	    	    current->text.heavyCursor ? HEAVY_CURSOR : NORMAL_CURSOR);
@@ -1116,55 +1113,55 @@ static Boolean setValues(TextWidget current, TextWidget request,
     	    TextDSetCursorStyle(current->text.textD, BLOCK_CURSOR);
     }
     
-    if (new->text.fontStruct != current->text.fontStruct) {
-	if (new->text.lineNumCols != 0)
+    if (c_new->text.fontStruct != current->text.fontStruct) {
+	if (c_new->text.lineNumCols != 0)
 	    reconfigure = True;
-    	TextDSetFont(current->text.textD, new->text.fontStruct);
+    	TextDSetFont(current->text.textD, c_new->text.fontStruct);
     }
     
-    if (new->text.wrapMargin != current->text.wrapMargin ||
-    	    new->text.continuousWrap != current->text.continuousWrap)
-    	TextDSetWrapMode(current->text.textD, new->text.continuousWrap,
-    	    	new->text.wrapMargin);
+    if (c_new->text.wrapMargin != current->text.wrapMargin ||
+    	    c_new->text.continuousWrap != current->text.continuousWrap)
+    	TextDSetWrapMode(current->text.textD, c_new->text.continuousWrap,
+    	    	c_new->text.wrapMargin);
     
     /* When delimiters are changed, copy the memory, so that the caller
        doesn't have to manage it, and add mandatory delimiters blank,
        tab, and newline to the list */
-    if (new->text.delimiters != current->text.delimiters) {
-	char *delimiters = (char*)NEditMalloc(strlen(new->text.delimiters) + 4);
+    if (c_new->text.delimiters != current->text.delimiters) {
+	char *delimiters = (char*)NEditMalloc(strlen(c_new->text.delimiters) + 4);
     	NEditFree(current->text.delimiters);
-	sprintf(delimiters, "%s%s", " \t\n", new->text.delimiters);
-	new->text.delimiters = delimiters;
+	sprintf(delimiters, "%s%s", " \t\n", c_new->text.delimiters);
+	c_new->text.delimiters = delimiters;
     }
     
     /* Setting the lineNumCols resource tells the text widget to hide or
        show, or change the number of columns of the line number display,
        which requires re-organizing the x coordinates of both the line
        number display and the main text display */
-    if (new->text.lineNumCols != current->text.lineNumCols || reconfigure)
+    if (c_new->text.lineNumCols != current->text.lineNumCols || reconfigure)
     {
-        int marginWidth = new->text.marginWidth;
-        int charWidth = new->text.fontStruct->max_bounds.width;
-        int lineNumCols = new->text.lineNumCols;
+        int marginWidth = c_new->text.marginWidth;
+        int charWidth = c_new->text.fontStruct->max_bounds.width;
+        int lineNumCols = c_new->text.lineNumCols;
         if (lineNumCols == 0)
         {
-            TextDSetLineNumberArea(new->text.textD, 0, 0, marginWidth);
-            new->text.columns = (new->core.width - marginWidth*2) / charWidth;
+            TextDSetLineNumberArea(c_new->text.textD, 0, 0, marginWidth);
+            c_new->text.columns = (c_new->core.width - marginWidth*2) / charWidth;
         } else
         {
-            TextDSetLineNumberArea(new->text.textD, marginWidth,
+            TextDSetLineNumberArea(c_new->text.textD, marginWidth,
                     charWidth * lineNumCols,
                     2*marginWidth + charWidth * lineNumCols);
-            new->text.columns = (new->core.width - marginWidth*3 - charWidth
+            c_new->text.columns = (c_new->core.width - marginWidth*3 - charWidth
                     * lineNumCols) / charWidth;
         }
     }
 
-    if (new->text.backlightCharTypes != current->text.backlightCharTypes)
+    if (c_new->text.backlightCharTypes != current->text.backlightCharTypes)
     {
-        TextDSetupBGClasses((Widget)new, new->text.backlightCharTypes,
-                &new->text.textD->bgClassPixel, &new->text.textD->bgClass,
-                new->text.textD->bgPixel);
+        TextDSetupBGClasses((Widget)c_new, c_new->text.backlightCharTypes,
+                &c_new->text.textD->bgClassPixel, &c_new->text.textD->bgClass,
+                c_new->text.textD->bgPixel);
         redraw = True;
     }
     

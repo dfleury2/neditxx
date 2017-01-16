@@ -1,3 +1,6 @@
+**/.cproject
+**/.project
+**/.settings
 *.o
 *.a
 Microline/XmL/Makefile.linux
@@ -9,10 +12,12 @@ Xlt/Makefile.linux-xft
 source/Makefile.linux
 source/Makefile.linux-static
 source/Makefile.linux-xft
+source/Makefile
 source/nc
 source/nedit
 source/parse.c
 util/Makefile.linux
 util/Makefile.linux-static
 util/Makefile.linux-xft
+util/Makefile
 util/check_lin_tif

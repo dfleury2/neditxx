@@ -100,7 +100,7 @@ enum menuModes {FULL, SHORT};
 
 typedef void (*menuCallbackProc)();
 
-extern void _XmDismissTearOff(Widget, XtPointer, XtPointer);
+extern "C" void _XmDismissTearOff(Widget, XtPointer, XtPointer);
 
 static void doActionCB(Widget w, XtPointer clientData, XtPointer callData);
 static void doTabActionCB(Widget w, XtPointer clientData, XtPointer callData);
@@ -343,7 +343,7 @@ static void endOfSelectionAP(Widget w, XEvent *event, String *args,
 	Cardinal *nArgs);
 static Widget createMenu(Widget parent, char *name, char *label,
     	char mnemonic, Widget *cascadeBtn, int mode);
-static Widget createMenuItem(Widget parent, char *name, char *label,
+static Widget createMenuItem(Widget parent, const char *name, char *label,
 	char mnemonic, menuCallbackProc callback, void *cbArg, int mode);
 static Widget createFakeMenuItem(Widget parent, char *name,
 	menuCallbackProc callback, void *cbArg);
@@ -1265,7 +1265,7 @@ static void helpCB( Widget menuItem, XtPointer clientData, XtPointer callData )
     HidePointerOnKeyedEvent(WidgetToWindow(MENU_WIDGET(menuItem))->lastFocus,
             ((XmAnyCallbackStruct *)callData)->event);
     XtVaGetValues( menuItem, XmNuserData, &userData, NULL );
-    topic = (enum HelpTopic)userData;
+    topic = (enum HelpTopic)(int)userData;
     
     Help(topic);
 }
@@ -4321,7 +4321,7 @@ static Widget createMenu(Widget parent, char *name, char *label,
 ** (these are set in the fallback app-defaults so users can change them),
 ** and with the short/full option required in SGI_CUSTOM mode.
 */
-static Widget createMenuItem(Widget parent, char *name, char *label,
+static Widget createMenuItem(Widget parent, const char *name, char *label,
 	char mnemonic, menuCallbackProc callback, void *cbArg, int mode)
 {
     Widget button;
