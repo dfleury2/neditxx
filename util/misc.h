@@ -31,6 +31,8 @@
 #include <Xm/Xm.h>
 #include <Xm/CutPaste.h>
 
+#include <string>
+
 #define TEXT_READ_OK 0
 #define TEXT_IS_BLANK 1
 #define TEXT_NOT_NUMBER 2
@@ -130,5 +132,11 @@ void WmClientMsg(Display *disp, Window win, const char *msg,
         unsigned long data0, unsigned long data1,
         unsigned long data2, unsigned long data3,
         unsigned long data4);
+
+// Some helper for Motif related stuff
+namespace nedit {
+    std::string XmTextGetString(Widget w);
+    void XmTextSetString(Widget w, const std::string& str);
+}
 
 #endif /* NEDIT_MISC_H_INCLUDED */

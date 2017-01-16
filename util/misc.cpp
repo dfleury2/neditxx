@@ -2417,3 +2417,16 @@ void WmClientMsg(Display *disp, Window win, const char *msg,
         fprintf(stderr, "nedit: cannot send %s EWMH event.\n", msg);
     }
 }
+
+namespace nedit {
+    std::string XmTextGetString(Widget w) {
+        char* text = ::XmTextGetString(w);
+        std::string tmp(text);
+        XtFree(text);
+        return tmp;
+    }
+
+    void XmTextSetString(Widget w, const std::string& str) {
+        XmTextSetString(w, (char*)str.c_str());
+    }
+}
