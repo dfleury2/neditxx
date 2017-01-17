@@ -134,9 +134,10 @@ void WmClientMsg(Display *disp, Window win, const char *msg,
         unsigned long data4);
 
 // Some helper for Motif related stuff
-namespace nedit {
+namespace neditxx {
     std::string XmTextGetString(Widget w);
     void XmTextSetString(Widget w, const std::string& str);
+    XmString XmStringCreate(const std::string& str, XmStringCharSet charSet = XmSTRING_DEFAULT_CHARSET);
 }
 
 #endif /* NEDIT_MISC_H_INCLUDED */

@@ -4349,7 +4349,7 @@ static void browseFont(Widget parent, Widget fontTextW)
     Pixel fgPixel, bgPixel;
     int dummy;
     
-    std::string origFontName = nedit::XmTextGetString(fontTextW);
+    std::string origFontName = neditxx::XmTextGetString(fontTextW);
 
     // Get the values from the defaults
     fgPixel = AllocColor(parent, GetPrefColorName(TEXT_FG_COLOR), &dummy, &dummy, &dummy);
@@ -4358,7 +4358,7 @@ static void browseFont(Widget parent, Widget fontTextW)
     std::string newFontName = FontSel(parent, PREF_FIXED, origFontName, fgPixel, bgPixel);
     if (newFontName.empty())
     	return;
-    nedit::XmTextSetString(fontTextW, newFontName);
+    neditxx::XmTextSetString(fontTextW, newFontName);
 }
 
 /*

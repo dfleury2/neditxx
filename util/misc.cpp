@@ -2418,7 +2418,7 @@ void WmClientMsg(Display *disp, Window win, const char *msg,
     }
 }
 
-namespace nedit {
+namespace neditxx {
     std::string XmTextGetString(Widget w) {
         char* text = ::XmTextGetString(w);
         std::string tmp(text);
@@ -2427,6 +2427,10 @@ namespace nedit {
     }
 
     void XmTextSetString(Widget w, const std::string& str) {
-        XmTextSetString(w, (char*)str.c_str());
+        ::XmTextSetString(w, (char*)str.c_str());
+    }
+
+    XmString XmStringCreate(const std::string& str, XmStringCharSet charSet) {
+        return ::XmStringCreate((char*)str.c_str(), charSet);
     }
 }
