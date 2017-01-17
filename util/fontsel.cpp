@@ -71,7 +71,7 @@ enum listSpecifier { NONE, FONT, STYLE, SIZE };
 
 /* local data structures and types */
 
-typedef struct
+struct xfselControlBlkType
 {
         Widget          form;           /* widget id */
         Widget          okButton;       /* widget id */
@@ -90,14 +90,14 @@ typedef struct
         char            *sel3;          /* selection from list 3 */
         int             showPropFonts;  /* toggle state - show prop fonts */
         int             showSizeInPixels;/* toggle state - size in pixels  */
-        char            *fontName;      /* current font name */
+        std::string     fontName;       /* current font name */
         XFontStruct     *oldFont;       /* font data structure for dispSample */
         XmFontList      oldFontList;    /* font data structure for dispSample */
         int     exitFlag;               /* used for program exit control */
         int     destroyedFlag;          /* used to prevent double destruction */
         Pixel   sampleFG;               /* Colors for the sample field */
         Pixel   sampleBG;
-}       xfselControlBlkType;
+};
 
 
 /* local function prototypes */
@@ -454,7 +454,6 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     ctrlBlk.sel1            = NULL;
     ctrlBlk.sel2            = NULL;
     ctrlBlk.sel3            = NULL;
-    ctrlBlk.fontName        = NULL;
 
     setupScrollLists(NONE, ctrlBlk);    /* update scroll lists */ 
 
@@ -541,7 +540,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
         XmFontListFree(ctrlBlk.oldFontList);
     }
 
-    return(ctrlBlk.fontName?ctrlBlk.fontName:"");
+    return ctrlBlk.fontName;
 }
 
 
@@ -1096,31 +1095,27 @@ static void sizeAction(Widget widget, xfselControlBlkType *ctrlBlk,
 
 static void choiceMade(xfselControlBlkType *ctrlBlk)
 {
-    int i;
+    ctrlBlk->fontName = "";
 
-    NEditFree(ctrlBlk->fontName);
-    ctrlBlk->fontName = NULL;
-
-    for (i = 0; i < ctrlBlk->numFonts; i++)
+    for (int i = 0; i < ctrlBlk->numFonts; i++)
     {
         if ((fontMatch(ctrlBlk, ctrlBlk->fontData[i])) &&
             (styleMatch(ctrlBlk, ctrlBlk->fontData[i])) &&
             (sizeMatch (ctrlBlk, ctrlBlk->fontData[i])))
         {
-            ctrlBlk->fontName = NEditStrdup(ctrlBlk->fontData[i]);
+            ctrlBlk->fontName = ctrlBlk->fontData[i];
             break;
         }
     }
 
-    if (ctrlBlk->fontName != NULL)
+    if (!ctrlBlk->fontName.empty())
     {
-        XmTextSetString(ctrlBlk->fontNameField, ctrlBlk->fontName);
+        nedit::XmTextSetString(ctrlBlk->fontNameField, ctrlBlk->fontName);
         dispSample(ctrlBlk);
     }
     else
     {
-        DialogF (DF_ERR, ctrlBlk->form, 1, "Font Specification",
-                "Invalid Font Specification", "OK");
+        DialogF (DF_ERR, ctrlBlk->form, 1, "Font Specification", "Invalid Font Specification", "OK");
     }
 }
 
@@ -1134,7 +1129,7 @@ static void dispSample(xfselControlBlkType *ctrlBlk)
     Display         *display;
 
     display     = XtDisplay(ctrlBlk->form);
-    font        = XLoadQueryFont(display, ctrlBlk->fontName);
+    font        = XLoadQueryFont(display, ctrlBlk->fontName.c_str());
     fontList    = XmFontListCreate(font, XmSTRING_DEFAULT_CHARSET);
 
     enableSample(ctrlBlk, True, &fontList);
@@ -1163,14 +1158,11 @@ static void cancelAction(Widget widget, xfselControlBlkType *ctrlBlk,
     NEditFree(ctrlBlk->sel1);
     NEditFree(ctrlBlk->sel2);
     NEditFree(ctrlBlk->sel3);
-    NEditFree(ctrlBlk->fontName);
 
-    ctrlBlk->fontName = NULL;
-    XFreeFontNames(ctrlBlk->fontData);
+    ctrlBlk->fontName = "";
 
     ctrlBlk->exitFlag = TRUE;
 }
-
 
 static void okAction(Widget widget, xfselControlBlkType *ctrlBlk,
                  XmPushButtonCallbackStruct *call_data)
@@ -1191,8 +1183,7 @@ static void okAction(Widget widget, xfselControlBlkType *ctrlBlk,
     }
     else
     {
-        NEditFree(ctrlBlk->fontName);
-        ctrlBlk->fontName = NEditStrdup(fontName[0]);
+        ctrlBlk->fontName = fontName[0];
 
         NEditFree(ctrlBlk->sel1);
         NEditFree(ctrlBlk->sel2);
@@ -1235,9 +1226,8 @@ static void startupFont(xfselControlBlkType *ctrlBlk, const char *font)
     XmStringFree(str);
 
     dispSample(ctrlBlk);
-    XmTextSetString(ctrlBlk->fontNameField, ctrlBlk->fontName);
+    nedit::XmTextSetString(ctrlBlk->fontNameField, ctrlBlk->fontName);
 }
-
 
 /*  hacked code to move initial input focus to first scroll list and at the 
     same time have the OK button as the default button */
