@@ -2433,7 +2433,7 @@ namespace neditxx {
         ::XmTextSetString(w, (char*)str.c_str());
     }
 
-    XmString XmStringCreate(const std::string& str, XmStringCharSet charSet) {
+    ::XmString XmStringCreate(const std::string& str, XmStringCharSet charSet) {
         return ::XmStringCreate((char*)str.c_str(), charSet);
     }
 

@@ -178,6 +178,29 @@ namespace neditxx {
         std::vector<Arg> _args;
     };
 
+    class XmString {
+    public:
+        XmString(const char* str, XmStringCharSet charset = XmSTRING_DEFAULT_CHARSET)
+            : _str(::XmStringCreate((char*)str, charset))
+        {}
+
+        ~XmString() {
+            XmStringFree(_str);
+        }
+
+        ::XmString str() {
+            return _str;
+        }
+
+    private:
+        XmString(const XmString&) = delete;
+        XmString& operator=(const XmString&) = delete;
+
+    private:
+        ::XmString _str;
+    };
+
+
     Widget CreateDialogShell(Widget parent, const char *name, const Args& args = {});
 
     void XtSetValues(Widget widget, const Args& args);
