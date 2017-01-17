@@ -188,12 +188,7 @@ static void     enableSample(xfselControlBlkType *ctrlBlk, Bool turn_on,
 std::string FontSel(Widget parent, int showPropFonts, const std::string& currFont,
             Pixel sampleFG, Pixel sampleBG)
 {
-    Widget          dialog, form, okButton, cancelButton;
-    Widget          styleList, sizeList, fontName, fontList;
-    Widget          sizeToggle, propFontToggle = NULL, dispField;
-    Widget          nameLabel, sampleLabel;
-    Arg             args[MAX_ARGS];
-    int             n;
+    Widget          propFontToggle = nullptr;
     XmString        tempStr;
     char            bigFont[MAX_FONT_NAME_LEN];
     xfselControlBlkType ctrlBlk;
@@ -209,230 +204,219 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     ctrlBlk.sampleFG = sampleFG;
     ctrlBlk.sampleBG = sampleBG;
 
-    dialog  = CreateDialogShell(parent, "Font Selector", args, 0);
+    Widget dialog  = neditxx::CreateDialogShell(parent, "Font Selector");
 
     /*  Set up window sizes for form widget */
-
-    n = 0;
-    XtSetArg(args[n], XmNautoUnmanage, FALSE); n++;
-    XtSetArg(args[n], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL); n++;
-
     /*  Create form popup dialog widget */
 
-    form    = XtCreateWidget ("Font Selector", xmFormWidgetClass, dialog, 
-                              args, n);
+    Widget form = neditxx::XtCreateWidget ("Font Selector", xmFormWidgetClass, dialog,
+                        neditxx::Args{
+                            XmNautoUnmanage, FALSE,
+                            XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL});
 
     /*  Create pushbutton widgets */
 
-    n = 0;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_FORM); n++;
-    XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
-    XtSetArg(args[n], XmNbottomOffset, 4); n++;
-    XtSetArg(args[n], XmNtopOffset, 1); n++;
-    XtSetArg(args[n], XmNrightPosition, 45); n++;
-    XtSetArg(args[n], XmNwidth, 110); n++;
-    XtSetArg(args[n], XmNheight, 28); n++;
-    XtSetArg(args[n], XmNshowAsDefault, TRUE); n++;
-    okButton = XtCreateManagedWidget("OK", xmPushButtonWidgetClass, form,
-                                      args, n);
+    Widget okButton = neditxx::XtCreateManagedWidget("OK", xmPushButtonWidgetClass, form,
+            neditxx::Args {
+                XmNbottomAttachment, XmATTACH_FORM,
+                XmNrightAttachment, XmATTACH_POSITION,
+                XmNbottomOffset, 4,
+                XmNtopOffset, 1,
+                XmNrightPosition, 45,
+                XmNwidth, 110,
+                XmNheight, 28,
+                XmNshowAsDefault, TRUE });
 
-    n = 0;
-    XtSetArg(args[n], XmNtopAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, okButton); n++;
-    XtSetArg(args[n], XmNbottomWidget, okButton); n++;
-    XtSetArg(args[n], XmNleftPosition, 55); n++;
-    XtSetArg(args[n], XmNwidth, 110); n++;
-    XtSetArg(args[n], XmNheight, 28); n++;
-    cancelButton = XtCreateManagedWidget("Cancel", xmPushButtonWidgetClass,
-                                         form, args, n);
+    Widget cancelButton = neditxx::XtCreateManagedWidget("Cancel", xmPushButtonWidgetClass, form,
+            neditxx::Args {
+                XmNtopAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNleftAttachment, XmATTACH_POSITION,
+                XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNtopWidget, okButton,
+                XmNbottomWidget, okButton,
+                XmNleftPosition, 55,
+                XmNwidth, 110,
+                XmNheight, 28});
 
     /*  create font name text widget and the corresponding label */
 
-    n = 0; 
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++; 
-    XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++; 
-    XtSetArg(args[n], XmNbottomWidget, okButton); n++; 
-    XtSetArg(args[n], XmNleftPosition, 1); n++; 
-    XtSetArg(args[n], XmNrightPosition, 99); n++; 
-    XtSetArg(args[n], XmNeditable, True); n++;
-    XtSetArg(args[n], XmNeditMode, XmSINGLE_LINE_EDIT); n++;
-    XtSetArg(args[n], XmNmaxLength, MAX_FONT_NAME_LEN); n++;
-    fontName = XtCreateManagedWidget("fontname", xmTextWidgetClass, form,
-                                     args, n);
+    Widget fontName = XtCreateManagedWidget("fontname", xmTextWidgetClass, form,
+            neditxx::Args {
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftAttachment, XmATTACH_POSITION,
+                XmNrightAttachment, XmATTACH_POSITION,
+                XmNbottomWidget, okButton,
+                XmNleftPosition, 1,
+                XmNrightPosition, 99,
+                XmNeditable, True,
+                XmNeditMode, XmSINGLE_LINE_EDIT,
+                XmNmaxLength, MAX_FONT_NAME_LEN});
+
     RemapDeleteKey(fontName);   /* kludge to handle delete and BS */
 
-    n = 0; 
     tempStr = XmStringCreate((char*)"Font Name:", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNlabelString, tempStr); n++;
-    XtSetArg(args[n], XmNmnemonic, 'N'); n++;
-    XtSetArg(args[n], XmNuserData, fontName); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++; 
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-    XtSetArg(args[n], XmNleftWidget, fontName); n++; 
-    XtSetArg(args[n], XmNbottomWidget, fontName); n++;
-    XtSetArg(args[n], XmNtopOffset, 1); n++;
-    nameLabel = XtCreateManagedWidget("Font Name:", xmLabelWidgetClass,
-                                      form, args, n);
+    Widget nameLabel = XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form,
+            neditxx::Args {
+                XmNlabelString, tempStr,
+                XmNmnemonic, 'N',
+                XmNuserData, fontName,
+                XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftWidget, fontName,
+                XmNbottomWidget, fontName,
+                XmNtopOffset, 1});
     XmStringFree(tempStr);
 
     /*  create sample display text field widget */
 
-    n = 0;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++; 
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-    XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++; 
-    XtSetArg(args[n], XmNrightPosition, 99); n++;
-    XtSetArg(args[n], XmNbottomWidget, nameLabel); n++;
-    XtSetArg(args[n], XmNleftPosition, 1); n++; 
-    XtSetArg(args[n], XmNalignment, XmALIGNMENT_BEGINNING); n++;
-    XtSetArg(args[n], XmNvalue, "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789"); n++;
-    XtSetArg(args[n], XmNforeground, sampleFG); n++;
-    XtSetArg(args[n], XmNbackground, sampleBG); n++;
-    dispField = XtCreateManagedWidget(" ", xmTextFieldWidgetClass, form, args, n);
+    Widget dispField = neditxx::XtCreateManagedWidget(" ", xmTextFieldWidgetClass, form,
+            neditxx::Args {
+                XmNleftAttachment, XmATTACH_POSITION,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNrightAttachment, XmATTACH_POSITION,
+                XmNrightPosition, 99,
+                XmNbottomWidget, nameLabel,
+                XmNleftPosition, 1,
+                XmNalignment, XmALIGNMENT_BEGINNING,
+                XmNvalue, "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789",
+                XmNforeground, sampleFG,
+                XmNbackground, sampleBG});
 
-    n = 0; 
     tempStr = XmStringCreate((char*)"Sample:", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNlabelString, tempStr); n++;
-    XtSetArg(args[n], XmNmnemonic, 'S'); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++; 
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-    XtSetArg(args[n], XmNleftWidget, dispField); n++; 
-    XtSetArg(args[n], XmNbottomWidget, dispField); n++;
-    XtSetArg(args[n], XmNtopOffset, 1); n++;
-    sampleLabel = XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form, args, n);
+    Widget sampleLabel = neditxx::XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form,
+            neditxx::Args {
+                XmNlabelString, tempStr,
+                XmNmnemonic, 'S',
+                XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftWidget, dispField,
+                XmNbottomWidget, dispField,
+                XmNtopOffset, 1});
     XmStringFree(tempStr);
 
     /*  create toggle buttons */
 
-    n = 0; 
     tempStr = XmStringCreate((char*)"Show Size in Points", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNlabelString, tempStr); n++;
-    XtSetArg(args[n], XmNmnemonic, 'P'); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++; 
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++; 
-    XtSetArg(args[n], XmNleftPosition, 2); n++; 
-    XtSetArg(args[n], XmNtopOffset, 1); n++;
-    XtSetArg(args[n], XmNbottomWidget, sampleLabel); n++;
-    sizeToggle = XtCreateManagedWidget("sizetoggle", 
-                      xmToggleButtonWidgetClass, form, args, n);
+    Widget sizeToggle = neditxx::XtCreateManagedWidget("sizetoggle", xmToggleButtonWidgetClass, form,
+            neditxx::Args {
+                XmNlabelString, tempStr,
+                XmNmnemonic, 'P',
+                XmNleftAttachment, XmATTACH_POSITION,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftPosition, 2,
+                XmNtopOffset, 1,
+                XmNbottomWidget, sampleLabel});
     XmStringFree(tempStr);
 
     if (showPropFonts != ONLY_FIXED)
     {
-        n = 0; 
-        tempStr = XmStringCreate((char*)"Show Proportional Width Fonts",
-                                 XmSTRING_DEFAULT_CHARSET);
-        XtSetArg(args[n], XmNlabelString, tempStr); n++;
-        XtSetArg(args[n], XmNmnemonic, 'W'); n++;
-        XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++; 
-        XtSetArg(args[n], XmNtopAttachment, 
-                        XmATTACH_OPPOSITE_WIDGET); n++; 
-        XtSetArg(args[n], XmNbottomAttachment, 
-                        XmATTACH_OPPOSITE_WIDGET); n++; 
-        XtSetArg(args[n], XmNrightPosition, 98); n++; 
-        XtSetArg(args[n], XmNtopWidget, sizeToggle); n++;
-        XtSetArg(args[n], XmNbottomWidget, sizeToggle); n++;
-        XtSetArg(args[n], XmNtopOffset, 1); n++;
-        propFontToggle = XtCreateManagedWidget("propfonttoggle", 
-                            xmToggleButtonWidgetClass, form, args, n);
+        tempStr = XmStringCreate((char*)"Show Proportional Width Fonts", XmSTRING_DEFAULT_CHARSET);
+        propFontToggle = XtCreateManagedWidget("propfonttoggle", xmToggleButtonWidgetClass, form,
+                neditxx::Args {
+                    XmNlabelString, tempStr,
+                    XmNmnemonic, 'W',
+                    XmNrightAttachment, XmATTACH_POSITION,
+                    XmNtopAttachment, XmATTACH_OPPOSITE_WIDGET,
+                    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+                    XmNrightPosition, 98,
+                    XmNtopWidget, sizeToggle,
+                    XmNbottomWidget, sizeToggle,
+                    XmNtopOffset, 1});
+
         XmStringFree(tempStr);
     }
 
     /*  create scroll list widgets */
     /*  "Font" list */
 
-    n = 0;
     tempStr = XmStringCreate((char*)"Font:", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNlabelString, tempStr); n++;
-    XtSetArg(args[n], XmNmnemonic, 'F'); n++; 
-    XtSetArg(args[n], XmNtopOffset, 2); n++;
-    XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_POSITION); n++;
-    XtSetArg(args[n], XmNleftPosition, 1); n++;
-    nameLabel = XtCreateManagedWidget("Font:", xmLabelWidgetClass, form, 
-                                      args, n);
+    nameLabel = neditxx::XtCreateManagedWidget("Font:", xmLabelWidgetClass, form,
+            neditxx::Args {
+                XmNlabelString, tempStr,
+                XmNmnemonic, 'F',
+                XmNtopOffset, 2,
+                XmNtopAttachment, XmATTACH_FORM,
+                XmNleftAttachment, XmATTACH_POSITION,
+                XmNleftPosition, 1});
     XmStringFree(tempStr);
 
-    n = 0;
-    XtSetArg(args[n], XmNvisibleItemCount, 15); n++;
-    XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
-    XtSetArg(args[n], XmNbottomWidget, sizeToggle); n++;
-    XtSetArg(args[n], XmNtopWidget, nameLabel); n++;
-    XtSetArg(args[n], XmNleftWidget, nameLabel); n++;
-    XtSetArg(args[n], XmNrightPosition, 52); n++;
-    fontList = XmCreateScrolledList(form, (char*)"fontlist", args, n);
+    Widget fontList = neditxx::XmCreateScrolledList(form, "fontlist",
+            neditxx::Args {
+                XmNvisibleItemCount, 15,
+                XmNtopAttachment, XmATTACH_WIDGET,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNrightAttachment, XmATTACH_POSITION,
+                XmNbottomWidget, sizeToggle,
+                XmNtopWidget, nameLabel,
+                XmNleftWidget, nameLabel,
+                XmNrightPosition, 52});
+
     AddMouseWheelSupport(fontList);
     XtManageChild(fontList);
     XtVaSetValues(nameLabel, XmNuserData, fontList, NULL);
 
     /* "Style" list */
 
-    n = 0;
-    XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
-    XtSetArg(args[n], XmNtopWidget, nameLabel); n++;
-    XtSetArg(args[n], XmNleftOffset, 5); n++;
-    XtSetArg(args[n], XmNleftWidget, XtParent(fontList)); n++;
-    XtSetArg(args[n], XmNbottomWidget, XtParent(fontList)); n++;
-    XtSetArg(args[n], XmNrightPosition, 85); n++;
-    styleList = XmCreateScrolledList(form, (char*)"stylelist", args, n);
+    Widget styleList = neditxx::XmCreateScrolledList(form, "stylelist",
+            neditxx::Args {
+                XmNtopAttachment, XmATTACH_WIDGET,
+                XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNleftAttachment, XmATTACH_WIDGET,
+                XmNrightAttachment, XmATTACH_POSITION,
+                XmNtopWidget, nameLabel,
+                XmNleftOffset, 5,
+                XmNleftWidget, XtParent(fontList),
+                XmNbottomWidget, XtParent(fontList),
+                XmNrightPosition, 85});
+
     AddMouseWheelSupport(styleList);
     XtManageChild(styleList);
 
-    n = 0;
     tempStr = XmStringCreate((char*)"Style:", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNmnemonic, 'y'); n++; 
-    XtSetArg(args[n], XmNuserData, styleList); n++;
-    XtSetArg(args[n], XmNlabelString, tempStr); n++;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNbottomWidget, XtParent(styleList)); n++;
-    XtSetArg(args[n], XmNleftWidget, XtParent(styleList)); n++;
-    XtCreateManagedWidget("Style:", xmLabelWidgetClass, form, args, n);
+    XtCreateManagedWidget("Style:", xmLabelWidgetClass, form,
+            neditxx::Args {
+                XmNmnemonic, 'y',
+                XmNuserData, styleList,
+                XmNlabelString, tempStr,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNbottomWidget, XtParent(styleList),
+                XmNleftWidget, XtParent(styleList)});
     XmStringFree(tempStr);
 
     /*  "Size" list */
 
-    n = 0;
-    XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNrightAttachment, XmATTACH_POSITION); n++;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, nameLabel); n++;
-    XtSetArg(args[n], XmNleftWidget, XtParent(styleList)); n++;
-    XtSetArg(args[n], XmNbottomWidget, XtParent(fontList)); n++;
-    XtSetArg(args[n], XmNleftOffset, 5); n++;
-    XtSetArg(args[n], XmNrightPosition, 99); n++;
-    sizeList = XmCreateScrolledList(form, (char*)"sizelist", args, n);
+    Widget sizeList = neditxx::XmCreateScrolledList(form, "sizelist",
+            neditxx::Args {
+                XmNtopAttachment, XmATTACH_WIDGET,
+                XmNleftAttachment, XmATTACH_WIDGET,
+                XmNrightAttachment, XmATTACH_POSITION,
+                XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNtopWidget, nameLabel,
+                XmNleftWidget, XtParent(styleList),
+                XmNbottomWidget, XtParent(fontList),
+                XmNleftOffset, 5,
+                XmNrightPosition, 99});
+
     AddMouseWheelSupport(sizeList);
     XtManageChild(sizeList);
 
-    n = 0;
     tempStr = XmStringCreate((char*)"Size:", XmSTRING_DEFAULT_CHARSET);
-    XtSetArg(args[n], XmNlabelString, tempStr); n++;
-    XtSetArg(args[n], XmNmnemonic, 'z'); n++; 
-    XtSetArg(args[n], XmNuserData, sizeList); n++;
-    XtSetArg(args[n], XmNbottomAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET); n++;
-    XtSetArg(args[n], XmNbottomWidget, XtParent(sizeList)); n++;
-    XtSetArg(args[n], XmNleftWidget, XtParent(sizeList)); n++;
-    XtCreateManagedWidget("Size:", xmLabelWidgetClass, form, args, n);
+    XtCreateManagedWidget("Size:", xmLabelWidgetClass, form,
+            neditxx::Args {
+                XmNlabelString, tempStr,
+                XmNmnemonic, 'z',
+                XmNuserData, sizeList,
+                XmNbottomAttachment, XmATTACH_WIDGET,
+                XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
+                XmNbottomWidget, XtParent(sizeList),
+                XmNleftWidget, XtParent(sizeList)});
     XmStringFree(tempStr);
 
     /*  update form widgets cancel button */
 
-    n = 0;
-    XtSetArg(args[n], XmNcancelButton, cancelButton); n++;
-    XtSetValues(form, args, n);
-
+    XtSetValues(form, neditxx::Args{XmNcancelButton, cancelButton});
 
     /*  update application's control block structure */
 
