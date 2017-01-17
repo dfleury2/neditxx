@@ -80,6 +80,7 @@
 #include <Xm/FileSB.h>
 #include <Xm/ScrolledW.h>
 #include <Xm/PrimitiveP.h>
+#include <Xm/List.h>
 
 #ifdef HAVE_DEBUG_H
 #include "../debug.h"
@@ -2419,6 +2420,8 @@ void WmClientMsg(Display *disp, Window win, const char *msg,
 }
 
 namespace neditxx {
+
+    // Motif
     std::string XmTextGetString(Widget w) {
         char* text = ::XmTextGetString(w);
         std::string tmp(text);
@@ -2432,5 +2435,27 @@ namespace neditxx {
 
     XmString XmStringCreate(const std::string& str, XmStringCharSet charSet) {
         return ::XmStringCreate((char*)str.c_str(), charSet);
+    }
+
+    Widget XmCreateScrolledList(Widget parent, const char* name, const Args& args) {
+        return ::XmCreateScrolledList(parent, (char*)name, (::Arg*)args.list(), args.size());
+    }
+
+    // XTIntrinsics
+    void XtSetValues(Widget widget, const Args& args) {
+        ::XtSetValues(widget, (::Arg*)args.list(), args.size());
+    }
+
+    Widget XtCreateWidget(const char* name, WidgetClass widget_class, Widget parent, const Args& args) {
+        return ::XtCreateWidget((char*)name, widget_class, parent, (::Arg*)args.list(), args.size());
+    }
+
+    Widget XtCreateManagedWidget(const char* name, WidgetClass widget_class, Widget parent, const Args& args) {
+        return ::XtCreateManagedWidget((char*)name, widget_class, parent, (::Arg*)args.list(), args.size());
+    }
+
+    // Nedit
+    Widget CreateDialogShell(Widget parent, const char* name, const Args& args) {
+        return ::CreateDialogShell(parent, name, (::Arg*)args.list(), args.size());
     }
 }

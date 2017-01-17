@@ -32,6 +32,7 @@
 #include <Xm/CutPaste.h>
 
 #include <string>
+#include <vector>
 
 #define TEXT_READ_OK 0
 #define TEXT_IS_BLANK 1
@@ -138,6 +139,53 @@ namespace neditxx {
     std::string XmTextGetString(Widget w);
     void XmTextSetString(Widget w, const std::string& str);
     XmString XmStringCreate(const std::string& str, XmStringCharSet charSet = XmSTRING_DEFAULT_CHARSET);
+
+    class Args {
+    public:
+        Args() = default;
+
+        template<typename... F>
+        Args(F...follow) {
+            add(follow...);
+        }
+
+        void add() {}
+
+        template<typename V, typename... F>
+        void add(String s, const V& v, F... follow) {
+            ::Arg arg;
+
+            arg.name = s;
+            arg.value = (XtArgVal)v;
+
+            _args.push_back(arg);
+
+            add(follow...);
+        }
+
+        const Arg* list() const {
+            return &_args[0];
+        }
+
+        size_t size() const {
+            return _args.size();
+        }
+
+        void clear() {
+            _args.clear();
+        }
+    private:
+        std::vector<Arg> _args;
+    };
+
+    Widget CreateDialogShell(Widget parent, const char *name, const Args& args = {});
+
+    void XtSetValues(Widget widget, const Args& args);
+
+    Widget XtCreateWidget(const char* name, WidgetClass widget_class, Widget parent, const Args& args = {});
+    Widget XtCreateManagedWidget(const char* name, WidgetClass widget_class, Widget parent, const Args& args = {});
+
+    Widget XmCreateScrolledList(Widget parent, const char* name, const Args& args = {});
 }
 
 #endif /* NEDIT_MISC_H_INCLUDED */
