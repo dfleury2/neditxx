@@ -40,6 +40,11 @@
 #include <string.h>
 #include <math.h>
 
+#include <iostream>
+#include <set>
+#include <string>
+
+
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
 #include <Xm/Form.h>
@@ -189,7 +194,6 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
             Pixel sampleFG, Pixel sampleBG)
 {
     Widget          propFontToggle = nullptr;
-    XmString        tempStr;
     char            bigFont[MAX_FONT_NAME_LEN];
     xfselControlBlkType ctrlBlk;
     Display         *theDisplay;
@@ -254,10 +258,9 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     RemapDeleteKey(fontName);   /* kludge to handle delete and BS */
 
-    tempStr = XmStringCreate((char*)"Font Name:", XmSTRING_DEFAULT_CHARSET);
     Widget nameLabel = XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, tempStr,
+                XmNlabelString, neditxx::XmString("Font Name:").str(),
                 XmNmnemonic, 'N',
                 XmNuserData, fontName,
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
@@ -265,7 +268,6 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
                 XmNleftWidget, fontName,
                 XmNbottomWidget, fontName,
                 XmNtopOffset, 1});
-    XmStringFree(tempStr);
 
     /*  create sample display text field widget */
 
@@ -282,38 +284,33 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
                 XmNforeground, sampleFG,
                 XmNbackground, sampleBG});
 
-    tempStr = XmStringCreate((char*)"Sample:", XmSTRING_DEFAULT_CHARSET);
     Widget sampleLabel = neditxx::XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, tempStr,
+                XmNlabelString, neditxx::XmString("Sample:").str(),
                 XmNmnemonic, 'S',
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
                 XmNbottomAttachment, XmATTACH_WIDGET,
                 XmNleftWidget, dispField,
                 XmNbottomWidget, dispField,
                 XmNtopOffset, 1});
-    XmStringFree(tempStr);
 
     /*  create toggle buttons */
 
-    tempStr = XmStringCreate((char*)"Show Size in Points", XmSTRING_DEFAULT_CHARSET);
     Widget sizeToggle = neditxx::XtCreateManagedWidget("sizetoggle", xmToggleButtonWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, tempStr,
+                XmNlabelString, neditxx::XmString("Show Size in Points:").str(),
                 XmNmnemonic, 'P',
                 XmNleftAttachment, XmATTACH_POSITION,
                 XmNbottomAttachment, XmATTACH_WIDGET,
                 XmNleftPosition, 2,
                 XmNtopOffset, 1,
                 XmNbottomWidget, sampleLabel});
-    XmStringFree(tempStr);
 
     if (showPropFonts != ONLY_FIXED)
     {
-        tempStr = XmStringCreate((char*)"Show Proportional Width Fonts", XmSTRING_DEFAULT_CHARSET);
         propFontToggle = XtCreateManagedWidget("propfonttoggle", xmToggleButtonWidgetClass, form,
                 neditxx::Args {
-                    XmNlabelString, tempStr,
+                    XmNlabelString, neditxx::XmString("Show Proportional Width Fonts").str(),
                     XmNmnemonic, 'W',
                     XmNrightAttachment, XmATTACH_POSITION,
                     XmNtopAttachment, XmATTACH_OPPOSITE_WIDGET,
@@ -322,23 +319,19 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
                     XmNtopWidget, sizeToggle,
                     XmNbottomWidget, sizeToggle,
                     XmNtopOffset, 1});
-
-        XmStringFree(tempStr);
     }
 
     /*  create scroll list widgets */
     /*  "Font" list */
 
-    tempStr = XmStringCreate((char*)"Font:", XmSTRING_DEFAULT_CHARSET);
     nameLabel = neditxx::XtCreateManagedWidget("Font:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, tempStr,
+                XmNlabelString, neditxx::XmString("Font:").str(),
                 XmNmnemonic, 'F',
                 XmNtopOffset, 2,
                 XmNtopAttachment, XmATTACH_FORM,
                 XmNleftAttachment, XmATTACH_POSITION,
                 XmNleftPosition, 1});
-    XmStringFree(tempStr);
 
     Widget fontList = neditxx::XmCreateScrolledList(form, "fontlist",
             neditxx::Args {
@@ -373,17 +366,15 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     AddMouseWheelSupport(styleList);
     XtManageChild(styleList);
 
-    tempStr = XmStringCreate((char*)"Style:", XmSTRING_DEFAULT_CHARSET);
     XtCreateManagedWidget("Style:", xmLabelWidgetClass, form,
             neditxx::Args {
                 XmNmnemonic, 'y',
                 XmNuserData, styleList,
-                XmNlabelString, tempStr,
+                XmNlabelString,  neditxx::XmString("Style:").str(),
                 XmNbottomAttachment, XmATTACH_WIDGET,
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
                 XmNbottomWidget, XtParent(styleList),
                 XmNleftWidget, XtParent(styleList)});
-    XmStringFree(tempStr);
 
     /*  "Size" list */
 
@@ -402,17 +393,15 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     AddMouseWheelSupport(sizeList);
     XtManageChild(sizeList);
 
-    tempStr = XmStringCreate((char*)"Size:", XmSTRING_DEFAULT_CHARSET);
     XtCreateManagedWidget("Size:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, tempStr,
+                XmNlabelString,  neditxx::XmString("Size:").str(),
                 XmNmnemonic, 'z',
                 XmNuserData, sizeList,
                 XmNbottomAttachment, XmATTACH_WIDGET,
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
                 XmNbottomWidget, XtParent(sizeList),
                 XmNleftWidget, XtParent(sizeList)});
-    XmStringFree(tempStr);
 
     /*  update form widgets cancel button */
 
