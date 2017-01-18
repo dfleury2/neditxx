@@ -38,6 +38,8 @@
 
 #include <string>
 #include <sstream>
+#include <set>
+#include <vector>
 
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
@@ -102,7 +104,6 @@ static bool notPropFont(const std::string& font);
 static bool styleMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
 static bool sizeMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
 static bool fontMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
-static void addItemToList(char **buf, const char *item, int *count);
 static std::string getFontPart(const std::string& font);
 static std::string getStylePart(const std::string& font);
 static std::string getSizePart(const std::string& font, bool inPixels);
@@ -528,61 +529,47 @@ getStringComponent(const std::string& str, int index, char delim)
 static
 void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk)
 {
-    char        *itemBuf1[MAX_ENTRIES_IN_LIST];
-    char        *itemBuf2[MAX_ENTRIES_IN_LIST];
-    char        *itemBuf3[MAX_ENTRIES_IN_LIST];
-    int         itemCount1, itemCount2, itemCount3;
-    char        buff1[TEMP_BUF_SIZE];
-    XmString    items[MAX_ENTRIES_IN_LIST];
-    int         i;
+    std::set<std::string> family_items;
+    std::set<std::string> style_items;
+    std::set<std::string> size_items;
 
-    itemCount1 = 0;
-    itemCount2 = 0;
-    itemCount3 = 0;
-
-    for (i = 0; i < ctrlBlk.fontData.size(); ++i)
+    for (const auto& font : ctrlBlk.fontData)
     {
-        if ((dontChange != FONT) &&
-            (styleMatch(&ctrlBlk, ctrlBlk.fontData[i])) &&
-            (sizeMatch (&ctrlBlk, ctrlBlk.fontData[i])) &&
-            ((ctrlBlk.showPropFonts == PREF_PROP) || 
-             (notPropFont(ctrlBlk.fontData[i].c_str()))))
+        if ((dontChange != FONT)
+            && (styleMatch(&ctrlBlk, font))
+            && (sizeMatch (&ctrlBlk, font))
+            && ((ctrlBlk.showPropFonts == PREF_PROP) || (notPropFont(font))))
         {
-            auto fontPart = getFontPart(ctrlBlk.fontData[i]);
-            addItemToList(itemBuf1, fontPart.c_str(), &itemCount1);
+            family_items.insert(getFontPart(font));
         }
 
-        if ((dontChange != STYLE) &&
-            (fontMatch(&ctrlBlk, ctrlBlk.fontData[i])) &&
-            (sizeMatch (&ctrlBlk, ctrlBlk.fontData[i])) &&
-            ((ctrlBlk.showPropFonts == PREF_PROP) || 
-             (notPropFont(ctrlBlk.fontData[i].c_str()))))
+        if ((dontChange != STYLE)
+            && (fontMatch(&ctrlBlk, font))
+            && (sizeMatch (&ctrlBlk, font))
+            && ((ctrlBlk.showPropFonts == PREF_PROP) || (notPropFont(font))))
         {
-            auto stylePart = getStylePart(ctrlBlk.fontData[i]);
-            addItemToList(itemBuf2, stylePart.c_str(), &itemCount2);
+            style_items.insert(getStylePart(font));
         }
 
-        if ((dontChange != SIZE) &&
-            (fontMatch(&ctrlBlk, ctrlBlk.fontData[i])) &&
-            (styleMatch (&ctrlBlk, ctrlBlk.fontData[i])) &&
-            ((ctrlBlk.showPropFonts == PREF_PROP) || 
-             (notPropFont(ctrlBlk.fontData[i].c_str()))))
+        if ((dontChange != SIZE)
+            && (fontMatch(&ctrlBlk, font))
+            && (styleMatch (&ctrlBlk, font))
+            && ((ctrlBlk.showPropFonts == PREF_PROP) || (notPropFont(font))))
         {
-            auto sizePart = getSizePart(ctrlBlk.fontData[i], ctrlBlk.showSizeInPixels);
-            addItemToList(itemBuf3, sizePart.c_str(), &itemCount3);
+            size_items.insert(getSizePart(font, ctrlBlk.showSizeInPixels));
         }
-    }   /* end - for (i = 0; i < ctrlBlk.numFonts; i++) */
+    }
 
-    /*  recreate all three scroll lists where necessary */
+    //  recreate all three scroll lists where necessary
     if (dontChange != FONT)
     {
-        for (i = 0; i < itemCount1; i++)
-        {
-            items[i] = XmStringCreate(itemBuf1[i], XmSTRING_DEFAULT_CHARSET);
-            NEditFree(itemBuf1[i]);
-        }
+        std::vector<XmString> items;
+        for (const auto& family : family_items)
+            items.push_back(neditxx::XmStringCreate(family));
+
         XmListDeleteAllItems(ctrlBlk.fontList);
-        XmListAddItems(ctrlBlk.fontList, items, itemCount1, 1);
+        XmListAddItems(ctrlBlk.fontList, items.data(), items.size(), 1);
+
         if (ctrlBlk.sel1.size())
         {
             XmStringFree(items[0]);
@@ -590,19 +577,20 @@ void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk)
             XmListSelectItem(ctrlBlk.fontList, items[0], false);
             XmListSetBottomItem(ctrlBlk.fontList, items[0]);
         }
-        for (i = 0; i < itemCount1; i++)
-            XmStringFree(items[i]);
+
+        for (auto& item : items)
+            XmStringFree(item);
     }
 
     if (dontChange != STYLE)
     {
-        for (i = 0; i < itemCount2; i++)
-        {
-            items[i] = XmStringCreate(itemBuf2[i], XmSTRING_DEFAULT_CHARSET);
-            NEditFree(itemBuf2[i]);
-        }
+        std::vector<XmString> items;
+        for(const auto& style : style_items)
+            items.push_back(neditxx::XmStringCreate(style));
+
         XmListDeleteAllItems(ctrlBlk.styleList);
-        XmListAddItems(ctrlBlk.styleList, items, itemCount2, 1);
+        XmListAddItems(ctrlBlk.styleList, items.data(), items.size(), 1);
+
         if (ctrlBlk.sel2.size())
         {
             XmStringFree(items[0]);
@@ -610,20 +598,20 @@ void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk)
             XmListSelectItem(ctrlBlk.styleList, items[0], false);
             XmListSetBottomItem(ctrlBlk.styleList, items[0]);
         }
-        for (i = 0; i < itemCount2; i++)
-            XmStringFree(items[i]);
+
+        for (auto& item : items)
+            XmStringFree(item);
     }
 
     if (dontChange != SIZE)
     {
-        for (i = 0; i < itemCount3; i++)
-        {
-            items[i] = XmStringCreate(itemBuf3[i],
-                              XmSTRING_DEFAULT_CHARSET);
-            NEditFree(itemBuf3[i]);
-        }
+        std::vector<XmString> items;
+        for(const auto& size : size_items)
+            items.push_back(neditxx::XmStringCreate(size));
+
         XmListDeleteAllItems(ctrlBlk.sizeList);
-        XmListAddItems(ctrlBlk.sizeList, items, itemCount3, 1);
+        XmListAddItems(ctrlBlk.sizeList, items.data(), items.size(), 1);
+
         if (ctrlBlk.sel3.size())
         {
             XmStringFree(items[0]);
@@ -631,8 +619,9 @@ void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk)
             XmListSelectItem(ctrlBlk.sizeList, items[0], false);
             XmListSetBottomItem(ctrlBlk.sizeList, items[0]);
         }
-        for (i = 0; i < itemCount3; i++)
-            XmStringFree(items[i]);
+
+        for (auto& item : items)
+            XmStringFree(item);
     }
 }
 
@@ -677,36 +666,6 @@ bool fontMatch(xfselControlBlkType *ctrlBlk, const std::string& font)
     return (ctrlBlk->sel1.empty()
             || ctrlBlk->sel1 == getFontPart(font));
 }
-
-
-/*  inserts a string into correct sorted position in a list */
-
-static
-void addItemToList(char **buf, const char *item, int *count)
-{
-    int i, j;
-
-    if (*count == MAX_ENTRIES_IN_LIST)
-    {
-        fprintf(stderr, "Trying to add more than MAX_ENTRIES_IN_LIST ");
-        fprintf(stderr, "(%d) entries to array\n", MAX_ENTRIES_IN_LIST);
-        return;
-    }   
-
-    for (i = 0; i < *count; i++)
-    {
-        if (strcmp(buf[i], item) == 0)
-            return;
-        if (strcmp(buf[i], item) > 0)
-            break;
-    }
-
-    for (j = *count; j > i; j--)
-        buf[j] = buf[j-1];
-    buf[i] = NEditStrdup(item);
-    (*count)++;
-}
-
 
 /*  given a font name this function returns the part used in the first 
     scroll list */
@@ -996,13 +955,13 @@ void choiceMade(xfselControlBlkType *ctrlBlk)
 {
     ctrlBlk->fontName = "";
 
-    for (int i = 0; i < ctrlBlk->fontData.size(); i++)
+    for (const auto& font : ctrlBlk->fontData)
     {
-        if ((fontMatch(ctrlBlk, ctrlBlk->fontData[i].c_str())) &&
-            (styleMatch(ctrlBlk, ctrlBlk->fontData[i].c_str())) &&
-            (sizeMatch (ctrlBlk, ctrlBlk->fontData[i].c_str())))
+        if ((fontMatch(ctrlBlk, font))
+            && (styleMatch(ctrlBlk, font))
+            && (sizeMatch (ctrlBlk, font)))
         {
-            ctrlBlk->fontName = ctrlBlk->fontData[i];
+            ctrlBlk->fontName = font;
             break;
         }
     }
