@@ -37,6 +37,7 @@
 #include <math.h>
 
 #include <string>
+#include <sstream>
 
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
@@ -771,6 +772,8 @@ std::string getSizePart(const std::string& font, bool inPixels)
     if (inPixels)
     {
         sizePart = getStringComponent(font, 7);
+        if (sizePart.size() == 1)
+            sizePart = " " + sizePart;
     }
     else
     {
@@ -780,11 +783,15 @@ std::string getSizePart(const std::string& font, bool inPixels)
         if (*buff1.rbegin() == '0')
         {
             size = (int)floor(temp+0.5);
-
             sizePart = std::to_string(size);
+            if (sizePart.size() == 1)
+                sizePart = " " + sizePart;
         }
-        else
-            sizePart = std::to_string(temp); //sprintf(buff1, "%4.1f", temp);
+        else {
+            std::ostringstream oss;
+            oss.width(4); oss.setf(std::ios_base::right); oss.precision(1);
+            sizePart = oss.str();
+        }
     }
 
     return sizePart;
