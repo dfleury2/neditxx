@@ -26,10 +26,6 @@
 *                                                                              *
 *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "../config.h"
-#endif
-
 #include "fontsel.h"
 #include "misc.h"
 #include "nedit_malloc.h"
@@ -40,10 +36,7 @@
 #include <string.h>
 #include <math.h>
 
-#include <iostream>
-#include <set>
 #include <string>
-
 
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
@@ -56,10 +49,6 @@
 #include <Xm/ToggleB.h>
 #include <Xm/MessageB.h>
 #include <Xm/DialogS.h>
-
-#ifdef HAVE_DEBUG_H
-#include "../debug.h"
-#endif
 
 #define MAX_ARGS                        20
 #define MAX_NUM_FONTS                   32767
