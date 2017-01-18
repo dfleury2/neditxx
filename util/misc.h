@@ -203,7 +203,7 @@ namespace neditxx {
             other._str = nullptr;
         }
 
-        XmString& operator()(XmString&& other) noexcept {
+        XmString& operator=(XmString&& other) noexcept {
             _str = other._str;
             other._str = nullptr;
             return *this;
