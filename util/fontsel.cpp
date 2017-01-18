@@ -31,15 +31,12 @@
 #include "nedit_malloc.h"
 #include "DialogF.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-
 #include <string>
 #include <sstream>
 #include <set>
 #include <vector>
+#include <iostream>
+#include <cmath>
 
 #include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
@@ -251,7 +248,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     Widget nameLabel = XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, neditxx::XmString("Font Name:").str(),
+                XmNlabelString, neditxx::XmString("Font Name:"),
                 XmNmnemonic, 'N',
                 XmNuserData, fontName,
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
@@ -277,7 +274,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     Widget sampleLabel = neditxx::XtCreateManagedWidget("Font Name:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, neditxx::XmString("Sample:").str(),
+                XmNlabelString, neditxx::XmString("Sample:"),
                 XmNmnemonic, 'S',
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
                 XmNbottomAttachment, XmATTACH_WIDGET,
@@ -289,7 +286,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     Widget sizeToggle = neditxx::XtCreateManagedWidget("sizetoggle", xmToggleButtonWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, neditxx::XmString("Show Size in Points:").str(),
+                XmNlabelString, neditxx::XmString("Show Size in Points:"),
                 XmNmnemonic, 'P',
                 XmNleftAttachment, XmATTACH_POSITION,
                 XmNbottomAttachment, XmATTACH_WIDGET,
@@ -301,7 +298,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     {
         propFontToggle = XtCreateManagedWidget("propfonttoggle", xmToggleButtonWidgetClass, form,
                 neditxx::Args {
-                    XmNlabelString, neditxx::XmString("Show Proportional Width Fonts").str(),
+                    XmNlabelString, neditxx::XmString("Show Proportional Width Fonts"),
                     XmNmnemonic, 'W',
                     XmNrightAttachment, XmATTACH_POSITION,
                     XmNtopAttachment, XmATTACH_OPPOSITE_WIDGET,
@@ -317,7 +314,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     nameLabel = neditxx::XtCreateManagedWidget("Font:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString, neditxx::XmString("Font:").str(),
+                XmNlabelString, neditxx::XmString("Font:"),
                 XmNmnemonic, 'F',
                 XmNtopOffset, 2,
                 XmNtopAttachment, XmATTACH_FORM,
@@ -359,9 +356,9 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     XtCreateManagedWidget("Style:", xmLabelWidgetClass, form,
             neditxx::Args {
+                XmNlabelString,  neditxx::XmString("Style:"),
                 XmNmnemonic, 'y',
                 XmNuserData, styleList,
-                XmNlabelString,  neditxx::XmString("Style:").str(),
                 XmNbottomAttachment, XmATTACH_WIDGET,
                 XmNleftAttachment, XmATTACH_OPPOSITE_WIDGET,
                 XmNbottomWidget, XtParent(styleList),
@@ -386,7 +383,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     XtCreateManagedWidget("Size:", xmLabelWidgetClass, form,
             neditxx::Args {
-                XmNlabelString,  neditxx::XmString("Size:").str(),
+                XmNlabelString,  neditxx::XmString("Size:"),
                 XmNmnemonic, 'z',
                 XmNuserData, sizeList,
                 XmNbottomAttachment, XmATTACH_WIDGET,
@@ -476,17 +473,16 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     /*  enter event loop */
 
-    while (! ctrlBlk.exitFlag && ! ctrlBlk.destroyedFlag)
+    while (!ctrlBlk.exitFlag && !ctrlBlk.destroyedFlag)
         XtAppProcessEvent(XtWidgetToApplicationContext(form), XtIMAll);
 
-    if (! ctrlBlk.destroyedFlag) {
+    if (!ctrlBlk.destroyedFlag) {
         /* Don't let the callback destroy the font name */
-        XtRemoveCallback(dialog, XmNdestroyCallback,
-                (XtCallbackProc)destroyCB, (char *)&ctrlBlk);
+        XtRemoveCallback(dialog, XmNdestroyCallback, (XtCallbackProc)destroyCB, (char *)&ctrlBlk);
         XtDestroyWidget(dialog);
     }
 
-    if (ctrlBlk.oldFont != NULL)
+    if (ctrlBlk.oldFont)
     {
         XFreeFont(theDisplay, ctrlBlk.oldFont);
         XmFontListFree(ctrlBlk.oldFontList);
@@ -694,31 +690,27 @@ std::string getFontPart(const std::string& font)
 static
 std::string getStylePart(const std::string& font)
 {
-    auto buff3 = getStringComponent(font, 3);
+    std::string stylePart = getStringComponent(font, 3);
+
     auto buff2 = getStringComponent(font, 5);
-
-    std::string buff1 = buff3;
-
     if ((buff2 != "normal") && (buff2 != "Normal") && (buff2 != "NORMAL"))
-        buff1 += " " + buff2;
+        stylePart += " " + buff2;
 
     buff2 = getStringComponent(font, 6);
     if (buff2.size())
-        buff1 += " " + buff2;
+        stylePart += " " + buff2;
 
     buff2 = getStringComponent(font, 4);
-
     if ((buff2 == "o") || (buff2 == "O"))
-        buff1 += " oblique";
+        stylePart += " oblique";
     else if ((buff2 == "i") || (buff2 == "I"))
-        buff1 += " italic";
+        stylePart += " italic";
 
-    if (buff1 == " ")
-        buff1 = "-";
+    if (stylePart == " ")
+        stylePart = "-";
 
-    return buff1;
+    return stylePart;
 }
-
 
 /*  given a font name this function returns the part used in the third 
     scroll list */
@@ -820,24 +812,24 @@ void sizeToggleAction(Widget widget, xfselControlBlkType *ctrlBlk, XmToggleButto
 static
 void enableSample(xfselControlBlkType *ctrlBlk, Bool turn_on, XmFontList *fontList)
 {
-    int n=0;
-    Arg args[4];
+    neditxx::Args args{
+        XmNeditable, turn_on,
+        XmNcursorPositionVisible, turn_on};
 
-    XtSetArg(args[n], XmNeditable, turn_on); n++;
-    XtSetArg(args[n], XmNcursorPositionVisible, turn_on); n++;
-    if( turn_on ) {
-        if( !fontList ) {
-            fprintf(stderr, "nedit: Internal error in fontsel.c, line %i\n", \
-                    __LINE__);
+    if (turn_on) {
+        if (!fontList) {
+            std::cerr << "nedit: Internal error in fontsel.c, line " << __LINE__ << std::endl;
         } else {
-            XtSetArg(args[n], XmNfontList, *fontList); n++;
+            args.add(XmNfontList, *fontList);
         }
-        XtSetArg(args[n], XmNforeground, ctrlBlk->sampleFG); n++;
+        args.add(XmNforeground, ctrlBlk->sampleFG);
     } else {
-        XtSetArg(args[n], XmNforeground, ctrlBlk->sampleBG); n++;
+        args.add(XmNforeground, ctrlBlk->sampleBG);
     }
-    XtSetValues(ctrlBlk->dispField, args, n);
-    /* Make sure the sample area gets resized if the font size changes */
+
+    XtSetValues(ctrlBlk->dispField, args);
+
+    // Make sure the sample area gets resized if the font size changes
     XtUnmanageChild(ctrlBlk->dispField);
     XtManageChild(ctrlBlk->dispField);
 }
@@ -1014,12 +1006,7 @@ void destroyCB(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruct
 static
 void cancelAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruct *call_data)
 {
-    ctrlBlk->sel1 = "";
-    ctrlBlk->sel2 = "";
-    ctrlBlk->sel3 = "";
-
     ctrlBlk->fontName = "";
-
     ctrlBlk->exitFlag = true;
 }
 
@@ -1034,20 +1021,14 @@ void okAction(Widget widget, xfselControlBlkType *ctrlBlk, XmPushButtonCallbackS
     if ((fontName == nullptr) || (i == 0))
     {
         DialogF(DF_ERR, ctrlBlk->okButton, 1, "Font Specification", "Invalid Font Specification", "OK");
-        XFreeFontNames(fontName);
     }
     else
     {
         ctrlBlk->fontName = fontName[0];
-
-        ctrlBlk->sel1 = "";
-        ctrlBlk->sel2 = "";
-        ctrlBlk->sel3 = "";
-    
-        XFreeFontNames(fontName);
-
         ctrlBlk->exitFlag = true;
     }
+
+    XFreeFontNames(fontName);
 }
 
 
@@ -1085,14 +1066,9 @@ void startupFont(xfselControlBlkType *ctrlBlk, const std::string& font)
 static
 void setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event, Boolean *continueToDispatch)
 {
-    int n;
-    Arg args[2];
-
     *continueToDispatch = true;
 
-    n = 0;
-    XtSetArg(args[n], XmNdefaultButton, ctrlBlk->okButton); n++;
-    XtSetValues(ctrlBlk->form, args, n);
+    XtVaSetValues(ctrlBlk->form, XmNdefaultButton, ctrlBlk->okButton, 0);
 }
 
 
