@@ -146,21 +146,20 @@ namespace neditxx {
 
         template<typename... F>
         Args(F...follow) {
-            add(follow...);
+            add(std::forward<F>(follow)...);
         }
 
         void add() {}
 
         template<typename V, typename... F>
-        void add(String s, const V& v, F... follow) {
+        void add(String s, V&& v, F... follow) {
             ::Arg arg;
-
             arg.name = s;
             arg.value = (XtArgVal)v;
 
             _args.push_back(arg);
 
-            add(follow...);
+            add(std::forward<F>(follow)...);
         }
 
         const Arg* list() const {
@@ -174,6 +173,7 @@ namespace neditxx {
         void clear() {
             _args.clear();
         }
+
     private:
         std::vector<Arg> _args;
     };
@@ -185,11 +185,28 @@ namespace neditxx {
         {}
 
         ~XmString() {
-            XmStringFree(_str);
+            if (_str) {
+                XmStringFree(_str);
+            }
         }
 
         ::XmString str() {
             return _str;
+        }
+
+        operator XtArgVal() const noexcept {
+            return (XtArgVal)_str;
+        }
+
+        XmString(XmString&& other) noexcept {
+            _str = other._str;
+            other._str = nullptr;
+        }
+
+        XmString& operator()(XmString&& other) noexcept {
+            _str = other._str;
+            other._str = nullptr;
+            return *this;
         }
 
     private:
