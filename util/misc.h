@@ -139,6 +139,7 @@ namespace neditxx {
     std::string XmTextGetString(Widget w);
     void XmTextSetString(Widget w, const std::string& str);
     XmString XmStringCreate(const std::string& str, XmStringCharSet charSet = XmSTRING_DEFAULT_CHARSET);
+    std::string XmStringGetLtoR(::XmString string, XmStringCharSet charset = XmSTRING_DEFAULT_CHARSET);
 
     class Args {
     public:

@@ -2423,11 +2423,27 @@ namespace neditxx {
 
     // Motif
     std::string XmTextGetString(Widget w) {
+        std::string tmp;
         char* text = ::XmTextGetString(w);
-        std::string tmp(text);
-        XtFree(text);
+        if (text) {
+            tmp = text;
+            XtFree(text);
+        }
         return tmp;
     }
+
+    std::string XmStringGetLtoR(::XmString str, XmStringCharSet charset = XmSTRING_DEFAULT_CHARSET)
+    {
+        std::string result;
+        char* s;
+        if (::XmStringGetLtoR(str, charset, &s)) {
+            result = s;
+            XtFree(s);
+        }
+
+        return result;
+    }
+
 
     void XmTextSetString(Widget w, const std::string& str) {
         ::XmTextSetString(w, (char*)str.c_str());

@@ -838,8 +838,7 @@ void enableSample(xfselControlBlkType *ctrlBlk, Bool turn_on, XmFontList *fontLi
 static
 void fontAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruct *call_data)
 {
-    char* sel;
-    XmStringGetLtoR(call_data->item, XmSTRING_DEFAULT_CHARSET, &sel);
+    std::string sel = neditxx::XmStringGetLtoR(call_data->item);
 
     if (ctrlBlk->sel1.empty())
     {
@@ -858,7 +857,6 @@ void fontAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruc
         }
     }
 
-    NEditFree(sel);
     setupScrollLists(FONT, *ctrlBlk);
     if ((ctrlBlk->sel1.size()) && (ctrlBlk->sel2.size()) && (ctrlBlk->sel3.size()))
         choiceMade(ctrlBlk);
@@ -873,8 +871,7 @@ void fontAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruc
 static
 void styleAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruct *call_data)
 {
-    char* sel;
-    XmStringGetLtoR(call_data->item, XmSTRING_DEFAULT_CHARSET, &sel);
+    std::string sel = neditxx::XmStringGetLtoR(call_data->item);
 
     if (ctrlBlk->sel2.empty())
     {
@@ -893,7 +890,6 @@ void styleAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStru
         }
     }
 
-    NEditFree(sel);
     setupScrollLists(STYLE, *ctrlBlk);
     if ((ctrlBlk->sel1.size()) && (ctrlBlk->sel2.size()) && (ctrlBlk->sel3.size()))
         choiceMade(ctrlBlk);
@@ -907,9 +903,7 @@ void styleAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStru
 static
 void sizeAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruct *call_data)
 {
-    char    *sel;
-
-    XmStringGetLtoR(call_data->item, XmSTRING_DEFAULT_CHARSET, &sel);
+    std::string sel = neditxx::XmStringGetLtoR(call_data->item);
 
     if (ctrlBlk->sel3.empty())
     {
@@ -928,7 +922,6 @@ void sizeAction(Widget widget, xfselControlBlkType *ctrlBlk, XmListCallbackStruc
         }
     }
 
-    NEditFree(sel);
     setupScrollLists(SIZE, *ctrlBlk);
     if ((ctrlBlk->sel1.size()) && (ctrlBlk->sel2.size()) && (ctrlBlk->sel3.size()))
         choiceMade(ctrlBlk);
