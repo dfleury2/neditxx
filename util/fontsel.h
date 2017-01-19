@@ -78,10 +78,8 @@
 #define PREF_FIXED	1
 #define PREF_PROP	2
 
-
 /* function prototype */
 
-std::string FontSel(Widget parent, int showPropFont, const std::string& currFont,
-        Pixel sampleFG, Pixel sampleBG);
+std::string FontSel(Widget parent, int showPropFont, const std::string& currFont, Pixel sampleFG, Pixel sampleBG);
 
 #endif /* NEDIT_FONTSEL_H_INCLUDED */
