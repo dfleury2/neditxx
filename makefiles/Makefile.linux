@@ -17,8 +17,8 @@ AR=ar
 # To test if the Motif library exports the runtime version
 # add -DHAVE__XMVERSIONSTRING to CFLAGS
 #
-#CFLAGS=-std=c++14 -O3 -s -I/usr/X11R6/include -DUSE_DIRENT -DUSE_LPR_PRINT_CMD -fpermissive
-CFLAGS=-std=c++14 -ggdb3 -I/usr/X11R6/include -DUSE_DIRENT -DUSE_LPR_PRINT_CMD -fpermissive -Wno-write-strings
+#CFLAGS=-std=c++14 -O3 -s -I/usr/X11R6/include -I/usr/include/X11 -I/usr/include/freetype2 -DUSE_DIRENT -DUSE_LPR_PRINT_CMD -fpermissive
+CFLAGS=-std=c++14 -ggdb3 -I/usr/X11R6/include -I/usr/include/X11 -I/usr/include/freetype2 -DUSE_DIRENT -DUSE_LPR_PRINT_CMD -fpermissive -Wno-write-strings
 
 ARFLAGS=-urs
 
