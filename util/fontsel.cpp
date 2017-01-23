@@ -28,7 +28,6 @@
 
 #include "fontsel.h"
 #include "misc.h"
-#include "nedit_malloc.h"
 #include "DialogF.h"
 
 #include <string>
@@ -894,10 +893,6 @@ void dispSample(xfselControlBlkType *ctrlBlk)
     XftFont* font = XftFontOpenName(display, DefaultScreen(display), ctrlBlk->fontName.c_str());
 
     neditxx::Args args{XmNfontType, XmFONT_IS_XFT, XmNxftFont, font};
-
-    if (ctrlBlk->rendition) {
-        XmRenditionFree(ctrlBlk->rendition);
-    }
 
     ctrlBlk->rendition = XmRenditionCreate(ctrlBlk->form, (char*)"renditionTag1", args.list(), args.size());
     ctrlBlk->renderTable = XmRenderTableAddRenditions(ctrlBlk->renderTable, &ctrlBlk->rendition, 1, XmMERGE_REPLACE);
