@@ -189,6 +189,10 @@ namespace neditxx {
             : _str(::XmStringCreate((char*)str, charset))
         {}
 
+        XmString(const std::string& str, XmStringCharSet charset = XmSTRING_DEFAULT_CHARSET)
+            : XmString(str.c_str(), charset)
+        {}
+
         ~XmString() {
             if (_str) {
                 XmStringFree(_str);
