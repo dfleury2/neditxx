@@ -70,7 +70,7 @@ struct xfselControlBlkType
         Widget          form;           /* widget id */
         Widget          okButton;       /* widget id */
         Widget          cancelButton;   /* widget id */
-        Widget          fontList;       /* widget id */
+        Widget          familyList;     /* widget id */
         Widget          styleList;      /* widget id */
         Widget          sizeList;       /* widget id */
         Widget          fontNameField;  /* widget id */
@@ -103,6 +103,7 @@ static bool styleMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
 static bool fontMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
 static std::string getFamilyPart(const std::string& font);
 static std::string getStylePart(const std::string& font);
+static std::string getSizePart(const std::string& font);
 static void     propFontToggleAction(Widget widget,
                                      xfselControlBlkType *ctrlBlk,
                                      XmToggleButtonCallbackStruct *call_data);
@@ -174,7 +175,7 @@ static void enableSample(xfselControlBlkType *ctrlBlk, bool turn_on, XmRenderTab
 *                                                                              *
 *******************************************************************************/
 
-std::string FontSel(Widget parent, int showPropFonts, const std::string& currFont, Pixel sampleFG, Pixel sampleBG)
+std::string FontSel(Widget parent, int showPropFonts, const std::string& currentFont, Pixel sampleFG, Pixel sampleBG)
 {
     Widget          propFontToggle = nullptr;
     xfselControlBlkType ctrlBlk;
@@ -409,7 +410,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     ctrlBlk.form            = form;
     ctrlBlk.okButton        = okButton;
     ctrlBlk.cancelButton    = cancelButton;
-    ctrlBlk.fontList        = fontList;
+    ctrlBlk.familyList        = fontList;
     ctrlBlk.styleList       = styleList;
     ctrlBlk.sizeList        = sizeList;
     ctrlBlk.fontNameField   = fontName;
@@ -473,8 +474,8 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
 
     /* set up current font parameters */
 
-    if (currFont.size())
-        startupFont(&ctrlBlk, currFont);
+    if (currentFont.size())
+        startupFont(&ctrlBlk, currentFont);
 
     /* Make sure that we can still access the display in case the form
        gets destroyed */
@@ -494,9 +495,8 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     if (ctrlBlk.oldFont)
         XftFontClose(theDisplay, ctrlBlk.oldFont);
 
-    if (ctrlBlk.rendition) {
+    if (ctrlBlk.rendition)
         XmRenditionFree(ctrlBlk.rendition);
-    }
 
     if (ctrlBlk.renderTable)
         XmRenderTableFree(ctrlBlk.renderTable);
@@ -570,15 +570,15 @@ void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk)
         for (const auto& family : family_items)
             items.push_back(neditxx::XmStringCreate(family));
 
-        XmListDeleteAllItems(ctrlBlk.fontList);
-        XmListAddItems(ctrlBlk.fontList, items.data(), items.size(), 1);
+        XmListDeleteAllItems(ctrlBlk.familyList);
+        XmListAddItems(ctrlBlk.familyList, items.data(), items.size(), 1);
 
         if (ctrlBlk.sel1.size())
         {
             XmStringFree(items[0]);
             items[0] = neditxx::XmStringCreate(ctrlBlk.sel1);
-            XmListSelectItem(ctrlBlk.fontList, items[0], false);
-            XmListSetBottomItem(ctrlBlk.fontList, items[0]);
+            XmListSelectItem(ctrlBlk.familyList, items[0], false);
+            XmListSetBottomItem(ctrlBlk.familyList, items[0]);
         }
 
         for (auto& item : items)
@@ -689,7 +689,27 @@ std::string getStylePart(const std::string& font)
     return stylePart;
 }
 
-/*  Call back functions start from here - suffix Action in the function name
+static
+std::string getSizePart(const std::string& font)
+{
+    std::string sizePart;
+
+    const char* sizeTag = "size=";
+    const size_t length = strlen(sizeTag);
+
+    auto foundSize = font.find("size=");
+    if (foundSize != std::string::npos) {
+        auto end = font.find(":", foundSize);
+        if (end == std::string::npos)
+            end = font.size();
+
+        sizePart = font.substr(foundSize + length, end - foundSize);
+    }
+
+    return sizePart;
+}
+
+    /*  Call back functions start from here - suffix Action in the function name
     is for the callback function for the corresponding widget */
 
 static
@@ -925,20 +945,20 @@ void okAction(Widget widget, xfselControlBlkType *ctrlBlk, XmPushButtonCallbackS
 {
     std::string fontPattern = neditxx::XmTextGetString(ctrlBlk->fontNameField);
 
-    int i;
-    char** fontName = XListFonts(XtDisplay(ctrlBlk->form), fontPattern.c_str(), 1, &i);
+    Display* display = XtDisplay(ctrlBlk->form);
+    XftFont* font = XftFontOpenName(display, DefaultScreen(display), fontPattern.c_str());
 
-    if ((fontName == nullptr) || (i == 0))
+    if (!font)
     {
         DialogF(DF_ERR, ctrlBlk->okButton, 1, "Font Specification", "Invalid Font Specification", "OK");
     }
     else
     {
-        ctrlBlk->fontName = fontName[0];
+        ctrlBlk->fontName = fontPattern;
         ctrlBlk->exitFlag = true;
     }
 
-    XFreeFontNames(fontName);
+    XftFontClose(display, font);
 }
 
 /*  if current font is passed as an argument then this function is
@@ -957,12 +977,18 @@ void startupFont(xfselControlBlkType *ctrlBlk, const std::string& fontName)
     XftFontClose(display,  font);
 
     ctrlBlk->fontName = fontName;
-    auto fontPart = getFamilyPart(fontName);
-    auto str = neditxx::XmStringCreate(fontPart);
-    XmListSetBottomItem(ctrlBlk->fontList, str);
-    XmListSelectItem(ctrlBlk->fontList, str, true);
-    XmListSelectItem(ctrlBlk->fontList, str, true);
-    XmStringFree(str);
+
+    auto familyItem = neditxx::XmString(getFamilyPart(fontName));
+    XmListSelectItem(ctrlBlk->familyList, familyItem.str(), true);
+    XmListSetBottomItem(ctrlBlk->familyList, familyItem.str());
+
+    auto styleItem = neditxx::XmString(getStylePart(fontName));
+    XmListSelectItem(ctrlBlk->styleList, styleItem.str(), true);
+    XmListSetBottomItem(ctrlBlk->styleList, styleItem.str());
+
+    auto sizeItem = neditxx::XmString(getSizePart(fontName));
+    XmListSelectItem(ctrlBlk->sizeList, sizeItem.str(), true);
+    XmListSetBottomItem(ctrlBlk->sizeList, sizeItem.str());
 
     dispSample(ctrlBlk);
     neditxx::XmTextSetString(ctrlBlk->fontNameField, ctrlBlk->fontName);
