@@ -50,6 +50,8 @@
 #include <Xm/MessageB.h>
 #include <Xm/DialogS.h>
 
+#include <Xft/Xft.h>
+
 #define MAX_ARGS                        20
 #define MAX_NUM_FONTS                   32767
 #define MAX_FONT_NAME_LEN               256
@@ -61,7 +63,6 @@
 #define DISPLAY_HEIGHT                  90
 
 enum listSpecifier { NONE, FONT, STYLE, SIZE };
-
 
 /* local data structures and types */
 
@@ -84,8 +85,9 @@ struct xfselControlBlkType
         int             showPropFonts;  /* toggle state - show prop fonts */
         bool            showSizeInPixels;/* toggle state - size in pixels  */
         std::string     fontName;       /* current font name */
-        XFontStruct     *oldFont;       /* font data structure for dispSample */
-        XmFontList      oldFontList;    /* font data structure for dispSample */
+        XftFont*        oldFont = nullptr;        /* font data structure for dispSample */
+        XmRendition     rendition = nullptr;      /* font data structure for dispSample */
+        XmRenderTable   renderTable = nullptr;    /* font data structure for dispSample */
         int     exitFlag;               /* used for program exit control */
         int     destroyedFlag;          /* used to prevent double destruction */
         Pixel   sampleFG;               /* Colors for the sample field */
@@ -99,22 +101,20 @@ static std::string getStringComponent(const std::string& inStr, int pos, char de
 static void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk);
 static bool notPropFont(const std::string& font);
 static bool styleMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
-static bool sizeMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
 static bool fontMatch(xfselControlBlkType *ctrlBlk, const std::string& font);
-static std::string getFontPart(const std::string& font);
+static std::string getFamilyPart(const std::string& font);
 static std::string getStylePart(const std::string& font);
-static std::string getSizePart(const std::string& font, bool inPixels);
-static void     propFontToggleAction(Widget widget, 
-                                     xfselControlBlkType *ctrlBlk, 
+static void     propFontToggleAction(Widget widget,
+                                     xfselControlBlkType *ctrlBlk,
                                      XmToggleButtonCallbackStruct *call_data);
 static void     sizeToggleAction(Widget widget,
-                                 xfselControlBlkType *ctrlBlk, 
+                                 xfselControlBlkType *ctrlBlk,
                                  XmToggleButtonCallbackStruct *call_data);
-static void     fontAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void     fontAction(Widget widget, xfselControlBlkType *ctrlBlk,
                                  XmListCallbackStruct *call_data);
-static void     styleAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void     styleAction(Widget widget, xfselControlBlkType *ctrlBlk,
                                  XmListCallbackStruct *call_data);
-static void     sizeAction(Widget widget, xfselControlBlkType *ctrlBlk, 
+static void     sizeAction(Widget widget, xfselControlBlkType *ctrlBlk,
                                  XmListCallbackStruct *call_data);
 static void     choiceMade(xfselControlBlkType *ctrlBlk);
 static void     dispSample(xfselControlBlkType *ctrlBlk);
@@ -125,10 +125,9 @@ static void     cancelAction(Widget widget, xfselControlBlkType *ctrlBlk,
 static void     okAction(Widget widget, xfselControlBlkType *ctrlBlk,
                                  XmPushButtonCallbackStruct *call_data);
 static void startupFont(xfselControlBlkType *ctrlBlk, const std::string& font);
-static void     setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event, 
+static void     setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event,
                                                 Boolean *continueToDispatch);
-static std::string FindBigFont(xfselControlBlkType *ctrlBlk);
-static void enableSample(xfselControlBlkType *ctrlBlk, bool turn_on, XmFontList *fontList);
+static void enableSample(xfselControlBlkType *ctrlBlk, bool turn_on, XmRenderTable* );
 
 /*******************************************************************************
 *                                                                              *
@@ -181,16 +180,29 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     Widget          propFontToggle = nullptr;
     xfselControlBlkType ctrlBlk;
 
-    int numFonts = 0;
-    char** fonts =  XListFonts(XtDisplay(parent),"-*-*-*-*-*-*-*-*-*-*-*-*-*-*", MAX_NUM_FONTS, &numFonts);
-    for(int i = 0; i < numFonts; ++i) {
-        ctrlBlk.fontData.push_back(fonts[i]);
-    }
-    XFreeFontNames(fonts);
+    XftFontSet* fontSet = XftListFonts(nullptr, 0,
+            0,
+            XFT_FAMILY,
+            XFT_STYLE,
+            0);
 
-    std::string bigFont = FindBigFont(&ctrlBlk);
-    ctrlBlk.oldFont = XLoadQueryFont(XtDisplay(parent), bigFont.c_str());
-    ctrlBlk.oldFontList = XmFontListCreate(ctrlBlk.oldFont, XmSTRING_DEFAULT_CHARSET);
+    for(int i = 0; fontSet && i < fontSet->nfont; ++i) {
+        char buffer[512];
+        XftNameUnparse(fontSet->fonts[i], &buffer[0], sizeof(buffer));
+
+        std::string fontName = getFamilyPart(buffer) + ":" + getStylePart(buffer);
+        ctrlBlk.fontData.push_back(fontName);
+    }
+    XftFontSetDestroy(fontSet);
+
+    // Create a default standard font
+    ctrlBlk.oldFont = XftFontOpenName(XtDisplay(parent), DefaultScreen(parent), "Arial:style=Regular:size=14");
+    if (ctrlBlk.oldFont) {
+        neditxx::Args args{XmNfontType, XmFONT_IS_XFT, XmNxftFont, ctrlBlk.oldFont};
+        ctrlBlk.rendition = XmRenditionCreate(parent, (char*)"renditionTag1", args.list(), args.size());
+        ctrlBlk.renderTable = XmRenderTableAddRenditions(nullptr, &ctrlBlk.rendition, 1, XmMERGE_REPLACE);
+    }
+
     ctrlBlk.sampleFG = sampleFG;
     ctrlBlk.sampleBG = sampleBG;
 
@@ -411,11 +423,11 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     ctrlBlk.showPropFonts   = showPropFonts;
     ctrlBlk.showSizeInPixels = true;
 
-    setupScrollLists(NONE, ctrlBlk);    /* update scroll lists */ 
+    setupScrollLists(NONE, ctrlBlk);    /* update scroll lists */
 
     if (showPropFonts == PREF_PROP)
         XmToggleButtonSetState(propFontToggle, true, false);
-        
+
     /*  Register callback functions */
 
     if (showPropFonts != ONLY_FIXED)
@@ -447,7 +459,7 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     /* Make sure that we don't try to access the dialog if the user
        destroyed it (possibly indirectly, by destroying the parent). */
     XtAddCallback(dialog, XmNdestroyCallback, (XtCallbackProc)destroyCB, (char *)&ctrlBlk);
-        
+
     /*  Link Motif Close option to cancel action */
 
     AddMotifCloseCallback(dialog, (XtCallbackProc)cancelAction, &ctrlBlk);
@@ -481,10 +493,14 @@ std::string FontSel(Widget parent, int showPropFonts, const std::string& currFon
     }
 
     if (ctrlBlk.oldFont)
-    {
-        XFreeFont(theDisplay, ctrlBlk.oldFont);
-        XmFontListFree(ctrlBlk.oldFontList);
+        XftFontClose(theDisplay, ctrlBlk.oldFont);
+
+    if (ctrlBlk.rendition) {
+        XmRenditionFree(ctrlBlk.rendition);
     }
+
+    if (ctrlBlk.renderTable)
+        XmRenderTableFree(ctrlBlk.renderTable);
 
     return ctrlBlk.fontName;
 }
@@ -523,32 +539,28 @@ void setupScrollLists(int dontChange, xfselControlBlkType& ctrlBlk)
 {
     std::set<std::string> family_items;
     std::set<std::string> style_items;
-    std::set<std::string> size_items;
+    std::vector<std::string> size_items;
 
     for (const auto& font : ctrlBlk.fontData)
     {
         if ((dontChange != FONT)
             && (styleMatch(&ctrlBlk, font))
-            && (sizeMatch (&ctrlBlk, font))
             && ((ctrlBlk.showPropFonts == PREF_PROP) || (notPropFont(font))))
         {
-            family_items.insert(getFontPart(font));
+            family_items.insert(getFamilyPart(font));
         }
 
         if ((dontChange != STYLE)
             && (fontMatch(&ctrlBlk, font))
-            && (sizeMatch (&ctrlBlk, font))
             && ((ctrlBlk.showPropFonts == PREF_PROP) || (notPropFont(font))))
         {
             style_items.insert(getStylePart(font));
         }
+    }
 
-        if ((dontChange != SIZE)
-            && (fontMatch(&ctrlBlk, font))
-            && (styleMatch (&ctrlBlk, font))
-            && ((ctrlBlk.showPropFonts == PREF_PROP) || (notPropFont(font))))
-        {
-            size_items.insert(getSizePart(font, ctrlBlk.showSizeInPixels));
+    if (dontChange != SIZE) {
+        for (int i = 6; i < 32; ++i) {
+            size_items.push_back(std::to_string(i));
         }
     }
 
@@ -636,17 +648,6 @@ bool styleMatch(xfselControlBlkType *ctrlBlk, const std::string& font)
             || ctrlBlk->sel2 == getStylePart(font));
 }
 
-
-/*  returns true if the size portion of the font matches the currently
-    selected size */
-
-static
-bool sizeMatch(xfselControlBlkType *ctrlBlk, const std::string& font)
-{
-    return (ctrlBlk->sel3.empty()
-            || ctrlBlk->sel3 == getSizePart(font, ctrlBlk->showSizeInPixels));
-}
-
 /*  returns true if the font portion of the font matches the currently
     selected font */
 
@@ -654,27 +655,16 @@ static
 bool fontMatch(xfselControlBlkType *ctrlBlk, const std::string& font)
 {
     return (ctrlBlk->sel1.empty()
-            || ctrlBlk->sel1 == getFontPart(font));
+            || ctrlBlk->sel1 == getFamilyPart(font));
 }
 
 /*  given a font name this function returns the part used in the first 
     scroll list */
 
 static
-std::string getFontPart(const std::string& font)
+std::string getFamilyPart(const std::string& font)
 {
-    std::string fontPart = getStringComponent(font, 2) + " (" + getStringComponent(font, 1);
-
-    std::string part_13 = getStringComponent(font, 13);
-    std::string part_14 = getStringComponent(font, 14);
-
-    if (((part_13.find("iso8859") == 0) || (part_13.find("ISO8859") == 0))
-            && (part_14 == "1"))
-        fontPart += ")";
-    else
-        fontPart += ", " + part_13 + ", " + part_14 + ")";
-
-    return fontPart;
+    return getStringComponent(font, 0,  ':');
 }
 
 /*  given a font name this function returns the part used in the second 
@@ -683,62 +673,21 @@ std::string getFontPart(const std::string& font)
 static
 std::string getStylePart(const std::string& font)
 {
-    std::string stylePart = getStringComponent(font, 3);
+    std::string stylePart = getStringComponent(font, 1, ':');
 
-    auto buff2 = getStringComponent(font, 5);
-    if ((buff2 != "normal") && (buff2 != "Normal") && (buff2 != "NORMAL"))
-        stylePart += " " + buff2;
-
-    buff2 = getStringComponent(font, 6);
-    if (buff2.size())
-        stylePart += " " + buff2;
-
-    buff2 = getStringComponent(font, 4);
-    if ((buff2 == "o") || (buff2 == "O"))
-        stylePart += " oblique";
-    else if ((buff2 == "i") || (buff2 == "I"))
-        stylePart += " italic";
-
-    if (stylePart == " ")
-        stylePart = "-";
+    if (stylePart.find("Regular") != std::string::npos) {
+        stylePart = "style=Regular";
+    } else if (stylePart.find("Bold,") != std::string::npos) {
+        stylePart = "style=Bold";
+    } else if (stylePart.find("Italic,") != std::string::npos) {
+        stylePart = "style=Italic";
+    } else if (stylePart.find("Oblique,") != std::string::npos) {
+        stylePart = "style=Oblique";
+    } else if (stylePart.find("Bold Oblique,") != std::string::npos) {
+        stylePart = "style=Bold Oblique";
+    }
 
     return stylePart;
-}
-
-/*  given a font name this function returns the part used in the third 
-    scroll list */
-
-static
-std::string getSizePart(const std::string& font, bool inPixels)
-{
-    std::string sizePart;
-
-    if (inPixels)
-    {
-        sizePart = getStringComponent(font, 7);
-        if (sizePart.size() == 1)
-            sizePart = " " + sizePart;
-    }
-    else
-    {
-        auto buff1 = getStringComponent(font, 8);
-        int size = std::stoi(buff1);
-        double temp = (double)size / 10.0;
-        if (*buff1.rbegin() == '0')
-        {
-            size = (int)floor(temp+0.5);
-            sizePart = std::to_string(size);
-            if (sizePart.size() == 1)
-                sizePart = " " + sizePart;
-        }
-        else {
-            std::ostringstream oss;
-            oss.width(4); oss.setf(std::ios_base::right); oss.precision(1);
-            sizePart = oss.str();
-        }
-    }
-
-    return sizePart;
 }
 
 /*  Call back functions start from here - suffix Action in the function name
@@ -771,17 +720,8 @@ void sizeToggleAction(Widget widget, xfselControlBlkType *ctrlBlk, XmToggleButto
     if (call_data->reason == XmCR_VALUE_CHANGED)
     {
         bool makeSelection = (ctrlBlk->sel3.size());
-        std::string newSize;
+        std::string newSize = "14";
 
-        for (int i = 0; (makeSelection) && (i < ctrlBlk->fontData.size()); i++)
-            if ((fontMatch(ctrlBlk, ctrlBlk->fontData[i])) &&
-                (styleMatch(ctrlBlk, ctrlBlk->fontData[i])) &&
-                (sizeMatch(ctrlBlk, ctrlBlk->fontData[i])))
-            {
-                newSize = getSizePart(ctrlBlk->fontData[i], !ctrlBlk->showSizeInPixels);
-                break;
-            }
-                
         if (ctrlBlk->showSizeInPixels)
             ctrlBlk->showSizeInPixels = false;
         else
@@ -801,21 +741,16 @@ void sizeToggleAction(Widget widget, xfselControlBlkType *ctrlBlk, XmToggleButto
 }
 
 static
-void enableSample(xfselControlBlkType *ctrlBlk, bool turn_on, XmFontList *fontList)
+void enableSample(xfselControlBlkType *ctrlBlk, bool turn_on, XmRenderTable* renderTable)
 {
     neditxx::Args args{
         XmNeditable, turn_on,
         XmNcursorPositionVisible, turn_on};
 
     if (turn_on) {
-        if (!fontList) {
-            std::cerr << "nedit: Internal error in fontsel.c, line " << __LINE__ << std::endl;
-        } else {
-            args.add(XmNfontList, *fontList);
-        }
         args.add(XmNforeground, ctrlBlk->sampleFG);
-    } else {
-        args.add(XmNforeground, ctrlBlk->sampleBG);
+        args.add(XmNbackground, ctrlBlk->sampleBG);
+        args.add(XmNrenderTable, *renderTable);
     }
 
     neditxx::XtSetValues(ctrlBlk->dispField, args);
@@ -931,7 +866,7 @@ void choiceMade(xfselControlBlkType *ctrlBlk)
 
     for (const auto& font : ctrlBlk->fontData)
     {
-        if ((fontMatch(ctrlBlk, font)) && (styleMatch(ctrlBlk, font)) && (sizeMatch (ctrlBlk, font)))
+        if (fontMatch(ctrlBlk, font) && styleMatch(ctrlBlk, font))
         {
             ctrlBlk->fontName = font;
             break;
@@ -940,6 +875,7 @@ void choiceMade(xfselControlBlkType *ctrlBlk)
 
     if (!ctrlBlk->fontName.empty())
     {
+        ctrlBlk->fontName += ":size=" + ctrlBlk->sel3;
         neditxx::XmTextSetString(ctrlBlk->fontNameField, ctrlBlk->fontName);
         dispSample(ctrlBlk);
     }
@@ -955,18 +891,23 @@ static
 void dispSample(xfselControlBlkType *ctrlBlk)
 {
     Display* display = XtDisplay(ctrlBlk->form);
-    XFontStruct* font = XLoadQueryFont(display, ctrlBlk->fontName.c_str());
-    XmFontList fontList = XmFontListCreate(font, XmSTRING_DEFAULT_CHARSET);
+    XftFont* font = XftFontOpenName(display, DefaultScreen(display), ctrlBlk->fontName.c_str());
 
-    enableSample(ctrlBlk, true, &fontList);
+    neditxx::Args args{XmNfontType, XmFONT_IS_XFT, XmNxftFont, font};
+
+    if (ctrlBlk->rendition) {
+        XmRenditionFree(ctrlBlk->rendition);
+    }
+
+    ctrlBlk->rendition = XmRenditionCreate(ctrlBlk->form, (char*)"renditionTag1", args.list(), args.size());
+    ctrlBlk->renderTable = XmRenderTableAddRenditions(ctrlBlk->renderTable, &ctrlBlk->rendition, 1, XmMERGE_REPLACE);
+
+    enableSample(ctrlBlk, true, &ctrlBlk->renderTable);
 
     if (ctrlBlk->oldFont)
-    {
-        XFreeFont(display, ctrlBlk->oldFont);
-        XmFontListFree(ctrlBlk->oldFontList);
-    }
+        XftFontClose(display, ctrlBlk->oldFont);
+
     ctrlBlk->oldFont    = font;
-    ctrlBlk->oldFontList    = fontList;
 }
 
 static
@@ -991,7 +932,7 @@ void okAction(Widget widget, xfselControlBlkType *ctrlBlk, XmPushButtonCallbackS
 
     int i;
     char** fontName = XListFonts(XtDisplay(ctrlBlk->form), fontPattern.c_str(), 1, &i);
-    
+
     if ((fontName == nullptr) || (i == 0))
     {
         DialogF(DF_ERR, ctrlBlk->okButton, 1, "Font Specification", "Invalid Font Specification", "OK");
@@ -1009,20 +950,19 @@ void okAction(Widget widget, xfselControlBlkType *ctrlBlk, XmPushButtonCallbackS
     invoked and sets up initial entries */
 
 static
-void startupFont(xfselControlBlkType *ctrlBlk, const std::string& font)
+void startupFont(xfselControlBlkType *ctrlBlk, const std::string& fontName)
 {
-    int   i;
-    char **fontName = XListFonts(XtDisplay(ctrlBlk->form), font.c_str(), 1, &i);
-    if ((fontName == nullptr) || (i == 0))
-    {   // invalid font passed in at startup
-        XFreeFontNames(fontName);
+    Display* display = XtDisplay(ctrlBlk->form);
+
+    XftFont* font = XftFontOpenName(display, DefaultScreen(display), fontName.c_str());
+    if (!font) {
+        std::cerr << "invalid startup font name" << std::endl;
         return;
     }
+    XftFontClose(display,  font);
 
-    ctrlBlk->fontName = fontName[0];
-
-    auto fontPart = getFontPart(fontName[0]);
-    XFreeFontNames(fontName);
+    ctrlBlk->fontName = fontName;
+    auto fontPart = getFamilyPart(fontName);
     auto str = neditxx::XmStringCreate(fontPart);
     XmListSetBottomItem(ctrlBlk->fontList, str);
     XmListSelectItem(ctrlBlk->fontList, str, true);
@@ -1042,32 +982,4 @@ void setFocus(Widget w, xfselControlBlkType *ctrlBlk, XEvent *event, Boolean *co
     *continueToDispatch = true;
 
     XtVaSetValues(ctrlBlk->form, XmNdefaultButton, ctrlBlk->okButton, 0);
-}
-
-
-/*  finds the name of the biggest font less than the given limit 
-    MAX_DISPLAY_SIZE used to set up the initial height of the display widget
-*/
-
-static
-std::string FindBigFont(xfselControlBlkType *ctrlBlk)
-{
-    std::string bigFont;
-
-    int maxSize = 0, ind = -1;
-    for (int i = 0, maxSize = 0; i < ctrlBlk->fontData.size(); i++)
-    {
-        std::string sizeStr = getStringComponent(ctrlBlk->fontData[i], 7);
-        int size = stoi(sizeStr);
-        if ((size > maxSize) && (size < MAX_DISPLAY_SIZE))
-        {
-            ind = i;
-            maxSize = size;
-        }
-    }
-    if (ind > -1) {
-        bigFont = ctrlBlk->fontData[ind];
-    }
-
-    return bigFont;
 }
