@@ -167,6 +167,10 @@ namespace neditxx {
             return &_args[0];
         }
 
+        Arg* list() {
+            return &_args[0];
+        }
+
         size_t size() const {
             return _args.size();
         }
