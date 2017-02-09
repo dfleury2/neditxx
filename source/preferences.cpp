@@ -1221,7 +1221,7 @@ static int caseFind(const char *inString, const char *expr);
 static int caseReplace(char **inString, const char *expr, const char *replaceWith, int replaceLen);
 static int stringReplace(char **inString, const char *expr, const char *replaceWith, int searchType, int replaceLen);
 static int replaceMacroIfUnchanged(const char* oldText, const char* newStart, const char* newEnd);
-static const char* getDefaultShell();
+static std::string getDefaultShell();
 
 
 #ifdef SGI_CUSTOM
@@ -1387,7 +1387,7 @@ static void translatePrefFormats(int convertOld, int fileVer)
      **  shell's name in PrefData here.
      */
     if (0 == strcmp(PrefData.shell, "DEFAULT")) {
-        strncpy(PrefData.shell, getDefaultShell(), MAXPATHLEN);
+        strncpy(PrefData.shell, getDefaultShell().c_str(), MAXPATHLEN);
         PrefData.shell[MAXPATHLEN] = '\0';
     }
 
@@ -6153,28 +6153,19 @@ void ChooseColors(WindowInfo *window)
  **  shell, currently defined as the user's login shell.
  **  In case of errors, the fallback of "sh" will be returned.
  */
-static const char* getDefaultShell()
+static
+std::string getDefaultShell()
 {
-    struct passwd* passwdEntry = NULL;
-    static char shellBuffer[MAXPATHLEN + 1] = "sh";
+    std::string shellBuffer = "sh";
 
-    passwdEntry = getpwuid(getuid()); /*  getuid() never fails.  */
+    struct passwd* passwdEntry = passwdEntry = getpwuid(getuid()); /*  getuid() never fails.  */
 
-    if (NULL == passwdEntry) {
+    if (passwdEntry && passwdEntry->pw_shell) {
+        shellBuffer = passwdEntry->pw_shell;
+    } else {
         /*  Something bad happened! Do something, quick!  */
         perror("nedit: Failed to get passwd entry (falling back to 'sh')");
-        return "sh";
     }
-
-    /*  *passwdEntry may be overwritten  */
-    /*  TODO: To make this and other function calling getpwuid() more robust,
-     passwdEntry should be kept in a central position (Core->sysinfo?).
-     That way, local code would always get a current copy of passwdEntry,
-     but could still be kept lean.  The obvious alternative of a central
-     facility within NEdit to access passwdEntry would increase coupling
-     and would have to cover a lot of assumptions.  */
-    strncpy(shellBuffer, passwdEntry->pw_shell, MAXPATHLEN);
-    shellBuffer[MAXPATHLEN] = '\0';
 
     return shellBuffer;
 }
