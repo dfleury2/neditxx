@@ -1144,29 +1144,21 @@ static void emTabsCB(Widget w, XtPointer clientData, XtPointer callData);
 static void wrapOKCB(Widget w, XtPointer clientData, XtPointer callData);
 static void wrapCancelCB(Widget w, XtPointer clientData, XtPointer callData);
 static void wrapWindowCB(Widget w, XtPointer clientData, XtPointer callData);
-static void shellSelOKCB(Widget widget, XtPointer clientData,
-        XtPointer callData);
-static void shellSelCancelCB(Widget widgget, XtPointer clientData,
-        XtPointer callData);
-static void reapplyLanguageMode(WindowInfo *window, int mode,int forceDefaults);
+static void shellSelOKCB(Widget widget, XtPointer clientData, XtPointer callData);
+static void shellSelCancelCB(Widget widgget, XtPointer clientData, XtPointer callData);
+static void reapplyLanguageMode(WindowInfo *window, int mode, int forceDefaults);
 
-static void fillFromPrimaryCB(Widget w, XtPointer clientData,
-    	XtPointer callData);
+static void fillFromPrimaryCB(Widget w, XtPointer clientData, XtPointer callData);
 static int checkFontStatus(fontDialog *fd, Widget fontTextFieldW);
-static int showFontStatus(fontDialog *fd, Widget fontTextFieldW,
-    	Widget errorLabelW);
-static void primaryModifiedCB(Widget w, XtPointer clientData,
-	XtPointer callData);
-static void italicModifiedCB(Widget w, XtPointer clientData,
-    	XtPointer callData);
+static int showFontStatus(fontDialog *fd, Widget fontTextFieldW, Widget errorLabelW);
+static void primaryModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void italicModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
 static void boldModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
-static void boldItalicModifiedCB(Widget w, XtPointer clientData,
-    	XtPointer callData);
+static void boldItalicModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
 static void primaryBrowseCB(Widget w, XtPointer clientData, XtPointer callData);
 static void italicBrowseCB(Widget w, XtPointer clientData, XtPointer callData);
 static void boldBrowseCB(Widget w, XtPointer clientData, XtPointer callData);
-static void boldItalicBrowseCB(Widget w, XtPointer clientData,
-    	XtPointer callData);
+static void boldItalicBrowseCB(Widget w, XtPointer clientData, XtPointer callData);
 static void browseFont(Widget parent, Widget fontTextW);
 static void fontDestroyCB(Widget w, XtPointer clientData, XtPointer callData);
 static void fontOkCB(Widget w, XtPointer clientData, XtPointer callData);
@@ -1175,77 +1167,61 @@ static void fontCancelCB(Widget w, XtPointer clientData, XtPointer callData);
 static void updateFonts(fontDialog *fd);
 
 static Boolean checkColorStatus(colorDialog *cd, Widget colorFieldW);
-static int verifyAllColors (colorDialog *cd);
-static void showColorStatus (colorDialog *cd, Widget colorFieldW,
-      Widget errorLabelW);
+static int verifyAllColors(colorDialog *cd);
+static void showColorStatus(colorDialog *cd, Widget colorFieldW, Widget errorLabelW);
 static void updateColors(colorDialog *cd);
 static void colorDestroyCB(Widget w, XtPointer clientData, XtPointer callData);
-static void colorOkCB     (Widget w, XtPointer clientData, XtPointer callData);
-static void colorApplyCB  (Widget w, XtPointer clientData, XtPointer callData);
+static void colorOkCB(Widget w, XtPointer clientData, XtPointer callData);
+static void colorApplyCB(Widget w, XtPointer clientData, XtPointer callData);
 static void colorCloseCB(Widget w, XtPointer clientData, XtPointer callData);
-static void textFgModifiedCB  (Widget w, XtPointer clientData,
-      XtPointer callData);
-static void textBgModifiedCB  (Widget w, XtPointer clientData,
-      XtPointer callData);
-static void selectFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData);
-static void selectBgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData);
-static void hiliteFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData);
-static void hiliteBgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData);
-static void lineNoFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData);
-static void cursorFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData);
+static void textFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void textBgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void selectFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void selectBgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void hiliteFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void hiliteBgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void lineNoFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
+static void cursorFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData);
 
 static int matchLanguageMode(WindowInfo *window);
 static int loadLanguageModesString(char *inString, int fileVer);
-static char *writeLanguageModesString(void);
+static char *writeLanguageModesString();
 static char *createExtString(char **extensions, int nExtensions);
 static char **readExtensionList(char **inPtr, int *nExtensions);
 static void updateLanguageModeSubmenu(WindowInfo *window);
 static void setLangModeCB(Widget w, XtPointer clientData, XtPointer callData);
-static int modeError(languageModeRec *lm, const char *stringStart,
-	const char *stoppedAt, const char *message);
+static int modeError(languageModeRec *lm, const char *stringStart, const char *stoppedAt, const char *message);
 static void lmDestroyCB(Widget w, XtPointer clientData, XtPointer callData);
 static void lmOkCB(Widget w, XtPointer clientData, XtPointer callData);
 static void lmApplyCB(Widget w, XtPointer clientData, XtPointer callData);
 static void lmCloseCB(Widget w, XtPointer clientData, XtPointer callData);
 static int lmDeleteConfirmCB(int itemIndex, void *cbArg);
-static int updateLMList(void);
+static int updateLMList();
 static languageModeRec *copyLanguageModeRec(languageModeRec *lm);
-static void *lmGetDisplayedCB(void *oldItem, int explicitRequest, int *abort,
-    	void *cbArg);
+static void *lmGetDisplayedCB(void *oldItem, int explicitRequest, int *abort, void *cbArg);
 static void lmSetDisplayedCB(void *item, void *cbArg);
 static languageModeRec *readLMDialogFields(int silent);
 static void lmFreeItemCB(void *item);
 static void freeLanguageModeRec(languageModeRec *lm);
-static int lmDialogEmpty(void);
-static void updatePatternsTo5dot1(void);
-static void updatePatternsTo5dot2(void);
-static void updatePatternsTo5dot3(void);
-static void updatePatternsTo5dot4(void);
-static void updateShellCmdsTo5dot3(void);
-static void updateShellCmdsTo5dot4(void);
-static void updateMacroCmdsTo5dot5(void);
-static void updatePatternsTo5dot6(void);
-static void updateMacroCmdsTo5dot6(void);
+static int lmDialogEmpty();
+static void updatePatternsTo5dot1();
+static void updatePatternsTo5dot2();
+static void updatePatternsTo5dot3();
+static void updatePatternsTo5dot4();
+static void updateShellCmdsTo5dot3();
+static void updateShellCmdsTo5dot4();
+static void updateMacroCmdsTo5dot5();
+static void updatePatternsTo5dot6();
+static void updateMacroCmdsTo5dot6();
 static void migrateColorResources(XrmDatabase prefDB, XrmDatabase appDB);
 static void spliceString(char **intoString, const char *insertString, const char *atExpr);
 static int regexFind(const char *inString, const char *expr);
-static int regexReplace(char **inString, const char *expr,
-                        const char *replaceWith);
+static int regexReplace(char **inString, const char *expr, const char *replaceWith);
 static int caseFind(const char *inString, const char *expr);
-static int caseReplace(char **inString, const char *expr,
-                       const char *replaceWith, int replaceLen);
-static int stringReplace(char **inString, const char *expr, 
-                         const char *replaceWith, int searchType,
-                         int replaceLen);
-static int replaceMacroIfUnchanged(const char* oldText, const char* newStart, 
-                                    const char* newEnd);
-static const char* getDefaultShell(void);
+static int caseReplace(char **inString, const char *expr, const char *replaceWith, int replaceLen);
+static int stringReplace(char **inString, const char *expr, const char *replaceWith, int searchType, int replaceLen);
+static int replaceMacroIfUnchanged(const char* oldText, const char* newStart, const char* newEnd);
+static const char* getDefaultShell();
 
 
 #ifdef SGI_CUSTOM
@@ -1257,34 +1233,32 @@ XrmDatabase CreateNEditPrefDB(int *argcInOut, char **argvInOut)
     return CreatePreferencesDatabase(GetRCFileName(NEDIT_RC), APP_NAME,
             OpTable, XtNumber(OpTable), (unsigned int *)argcInOut, argvInOut);
 }
-    
+
 void RestoreNEditPrefs(XrmDatabase prefDB, XrmDatabase appDB)
 {
     int requiresConversion;
-    int major;              /* The integral part of version number */
-    int minor;              /* fractional part of version number */
-    int fileVer = 0;        /* Both combined into an integer */
+    int major; /* The integral part of version number */
+    int minor; /* fractional part of version number */
+    int fileVer = 0; /* Both combined into an integer */
     int nparsed;
-    
+
     /* Load preferences */
     RestorePreferences(prefDB, appDB, APP_NAME,
-    	    APP_CLASS, PrefDescrip, XtNumber(PrefDescrip));
+    APP_CLASS, PrefDescrip, XtNumber(PrefDescrip));
 
     /* If the preferences file was written by an older version of NEdit,
-       warn the user that it will be converted. */
-    requiresConversion = PrefData.prefFileRead &&
-    	    PrefData.fileVersion[0] == '\0';
+     warn the user that it will be converted. */
+    requiresConversion = PrefData.prefFileRead && PrefData.fileVersion[0] == '\0';
     if (requiresConversion) {
-	updatePatternsTo5dot1();
+        updatePatternsTo5dot1();
     }
 
     if (PrefData.prefFileRead) {
         if (PrefData.fileVersion[0] == '\0') {
-            fileVer = 0;    /* Pre-5.1 */
-        }
-        else {
+            fileVer = 0; /* Pre-5.1 */
+        } else {
             /* Note: do not change the format of this.  Older executables
-               need to read this field for forward compatability. */
+             need to read this field for forward compatability. */
             nparsed = sscanf(PrefData.fileVersion, "%d.%d", &major, &minor);
             if (nparsed >= 2) {
                 /* Use OSF-style numbering scheme */
@@ -1296,17 +1270,17 @@ void RestoreNEditPrefs(XrmDatabase prefDB, XrmDatabase appDB)
     if (PrefData.prefFileRead && fileVer < 5002) {
         updatePatternsTo5dot2();
     }
-    
+
     if (PrefData.prefFileRead && fileVer < 5003) {
         updateShellCmdsTo5dot3();
         updatePatternsTo5dot3();
     }
 
     /* Note that we don't care about unreleased file versions.  Anyone
-       who is running a CVS or alpha version of NEdit is resposnbile
-       for managing the preferences file themselves.  Otherwise, it
-       gets impossible to track the number of "in-between" file formats.
-       We only do auto-upgrading for a real release. */
+     who is running a CVS or alpha version of NEdit is resposnbile
+     for managing the preferences file themselves.  Otherwise, it
+     gets impossible to track the number of "in-between" file formats.
+     We only do auto-upgrading for a real release. */
 
     if (PrefData.prefFileRead && (fileVer < 5004)) {
         migrateColorResources(prefDB, appDB);
@@ -1326,147 +1300,141 @@ void RestoreNEditPrefs(XrmDatabase prefDB, XrmDatabase appDB)
     if (!PrefData.prefFileRead) {
         migrateColorResources(prefDB, appDB);
     }
-   
+
     /* Do further parsing on resource types which RestorePreferences does
-       not understand and reads as strings, to put them in the final form
-       in which nedit stores and uses.  If the preferences file was
-       written by an older version of NEdit, update regular expressions in
-       highlight patterns to quote braces and use & instead of \0 */
+     not understand and reads as strings, to put them in the final form
+     in which nedit stores and uses.  If the preferences file was
+     written by an older version of NEdit, update regular expressions in
+     highlight patterns to quote braces and use & instead of \0 */
     translatePrefFormats(requiresConversion, fileVer);
 }
 
 /*
-** Many of of NEdit's preferences are much more complicated than just simple
-** integers or strings.  These are read as strings, but must be parsed and
-** translated into something meaningful.  This routine does the translation,
-** and, in most cases, frees the original string, which is no longer useful.
-**
-** In addition this function covers settings that, while simple, require
-** additional steps before they can be published.
-**
-** The argument convertOld attempts a conversion from pre 5.1 format .nedit
-** files (which means patterns and macros may contain regular expressions
-** which are of the older syntax where braces were not quoted, and \0 was a
-** legal substitution character).  Macros, so far can not be automatically
-** converted, unfortunately.
-*/
+ ** Many of of NEdit's preferences are much more complicated than just simple
+ ** integers or strings.  These are read as strings, but must be parsed and
+ ** translated into something meaningful.  This routine does the translation,
+ ** and, in most cases, frees the original string, which is no longer useful.
+ **
+ ** In addition this function covers settings that, while simple, require
+ ** additional steps before they can be published.
+ **
+ ** The argument convertOld attempts a conversion from pre 5.1 format .nedit
+ ** files (which means patterns and macros may contain regular expressions
+ ** which are of the older syntax where braces were not quoted, and \0 was a
+ ** legal substitution character).  Macros, so far can not be automatically
+ ** converted, unfortunately.
+ */
 static void translatePrefFormats(int convertOld, int fileVer)
 {
     XFontStruct *font;
 
     /* Parse the strings which represent types which are not decoded by
-       the standard resource manager routines */
+     the standard resource manager routines */
 #ifndef VMS
     if (TempStringPrefs.shellCmds != NULL) {
-	LoadShellCmdsString(TempStringPrefs.shellCmds);
-	NEditFree(TempStringPrefs.shellCmds);
-	TempStringPrefs.shellCmds = NULL;
+        LoadShellCmdsString(TempStringPrefs.shellCmds);
+        NEditFree(TempStringPrefs.shellCmds);
+        TempStringPrefs.shellCmds = NULL;
     }
 #endif /* VMS */
     if (TempStringPrefs.macroCmds != NULL) {
-	LoadMacroCmdsString(TempStringPrefs.macroCmds);
-    	NEditFree(TempStringPrefs.macroCmds);
-	TempStringPrefs.macroCmds = NULL;
+        LoadMacroCmdsString(TempStringPrefs.macroCmds);
+        NEditFree(TempStringPrefs.macroCmds);
+        TempStringPrefs.macroCmds = NULL;
     }
     if (TempStringPrefs.bgMenuCmds != NULL) {
-	LoadBGMenuCmdsString(TempStringPrefs.bgMenuCmds);
-    	NEditFree(TempStringPrefs.bgMenuCmds);
-	TempStringPrefs.bgMenuCmds = NULL;
+        LoadBGMenuCmdsString(TempStringPrefs.bgMenuCmds);
+        NEditFree(TempStringPrefs.bgMenuCmds);
+        TempStringPrefs.bgMenuCmds = NULL;
     }
     if (TempStringPrefs.highlight != NULL) {
-	LoadHighlightString(TempStringPrefs.highlight, convertOld);
-    	NEditFree(TempStringPrefs.highlight);
-	TempStringPrefs.highlight = NULL;
+        LoadHighlightString(TempStringPrefs.highlight, convertOld);
+        NEditFree(TempStringPrefs.highlight);
+        TempStringPrefs.highlight = NULL;
     }
     if (TempStringPrefs.styles != NULL) {
-	LoadStylesString(TempStringPrefs.styles);
-    	NEditFree(TempStringPrefs.styles);
-	TempStringPrefs.styles = NULL;
+        LoadStylesString(TempStringPrefs.styles);
+        NEditFree(TempStringPrefs.styles);
+        TempStringPrefs.styles = NULL;
     }
     if (TempStringPrefs.language != NULL) {
-	loadLanguageModesString(TempStringPrefs.language, fileVer);
-    	NEditFree(TempStringPrefs.language);
-	TempStringPrefs.language = NULL;
+        loadLanguageModesString(TempStringPrefs.language, fileVer);
+        NEditFree(TempStringPrefs.language);
+        TempStringPrefs.language = NULL;
     }
     if (TempStringPrefs.smartIndent != NULL) {
-	LoadSmartIndentString(TempStringPrefs.smartIndent);
-    	NEditFree(TempStringPrefs.smartIndent);
-	TempStringPrefs.smartIndent = NULL;
+        LoadSmartIndentString(TempStringPrefs.smartIndent);
+        NEditFree(TempStringPrefs.smartIndent);
+        TempStringPrefs.smartIndent = NULL;
     }
     if (TempStringPrefs.smartIndentCommon != NULL) {
-	LoadSmartIndentCommonString(TempStringPrefs.smartIndentCommon);
-	NEditFree(TempStringPrefs.smartIndentCommon);
-	TempStringPrefs.smartIndentCommon = NULL;
+        LoadSmartIndentCommonString(TempStringPrefs.smartIndentCommon);
+        NEditFree(TempStringPrefs.smartIndentCommon);
+        TempStringPrefs.smartIndentCommon = NULL;
     }
-    
+
     /* translate the font names into fontLists suitable for the text widget */
     font = XLoadQueryFont(TheDisplay, PrefData.fontString);
-    PrefData.fontList = font==NULL ? NULL :
-	    XmFontListCreate(font, XmSTRING_DEFAULT_CHARSET);
-    PrefData.boldFontStruct = XLoadQueryFont(TheDisplay,
-    	    PrefData.boldFontString);
-    PrefData.italicFontStruct = XLoadQueryFont(TheDisplay,
-    	    PrefData.italicFontString);
-    PrefData.boldItalicFontStruct = XLoadQueryFont(TheDisplay,
-    	    PrefData.boldItalicFontString);
+    PrefData.fontList = font == NULL ? NULL : XmFontListCreate(font, XmSTRING_DEFAULT_CHARSET);
+    PrefData.boldFontStruct = XLoadQueryFont(TheDisplay, PrefData.boldFontString);
+    PrefData.italicFontStruct = XLoadQueryFont(TheDisplay, PrefData.italicFontString);
+    PrefData.boldItalicFontStruct = XLoadQueryFont(TheDisplay, PrefData.boldItalicFontString);
 
     /*
-    **  The default set for the comand shell in PrefDescrip ("DEFAULT") is
-    **  only a place-holder, the actual default is the user's login shell
-    **  (or whatever is implemented in getDefaultShell()). We put the login
-    **  shell's name in PrefData here.
-    */
+     **  The default set for the comand shell in PrefDescrip ("DEFAULT") is
+     **  only a place-holder, the actual default is the user's login shell
+     **  (or whatever is implemented in getDefaultShell()). We put the login
+     **  shell's name in PrefData here.
+     */
     if (0 == strcmp(PrefData.shell, "DEFAULT")) {
         strncpy(PrefData.shell, getDefaultShell(), MAXPATHLEN);
         PrefData.shell[MAXPATHLEN] = '\0';
     }
 
     /* For compatability with older (4.0.3 and before) versions, the autoWrap
-       and autoIndent resources can accept values of True and False.  Translate
-       them into acceptable wrap and indent styles */
-    if (PrefData.wrapStyle == 3) PrefData.wrapStyle = CONTINUOUS_WRAP;
-    if (PrefData.wrapStyle == 4) PrefData.wrapStyle = NO_WRAP;
-    if (PrefData.autoIndent == 3) PrefData.autoIndent = AUTO_INDENT;
-    if (PrefData.autoIndent == 4) PrefData.autoIndent = NO_AUTO_INDENT;
+     and autoIndent resources can accept values of True and False.  Translate
+     them into acceptable wrap and indent styles */
+    if (PrefData.wrapStyle == 3)
+        PrefData.wrapStyle = CONTINUOUS_WRAP;
+    if (PrefData.wrapStyle == 4)
+        PrefData.wrapStyle = NO_WRAP;
+    if (PrefData.autoIndent == 3)
+        PrefData.autoIndent = AUTO_INDENT;
+    if (PrefData.autoIndent == 4)
+        PrefData.autoIndent = NO_AUTO_INDENT;
 
     /* setup language mode dependent info of user menus (to increase
-       performance when switching between documents of different
-       language modes) */
+     performance when switching between documents of different
+     language modes) */
     SetupUserMenuInfo();
 }
 
 void SaveNEditPrefs(Widget parent, int quietly)
 {
     const char* prefFileName = GetRCFileName(NEDIT_RC);
-    if (prefFileName == NULL)
-    {
+    if (prefFileName == NULL) {
         /*  GetRCFileName() might return NULL if an error occurs during
-            creation of the preference file directory. */
-        DialogF(DF_WARN, parent, 1, "Error saving Preferences",
-                "Unable to save preferences: Cannot determine filename.",
-                "OK");
+         creation of the preference file directory. */
+        DialogF(DF_WARN, parent, 1, "Error saving Preferences", "Unable to save preferences: Cannot determine filename.", "OK");
         return;
     }
 
     if (!quietly) {
-        if (DialogF(DF_INF, parent, 2, "Save Preferences",
-                ImportedFile == NULL ?
-                "Default preferences will be saved in the file:\n"
-                "%s\n"
-                "NEdit automatically loads this file\n"
-                "each time it is started." :
-                "Default preferences will be saved in the file:\n"
-                "%s\n"
-                "SAVING WILL INCORPORATE SETTINGS\n"
-                "FROM FILE: %s", "OK", "Cancel",
-                prefFileName, ImportedFile) == 2) {
+        if (DialogF(DF_INF, parent, 2, "Save Preferences", ImportedFile == NULL ? "Default preferences will be saved in the file:\n"
+                                                                                  "%s\n"
+                                                                                  "NEdit automatically loads this file\n"
+                                                                                  "each time it is started." :
+                                                                                  "Default preferences will be saved in the file:\n"
+                                                                                  "%s\n"
+                                                                                  "SAVING WILL INCORPORATE SETTINGS\n"
+                                                                                  "FROM FILE: %s", "OK", "Cancel", prefFileName, ImportedFile) == 2) {
             return;
         }
     }
 
     /*  Write the more dynamic settings into TempStringPrefs.
-        These locations are set in PrefDescrip, so this is where
-        SavePreferences() will look for them.  */
+     These locations are set in PrefDescrip, so this is where
+     SavePreferences() will look for them.  */
 #ifndef VMS
     TempStringPrefs.shellCmds = WriteShellCmdsString();
 #endif /* VMS */
@@ -1479,11 +1447,8 @@ void SaveNEditPrefs(Widget parent, int quietly)
     TempStringPrefs.smartIndentCommon = WriteSmartIndentCommonString();
     strcpy(PrefData.fileVersion, PREF_FILE_VERSION);
 
-    if (!SavePreferences(XtDisplay(parent), prefFileName, HeaderText,
-            PrefDescrip, XtNumber(PrefDescrip)))
-    {
-        DialogF(DF_WARN, parent, 1, "Save Preferences",
-                "Unable to save preferences in %s", "OK", prefFileName);
+    if (!SavePreferences(XtDisplay(parent), prefFileName, HeaderText, PrefDescrip, XtNumber(PrefDescrip))) {
+        DialogF(DF_WARN, parent, 1, "Save Preferences", "Unable to save preferences in %s", "OK", prefFileName);
     }
 
 #ifndef VMS
@@ -1496,31 +1461,28 @@ void SaveNEditPrefs(Widget parent, int quietly)
     NEditFree(TempStringPrefs.styles);
     NEditFree(TempStringPrefs.smartIndent);
     NEditFree(TempStringPrefs.smartIndentCommon);
-    
+
     PrefsHaveChanged = False;
 }
 
 /*
-** Load an additional preferences file on top of the existing preferences
-** derived from defaults, the .nedit file, and X resources.
-*/
+ ** Load an additional preferences file on top of the existing preferences
+ ** derived from defaults, the .nedit file, and X resources.
+ */
 void ImportPrefFile(const char *filename, int convertOld)
 {
     XrmDatabase db;
     char *fileString;
-    
+
     fileString = ReadAnyTextFile(filename, False);
-    if (fileString != NULL){
+    if (fileString != NULL) {
         db = XrmGetStringDatabase(fileString);
         NEditFree(fileString);
-        OverlayPreferences(db, APP_NAME, APP_CLASS, PrefDescrip,
-        XtNumber(PrefDescrip));
+        OverlayPreferences(db, APP_NAME, APP_CLASS, PrefDescrip, XtNumber(PrefDescrip));
         translatePrefFormats(convertOld, -1);
         ImportedFile = NEditStrdup(filename);
-    } else
-    {
-        fprintf(stderr, "Could not read additional preferences file: %s\n",
-                filename);
+    } else {
+        fprintf(stderr, "Could not read additional preferences file: %s\n", filename);
     }
 }
 
@@ -1528,25 +1490,24 @@ void SetPrefOpenInTab(int state)
 {
     WindowInfo *w = WindowList;
     setIntPref(&PrefData.openInTab, state);
-    for(; w != NULL; w = w->next)
+    for (; w != NULL; w = w->next)
         UpdateNewOppositeMenu(w, state);
 }
 
-int GetPrefOpenInTab(void)
+int GetPrefOpenInTab()
 {
     return PrefData.openInTab;
 }
 
 void SetPrefWrap(WrapStyle state)
 {
-    setIntPref(&PrefData.wrapStyle, (int)state);
+    setIntPref(&PrefData.wrapStyle, (int) state);
 }
 
 WrapStyle GetPrefWrap(int langMode)
 {
-    if (langMode == PLAIN_LANGUAGE_MODE ||
-	    LanguageModes[langMode]->wrapStyle == DEFAULT_WRAP)
-    	return (WrapStyle)(PrefData.wrapStyle);
+    if (langMode == PLAIN_LANGUAGE_MODE || LanguageModes[langMode]->wrapStyle == DEFAULT_WRAP)
+        return (WrapStyle) (PrefData.wrapStyle);
     return LanguageModes[langMode]->wrapStyle;
 }
 
@@ -1555,7 +1516,7 @@ void SetPrefWrapMargin(int margin)
     setIntPref(&PrefData.wrapMargin, margin);
 }
 
-int GetPrefWrapMargin(void)
+int GetPrefWrapMargin()
 {
     return PrefData.wrapMargin;
 }
@@ -1565,7 +1526,7 @@ void SetPrefSearch(int searchType)
     setIntPref(&PrefData.searchMethod, searchType);
 }
 
-int GetPrefSearch(void)
+int GetPrefSearch()
 {
     return PrefData.searchMethod;
 }
@@ -1576,7 +1537,7 @@ void SetPrefReplaceDefScope(int scope)
     setIntPref(&PrefData.replaceDefScope, scope);
 }
 
-int GetPrefReplaceDefScope(void)
+int GetPrefReplaceDefScope()
 {
     return PrefData.replaceDefScope;
 }
@@ -1584,14 +1545,13 @@ int GetPrefReplaceDefScope(void)
 
 void SetPrefAutoIndent(IndentStyle state)
 {
-    setIntPref(&PrefData.autoIndent, (int)state);
+    setIntPref(&PrefData.autoIndent, (int) state);
 }
 
 IndentStyle GetPrefAutoIndent(int langMode)
 {
-    if (langMode == PLAIN_LANGUAGE_MODE ||
-	    LanguageModes[langMode]->indentStyle == DEFAULT_INDENT)
-    	return (IndentStyle)(PrefData.autoIndent);
+    if (langMode == PLAIN_LANGUAGE_MODE || LanguageModes[langMode]->indentStyle == DEFAULT_INDENT)
+        return (IndentStyle) (PrefData.autoIndent);
     return LanguageModes[langMode]->indentStyle;
 }
 
@@ -1600,7 +1560,7 @@ void SetPrefAutoSave(int state)
     setIntPref(&PrefData.autoSave, state);
 }
 
-int GetPrefAutoSave(void)
+int GetPrefAutoSave()
 {
     return PrefData.autoSave;
 }
@@ -1610,7 +1570,7 @@ void SetPrefSaveOldVersion(int state)
     setIntPref(&PrefData.saveOldVersion, state);
 }
 
-int GetPrefSaveOldVersion(void)
+int GetPrefSaveOldVersion()
 {
     return PrefData.saveOldVersion;
 }
@@ -1620,7 +1580,7 @@ void SetPrefSearchDlogs(int state)
     setIntPref(&PrefData.searchDlogs, state);
 }
 
-int GetPrefSearchDlogs(void)
+int GetPrefSearchDlogs()
 {
     return PrefData.searchDlogs;
 }
@@ -1630,7 +1590,7 @@ void SetPrefBeepOnSearchWrap(int state)
     setIntPref(&PrefData.searchWrapBeep, state);
 }
 
-int GetPrefBeepOnSearchWrap(void)
+int GetPrefBeepOnSearchWrap()
 {
     return PrefData.searchWrapBeep;
 }
@@ -1640,7 +1600,7 @@ void SetPrefKeepSearchDlogs(int state)
     setIntPref(&PrefData.keepSearchDlogs, state);
 }
 
-int GetPrefKeepSearchDlogs(void)
+int GetPrefKeepSearchDlogs()
 {
     return PrefData.keepSearchDlogs;
 }
@@ -1650,12 +1610,12 @@ void SetPrefSearchWraps(int state)
     setIntPref(&PrefData.searchWraps, state);
 }
 
-int GetPrefStickyCaseSenseBtn(void)
+int GetPrefStickyCaseSenseBtn()
 {
     return PrefData.stickyCaseSenseBtn;
 }
 
-int GetPrefSearchWraps(void)
+int GetPrefSearchWraps()
 {
     return PrefData.searchWraps;
 }
@@ -1665,7 +1625,7 @@ void SetPrefStatsLine(int state)
     setIntPref(&PrefData.statsLine, state);
 }
 
-int GetPrefStatsLine(void)
+int GetPrefStatsLine()
 {
     return PrefData.statsLine;
 }
@@ -1675,7 +1635,7 @@ void SetPrefISearchLine(int state)
     setIntPref(&PrefData.iSearchLine, state);
 }
 
-int GetPrefISearchLine(void)
+int GetPrefISearchLine()
 {
     return PrefData.iSearchLine;
 }
@@ -1685,7 +1645,7 @@ void SetPrefSortTabs(int state)
     setIntPref(&PrefData.sortTabs, state);
 }
 
-int GetPrefSortTabs(void)
+int GetPrefSortTabs()
 {
     return PrefData.sortTabs;
 }
@@ -1695,7 +1655,7 @@ void SetPrefTabBar(int state)
     setIntPref(&PrefData.tabBar, state);
 }
 
-int GetPrefTabBar(void)
+int GetPrefTabBar()
 {
     return PrefData.tabBar;
 }
@@ -1705,7 +1665,7 @@ void SetPrefTabBarHideOne(int state)
     setIntPref(&PrefData.tabBarHideOne, state);
 }
 
-int GetPrefTabBarHideOne(void)
+int GetPrefTabBarHideOne()
 {
     return PrefData.tabBarHideOne;
 }
@@ -1715,7 +1675,7 @@ void SetPrefGlobalTabNavigate(int state)
     setIntPref(&PrefData.globalTabNavigate, state);
 }
 
-int GetPrefGlobalTabNavigate(void)
+int GetPrefGlobalTabNavigate()
 {
     return PrefData.globalTabNavigate;
 }
@@ -1725,7 +1685,7 @@ void SetPrefToolTips(int state)
     setIntPref(&PrefData.toolTips, state);
 }
 
-int GetPrefToolTips(void)
+int GetPrefToolTips()
 {
     return PrefData.toolTips;
 }
@@ -1735,7 +1695,7 @@ void SetPrefLineNums(int state)
     setIntPref(&PrefData.lineNums, state);
 }
 
-int GetPrefLineNums(void)
+int GetPrefLineNums()
 {
     return PrefData.lineNums;
 }
@@ -1745,7 +1705,7 @@ void SetPrefShowPathInWindowsMenu(int state)
     setIntPref(&PrefData.pathInWindowsMenu, state);
 }
 
-int GetPrefShowPathInWindowsMenu(void)
+int GetPrefShowPathInWindowsMenu()
 {
     return PrefData.pathInWindowsMenu;
 }
@@ -1755,7 +1715,7 @@ void SetPrefWarnFileMods(int state)
     setIntPref(&PrefData.warnFileMods, state);
 }
 
-int GetPrefWarnFileMods(void)
+int GetPrefWarnFileMods()
 {
     return PrefData.warnFileMods;
 }
@@ -1765,7 +1725,7 @@ void SetPrefWarnRealFileMods(int state)
     setIntPref(&PrefData.warnRealFileMods, state);
 }
 
-int GetPrefWarnRealFileMods(void)
+int GetPrefWarnRealFileMods()
 {
     return PrefData.warnRealFileMods;
 }
@@ -1775,7 +1735,7 @@ void SetPrefWarnExit(int state)
     setIntPref(&PrefData.warnExit, state);
 }
 
-int GetPrefWarnExit(void)
+int GetPrefWarnExit()
 {
     return PrefData.warnExit;
 }
@@ -1785,17 +1745,17 @@ void SetPrefv(int state)
     setIntPref(&PrefData.findReplaceUsesSelection, state);
 }
 
-int GetPrefFindReplaceUsesSelection(void)
+int GetPrefFindReplaceUsesSelection()
 {
     return PrefData.findReplaceUsesSelection;
 }
 
-int GetPrefMapDelete(void)
+int GetPrefMapDelete()
 {
     return PrefData.mapDelete;
 }
 
-int GetPrefStdOpenDialog(void)
+int GetPrefStdOpenDialog()
 {
     return PrefData.stdOpenDialog;
 }
@@ -1805,17 +1765,17 @@ void SetPrefRows(int nRows)
     setIntPref(&PrefData.textRows, nRows);
 }
 
-int GetPrefRows(void)
+int GetPrefRows()
 {
     return PrefData.textRows;
 }
 
 void SetPrefCols(int nCols)
 {
-   setIntPref(&PrefData.textCols, nCols);
+    setIntPref(&PrefData.textCols, nCols);
 }
 
-int GetPrefCols(void)
+int GetPrefCols()
 {
     return PrefData.textCols;
 }
@@ -1828,17 +1788,18 @@ void SetPrefTabDist(int tabDist)
 int GetPrefTabDist(int langMode)
 {
     int tabDist;
-    if (langMode == PLAIN_LANGUAGE_MODE ||
-	    LanguageModes[langMode]->tabDist == DEFAULT_TAB_DIST) {
-	tabDist = PrefData.tabDist; 
+    if (langMode == PLAIN_LANGUAGE_MODE || LanguageModes[langMode]->tabDist == DEFAULT_TAB_DIST) {
+        tabDist = PrefData.tabDist;
     } else {
-	tabDist = LanguageModes[langMode]->tabDist;
+        tabDist = LanguageModes[langMode]->tabDist;
     }
     /* Make sure that the tab distance is in range (garbage may have 
-       been entered via the command line or the X resources, causing
-       errors later on, like division by zero). */
-    if (tabDist <= 0) return 1;
-    if (tabDist > MAX_EXP_CHAR_LEN) return MAX_EXP_CHAR_LEN;
+     been entered via the command line or the X resources, causing
+     errors later on, like division by zero). */
+    if (tabDist <= 0)
+        return 1;
+    if (tabDist > MAX_EXP_CHAR_LEN)
+        return MAX_EXP_CHAR_LEN;
     return tabDist;
 }
 
@@ -1849,9 +1810,8 @@ void SetPrefEmTabDist(int tabDist)
 
 int GetPrefEmTabDist(int langMode)
 {
-    if (langMode == PLAIN_LANGUAGE_MODE ||
-	    LanguageModes[langMode]->emTabDist == DEFAULT_EM_TAB_DIST)
-	return PrefData.emTabDist;
+    if (langMode == PLAIN_LANGUAGE_MODE || LanguageModes[langMode]->emTabDist == DEFAULT_EM_TAB_DIST)
+        return PrefData.emTabDist;
     return LanguageModes[langMode]->emTabDist;
 }
 
@@ -1860,25 +1820,25 @@ void SetPrefInsertTabs(int state)
     setIntPref(&PrefData.insertTabs, state);
 }
 
-int GetPrefInsertTabs(void)
+int GetPrefInsertTabs()
 {
     return PrefData.insertTabs;
 }
 
 void SetPrefShowMatching(ShowMatchingStyle state)
 {
-    setIntPref(&PrefData.showMatchingStyle, (int)state);
+    setIntPref(&PrefData.showMatchingStyle, (int) state);
 }
 
-ShowMatchingStyle GetPrefShowMatching(void)
+ShowMatchingStyle GetPrefShowMatching()
 {
     /*
      * For backwards compatibility with pre-5.2 versions, the boolean 
      * False/True matching behavior is converted to NO_FLASH/FLASH_DELIMIT. 
      */
-    if (PrefData.showMatchingStyle >= N_SHOW_MATCHING_STYLES) 
-	PrefData.showMatchingStyle -= N_SHOW_MATCHING_STYLES;
-    return (ShowMatchingStyle)(PrefData.showMatchingStyle);
+    if (PrefData.showMatchingStyle >= N_SHOW_MATCHING_STYLES)
+        PrefData.showMatchingStyle -= N_SHOW_MATCHING_STYLES;
+    return (ShowMatchingStyle) (PrefData.showMatchingStyle);
 }
 
 void SetPrefMatchSyntaxBased(int state)
@@ -1886,7 +1846,7 @@ void SetPrefMatchSyntaxBased(int state)
     setIntPref(&PrefData.matchSyntaxBased, state);
 }
 
-int GetPrefMatchSyntaxBased(void)
+int GetPrefMatchSyntaxBased()
 {
     return PrefData.matchSyntaxBased;
 }
@@ -1896,7 +1856,7 @@ void SetPrefHighlightSyntax(Boolean state)
     setIntPref(&PrefData.highlightSyntax, state);
 }
 
-Boolean GetPrefHighlightSyntax(void)
+Boolean GetPrefHighlightSyntax()
 {
     return PrefData.highlightSyntax;
 }
@@ -1906,7 +1866,7 @@ void SetPrefBacklightChars(int state)
     setIntPref(&PrefData.backlightChars, state);
 }
 
-int GetPrefBacklightChars(void)
+int GetPrefBacklightChars()
 {
     return PrefData.backlightChars;
 }
@@ -1916,7 +1876,7 @@ void SetPrefBacklightCharTypes(char *types)
     setStringAllocPref(&PrefData.backlightCharTypes, types);
 }
 
-char *GetPrefBacklightCharTypes(void)
+char *GetPrefBacklightCharTypes()
 {
     return PrefData.backlightCharTypes;
 }
@@ -1926,7 +1886,7 @@ void SetPrefRepositionDialogs(int state)
     setIntPref(&PrefData.repositionDialogs, state);
 }
 
-int GetPrefRepositionDialogs(void)
+int GetPrefRepositionDialogs()
 {
     return PrefData.repositionDialogs;
 }
@@ -1935,18 +1895,18 @@ void SetPrefAutoScroll(int state)
 {
     WindowInfo *w = WindowList;
     int margin = state ? PrefData.autoScrollVPadding : 0;
-    
+
     setIntPref(&PrefData.autoScroll, state);
-    for(w = WindowList; w != NULL; w = w->next)
+    for (w = WindowList; w != NULL; w = w->next)
         SetAutoScroll(w, margin);
 }
 
-int GetPrefAutoScroll(void)
+int GetPrefAutoScroll()
 {
     return PrefData.autoScroll;
 }
 
-int GetVerticalAutoScroll(void)
+int GetVerticalAutoScroll()
 {
     return PrefData.autoScroll ? PrefData.autoScrollVPadding : 0;
 }
@@ -1956,7 +1916,7 @@ void SetPrefAppendLF(int state)
     setIntPref(&PrefData.appendLF, state);
 }
 
-int GetPrefAppendLF(void)
+int GetPrefAppendLF()
 {
     return PrefData.appendLF;
 }
@@ -1966,12 +1926,12 @@ void SetPrefSortOpenPrevMenu(int state)
     setIntPref(&PrefData.sortOpenPrevMenu, state);
 }
 
-int GetPrefSortOpenPrevMenu(void)
+int GetPrefSortOpenPrevMenu()
 {
     return PrefData.sortOpenPrevMenu;
 }
 
-char *GetPrefTagFile(void)
+char *GetPrefTagFile()
 {
     return PrefData.tagFile;
 }
@@ -1981,17 +1941,17 @@ void SetPrefSmartTags(int state)
     setIntPref(&PrefData.smartTags, state);
 }
 
-int GetPrefSmartTags(void)
+int GetPrefSmartTags()
 {
     return PrefData.smartTags;
 }
 
-int GetPrefAlwaysCheckRelTagsSpecs(void)
+int GetPrefAlwaysCheckRelTagsSpecs()
 {
     return PrefData.alwaysCheckRelativeTagsSpecs;
 }
 
-char *GetPrefDelimiters(void)
+char *GetPrefDelimiters()
 {
     return PrefData.delimiters;
 }
@@ -2007,19 +1967,18 @@ void SetPrefColorName(int index, const char *name)
 }
 
 /*
-** Set the font preferences using the font name (the fontList is generated
-** in this call).  Note that this leaks memory and server resources each
-** time the default font is re-set.  See note on SetFontByName in window.c
-** for more information.
-*/
+ ** Set the font preferences using the font name (the fontList is generated
+ ** in this call).  Note that this leaks memory and server resources each
+ ** time the default font is re-set.  See note on SetFontByName in window.c
+ ** for more information.
+ */
 void SetPrefFont(char *fontName)
 {
     XFontStruct *font;
-    
+
     setStringPref(PrefData.fontString, fontName);
     font = XLoadQueryFont(TheDisplay, fontName);
-    PrefData.fontList = font==NULL ? NULL :
-	    XmFontListCreate(font, XmSTRING_DEFAULT_CHARSET);
+    PrefData.fontList = font == NULL ? NULL : XmFontListCreate(font, XmSTRING_DEFAULT_CHARSET);
 }
 
 void SetPrefBoldFont(char *fontName)
@@ -2039,42 +1998,42 @@ void SetPrefBoldItalicFont(char *fontName)
     PrefData.boldItalicFontStruct = XLoadQueryFont(TheDisplay, fontName);
 }
 
-char *GetPrefFontName(void)
+char *GetPrefFontName()
 {
     return PrefData.fontString;
 }
 
-char *GetPrefBoldFontName(void)
+char *GetPrefBoldFontName()
 {
     return PrefData.boldFontString;
 }
 
-char *GetPrefItalicFontName(void)
+char *GetPrefItalicFontName()
 {
     return PrefData.italicFontString;
 }
 
-char *GetPrefBoldItalicFontName(void)
+char *GetPrefBoldItalicFontName()
 {
     return PrefData.boldItalicFontString;
 }
 
-XmFontList GetPrefFontList(void)
+XmFontList GetPrefFontList()
 {
     return PrefData.fontList;
 }
 
-XFontStruct *GetPrefBoldFont(void)
+XFontStruct *GetPrefBoldFont()
 {
     return PrefData.boldFontStruct;
 }
 
-XFontStruct *GetPrefItalicFont(void)
+XFontStruct *GetPrefItalicFont()
 {
     return PrefData.italicFontStruct;
 }
 
-XFontStruct *GetPrefBoldItalicFont(void)
+XFontStruct *GetPrefBoldItalicFont()
 {
     return PrefData.boldItalicFontStruct;
 }
@@ -2084,12 +2043,12 @@ char *GetPrefHelpFontName(int index)
     return PrefData.helpFontNames[index];
 }
 
-char *GetPrefHelpLinkColor(void)
+char *GetPrefHelpLinkColor()
 {
     return PrefData.helpLinkColor;
 }
 
-char *GetPrefTooltipBgColor(void)
+char *GetPrefTooltipBgColor()
 {
     return PrefData.tooltipBgColor;
 }
@@ -2099,34 +2058,34 @@ void SetPrefShell(const char *shell)
     setStringPref(PrefData.shell, shell);
 }
 
-const char* GetPrefShell(void)
+const char* GetPrefShell()
 {
     return PrefData.shell;
 }
 
-char *GetPrefGeometry(void)
+char *GetPrefGeometry()
 {
     return PrefData.geometry;
 }
 
-char *GetPrefServerName(void)
+char *GetPrefServerName()
 {
     return PrefData.serverName;
 }
 
-char *GetPrefBGMenuBtn(void)
+char *GetPrefBGMenuBtn()
 {
     return PrefData.bgMenuBtn;
 }
 
-int GetPrefMaxPrevOpenFiles(void)
+int GetPrefMaxPrevOpenFiles()
 {
     return PrefData.maxPrevOpenFiles;
 }
 
-int GetPrefTypingHidesPointer(void)
+int GetPrefTypingHidesPointer()
 {
-    return(PrefData.typingHidesPointer);
+    return (PrefData.typingHidesPointer);
 }
 
 #ifdef SGI_CUSTOM
@@ -2135,7 +2094,7 @@ void SetPrefShortMenus(int state)
     setIntPref(&PrefData.shortMenus, state);
 }
 
-int GetPrefShortMenus(void)
+int GetPrefShortMenus()
 {
     return PrefData.shortMenus;
 }
@@ -2148,96 +2107,93 @@ void SetPrefTitleFormat(const char* format)
     setStringPref(PrefData.titleFormat, format);
 
     /* update all windows */
-    for (window=WindowList; window!=NULL; window=window->next) {
+    for (window = WindowList; window != NULL; window = window->next) {
         UpdateWindowTitle(window);
     }
 }
-const char* GetPrefTitleFormat(void)
+const char* GetPrefTitleFormat()
 {
     return PrefData.titleFormat;
 }
 
-Boolean GetPrefUndoModifiesSelection(void)
+Boolean GetPrefUndoModifiesSelection()
 {
-    return (Boolean)PrefData.undoModifiesSelection;
+    return (Boolean) PrefData.undoModifiesSelection;
 }
 
-Boolean GetPrefFocusOnRaise(void)
+Boolean GetPrefFocusOnRaise()
 {
-    return (Boolean)PrefData.focusOnRaise;
+    return (Boolean) PrefData.focusOnRaise;
 }
 
-Boolean GetPrefForceOSConversion(void)
+Boolean GetPrefForceOSConversion()
 {
     return (Boolean) PrefData.forceOSConversion;
 }
 
-Boolean GetPrefHonorSymlinks(void)
+Boolean GetPrefHonorSymlinks()
 {
     return PrefData.honorSymlinks;
 }
 
-int GetPrefOverrideVirtKeyBindings(void)
+int GetPrefOverrideVirtKeyBindings()
 {
     return PrefData.virtKeyOverride;
 }
 
-int GetPrefTruncSubstitution(void)
+int GetPrefTruncSubstitution()
 {
     return PrefData.truncSubstitution;
 }
 
 /*
-** If preferences don't get saved, ask the user on exit whether to save
-*/
-void MarkPrefsChanged(void)
+ ** If preferences don't get saved, ask the user on exit whether to save
+ */
+void MarkPrefsChanged()
 {
     PrefsHaveChanged = True;
 }
 
 /*
-** Check if preferences have changed, and if so, ask the user if he wants
-** to re-save.  Returns False if user requests cancelation of Exit (or whatever
-** operation triggered this call to be made).
-*/
+ ** Check if preferences have changed, and if so, ask the user if he wants
+ ** to re-save.  Returns False if user requests cancelation of Exit (or whatever
+ ** operation triggered this call to be made).
+ */
 int CheckPrefsChangesSaved(Widget dialogParent)
 {
     int resp;
-    
+
     if (!PrefsHaveChanged)
         return True;
-    
-    resp = DialogF(DF_WARN, dialogParent, 3, "Default Preferences",
-            ImportedFile == NULL ?
-            "Default Preferences have changed.\n"
-            "Save changes to NEdit preference file?" :
-            "Default Preferences have changed.  SAVING \n"
-            "CHANGES WILL INCORPORATE ADDITIONAL\nSETTINGS FROM FILE: %s",
-            "Save", "Don't Save", "Cancel", ImportedFile);
+
+    resp = DialogF(DF_WARN, dialogParent, 3, "Default Preferences", ImportedFile == NULL ? "Default Preferences have changed.\n"
+                                                                                           "Save changes to NEdit preference file?" :
+                                                                                           "Default Preferences have changed.  SAVING \n"
+                                                                                           "CHANGES WILL INCORPORATE ADDITIONAL\nSETTINGS FROM FILE: %s", "Save", "Don't Save", "Cancel", ImportedFile);
     if (resp == 2)
         return True;
     if (resp == 3)
         return False;
-    
+
     SaveNEditPrefs(dialogParent, True);
     return True;
 }
 
 /*
-** set *prefDataField to newValue, but first check if they're different
-** and update PrefsHaveChanged if a preference setting has now changed.
-*/
+ ** set *prefDataField to newValue, but first check if they're different
+ ** and update PrefsHaveChanged if a preference setting has now changed.
+ */
 static void setIntPref(int *prefDataField, int newValue)
 {
     if (newValue != *prefDataField)
-	PrefsHaveChanged = True;
+        PrefsHaveChanged = True;
     *prefDataField = newValue;
 }
 
 static void setStringPref(char *prefDataField, const char *newValue)
 {
     if (strcmp(prefDataField, newValue))
-	PrefsHaveChanged = True;
+        PrefsHaveChanged = True;
     strcpy(prefDataField, newValue);
 }
 
@@ -2247,36 +2203,36 @@ static void setStringAllocPref(char **pprefDataField, char *newValue)
 
     /* treat empty strings as nulls */
     if (newValue && *newValue == '\0')
-      newValue = NULL;
+        newValue = NULL;
     if (*pprefDataField && **pprefDataField == '\0')
-      *pprefDataField = NULL;         /* assume statically alloc'ed "" */
+        *pprefDataField = NULL; /* assume statically alloc'ed "" */
 
     /* check changes */
     if (!*pprefDataField && !newValue)
-      return;
+        return;
     else if (!*pprefDataField && newValue)
-      PrefsHaveChanged = True;
+        PrefsHaveChanged = True;
     else if (*pprefDataField && !newValue)
-      PrefsHaveChanged = True;
+        PrefsHaveChanged = True;
     else if (strcmp(*pprefDataField, newValue))
-      PrefsHaveChanged = True;
+        PrefsHaveChanged = True;
 
     /* get rid of old preference */
     NEditFree(*pprefDataField);
 
     /* store new preference */
     if (newValue) {
-      p_newField = NEditStrdup(newValue);
+        p_newField = NEditStrdup(newValue);
     }
     *pprefDataField = newValue;
 }
 
 /*
-** Set the language mode for the window, update the menu and trigger language
-** mode specific actions (turn on/off highlighting).  If forceNewDefaults is
-** true, re-establish default settings for language-specific preferences
-** regardless of whether they were previously set by the user.
-*/
+ ** Set the language mode for the window, update the menu and trigger language
+ ** mode specific actions (turn on/off highlighting).  If forceNewDefaults is
+ ** true, re-establish default settings for language-specific preferences
+ ** regardless of whether they were previously set by the user.
+ */
 void SetLanguageMode(WindowInfo *window, int mode, int forceNewDefaults)
 {
     Widget menu;
@@ -2284,82 +2240,81 @@ void SetLanguageMode(WindowInfo *window, int mode, int forceNewDefaults)
     int n;
     Cardinal nItems;
     void *userData;
-    
+
     /* Do mode-specific actions */
     reapplyLanguageMode(window, mode, forceNewDefaults);
-    
+
     /* Select the correct language mode in the sub-menu */
     if (IsTopDocument(window)) {
-	XtVaGetValues(window->langModeCascade, XmNsubMenuId, &menu, NULL);
-	XtVaGetValues(menu, XmNchildren, &items, XmNnumChildren, &nItems, NULL);
-	for (n=0; n<(int)nItems; n++) {
-    	    XtVaGetValues(items[n], XmNuserData, &userData, NULL);
-    	    XmToggleButtonSetState(items[n], (int)(intptr_t)userData == mode, False);
-	}
+        XtVaGetValues(window->langModeCascade, XmNsubMenuId, &menu, NULL);
+        XtVaGetValues(menu, XmNchildren, &items, XmNnumChildren, &nItems, NULL);
+        for (n = 0; n < (int) nItems; n++) {
+            XtVaGetValues(items[n], XmNuserData, &userData, NULL);
+            XmToggleButtonSetState(items[n], (int) (intptr_t) userData == mode, False);
+        }
     }
 }
 
 /*
-** Lookup a language mode by name, returning the index of the language
-** mode or PLAIN_LANGUAGE_MODE if the name is not found
-*/
+ ** Lookup a language mode by name, returning the index of the language
+ ** mode or PLAIN_LANGUAGE_MODE if the name is not found
+ */
 int FindLanguageMode(const char *languageName)
 {
     int i;
- 
+
     /* Compare each language mode to the one we were presented */
-    for (i=0; i<NLanguageModes; i++)
-	if (!strcmp(languageName, LanguageModes[i]->name))
-	    return i;
+    for (i = 0; i < NLanguageModes; i++)
+        if (!strcmp(languageName, LanguageModes[i]->name))
+            return i;
 
     return PLAIN_LANGUAGE_MODE;
 }
 
-
 /*
-** Apply language mode matching criteria and set window->languageMode to
-** the appropriate mode for the current file, trigger language mode
-** specific actions (turn on/off highlighting), and update the language
-** mode menu item.  If forceNewDefaults is true, re-establish default
-** settings for language-specific preferences regardless of whether
-** they were previously set by the user.
-*/
+ ** Apply language mode matching criteria and set window->languageMode to
+ ** the appropriate mode for the current file, trigger language mode
+ ** specific actions (turn on/off highlighting), and update the language
+ ** mode menu item.  If forceNewDefaults is true, re-establish default
+ ** settings for language-specific preferences regardless of whether
+ ** they were previously set by the user.
+ */
 void DetermineLanguageMode(WindowInfo *window, int forceNewDefaults)
 {
     SetLanguageMode(window, matchLanguageMode(window), forceNewDefaults);
 }
 
 /*
-** Return the name of the current language mode set in "window", or NULL
-** if the current mode is "Plain".
-*/
+ ** Return the name of the current language mode set in "window", or NULL
+ ** if the current mode is "Plain".
+ */
 char *LanguageModeName(int mode)
 {
     if (mode == PLAIN_LANGUAGE_MODE)
-    	return NULL;
+        return NULL;
     else
-    	return LanguageModes[mode]->name;
+        return LanguageModes[mode]->name;
 }
 
 /*
-** Get the set of word delimiters for the language mode set in the current
-** window.  Returns NULL when no language mode is set (it would be easy to
-** return the default delimiter set when the current language mode is "Plain",
-** or the mode doesn't have its own delimiters, but this is usually used
-** to supply delimiters for RE searching, and ExecRE can skip compiling a
-** delimiter table when delimiters is NULL).
-*/
+ ** Get the set of word delimiters for the language mode set in the current
+ ** window.  Returns NULL when no language mode is set (it would be easy to
+ ** return the default delimiter set when the current language mode is "Plain",
+ ** or the mode doesn't have its own delimiters, but this is usually used
+ ** to supply delimiters for RE searching, and ExecRE can skip compiling a
+ ** delimiter table when delimiters is NULL).
+ */
 char *GetWindowDelimiters(const WindowInfo *window)
 {
     if (window->languageMode == PLAIN_LANGUAGE_MODE)
-    	return NULL;
+        return NULL;
     else
-    	return LanguageModes[window->languageMode]->delimiters;
+        return LanguageModes[window->languageMode]->delimiters;
 }
 
 /*
-** Put up a dialog for selecting a custom initial window size
-*/
+ ** Put up a dialog for selecting a custom initial window size
+ */
 void RowColumnPrefDialog(Widget parent)
 {
     Widget form, selBox, topLabel;
@@ -2369,77 +2324,75 @@ void RowColumnPrefDialog(Widget parent)
     XtSetArg(selBoxArgs[0], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL);
     XtSetArg(selBoxArgs[1], XmNautoUnmanage, False);
     selBox = CreatePromptDialog(parent, "customSize", selBoxArgs, 2);
-    XtAddCallback(selBox, XmNokCallback, (XtCallbackProc)sizeOKCB, NULL);
-    XtAddCallback(selBox, XmNcancelCallback, (XtCallbackProc)sizeCancelCB,NULL);
+    XtAddCallback(selBox, XmNokCallback, (XtCallbackProc) sizeOKCB, NULL);
+    XtAddCallback(selBox, XmNcancelCallback, (XtCallbackProc) sizeCancelCB, NULL);
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_TEXT));
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_SELECTION_LABEL));
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_HELP_BUTTON));
     XtVaSetValues(XtParent(selBox), XmNtitle, "Initial Window Size", NULL);
-    
+
     form = XtVaCreateManagedWidget("form", xmFormWidgetClass, selBox, NULL);
 
     topLabel = XtVaCreateManagedWidget("topLabel", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=MKSTRING(
-    	       "Enter desired size in rows\nand columns of characters:"), NULL);
+    XmNlabelString, s1 = MKSTRING("Enter desired size in rows\nand columns of characters:"), NULL);
     XmStringFree(s1);
- 
+
     RowText = XtVaCreateManagedWidget("rows", xmTextWidgetClass, form,
-    	    XmNcolumns, 3,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNtopWidget, topLabel,
-    	    XmNleftPosition, 5,
-    	    XmNrightPosition, 45, NULL);
+    XmNcolumns, 3,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNtopWidget, topLabel,
+    XmNleftPosition, 5,
+    XmNrightPosition, 45, NULL);
     RemapDeleteKey(RowText);
- 
+
     XtVaCreateManagedWidget("xLabel", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=MKSTRING("x"),
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
-    	    XmNtopWidget, topLabel,
-    	    XmNbottomWidget, RowText,
-    	    XmNleftPosition, 45,
-    	    XmNrightPosition, 55, NULL);
+    XmNlabelString, s1 = MKSTRING("x"),
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+    XmNtopWidget, topLabel,
+    XmNbottomWidget, RowText,
+    XmNleftPosition, 45,
+    XmNrightPosition, 55, NULL);
     XmStringFree(s1);
 
     ColText = XtVaCreateManagedWidget("cols", xmTextWidgetClass, form,
-    	    XmNcolumns, 3,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNtopWidget, topLabel,
-    	    XmNleftPosition, 55,
-    	    XmNrightPosition, 95, NULL);
+    XmNcolumns, 3,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNtopWidget, topLabel,
+    XmNleftPosition, 55,
+    XmNrightPosition, 95, NULL);
     RemapDeleteKey(ColText);
 
     /* put up dialog and wait for user to press ok or cancel */
     DoneWithSizeDialog = False;
     ManageDialogCenteredOnPointer(selBox);
-    while (!DoneWithSizeDialog)
-    {
-       	XEvent event;
-       	XtAppNextEvent(XtWidgetToApplicationContext(parent), &event);
-       	ServerDispatchEvent(&event);
+    while (!DoneWithSizeDialog) {
+        XEvent event;
+        XtAppNextEvent(XtWidgetToApplicationContext(parent), &event);
+        ServerDispatchEvent(&event);
     }
-    
+
     XtDestroyWidget(selBox);
 }
 
 static void sizeOKCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     int rowValue, colValue, stat;
-    
+
     /* get the values that the user entered and make sure they're ok */
     stat = GetIntTextWarn(RowText, &rowValue, "number of rows", True);
     if (stat != TEXT_READ_OK)
-    	return;
+        return;
     stat = GetIntTextWarn(ColText, &colValue, "number of columns", True);
     if (stat != TEXT_READ_OK)
-    	return;
-    
+        return;
+
     /* set the corresponding preferences and dismiss the dialog */
     SetPrefRows(rowValue);
     SetPrefCols(colValue);
@@ -2452,10 +2405,10 @@ static void sizeCancelCB(Widget w, XtPointer clientData, XtPointer callData)
 }
 
 /*
-** Present the user a dialog for setting tab related preferences, either as
-** defaults, or for a specific window (pass "forWindow" as NULL to set default
-** preference, or a window to set preferences for the specific window.
-*/
+ ** Present the user a dialog for setting tab related preferences, either as
+ ** defaults, or for a specific window (pass "forWindow" as NULL to set default
+ ** preference, or a window to set preferences for the specific window.
+ */
 void TabsPrefDialog(Widget parent, WindowInfo *forWindow)
 {
     Widget form, selBox;
@@ -2466,92 +2419,86 @@ void TabsPrefDialog(Widget parent, WindowInfo *forWindow)
     XtSetArg(selBoxArgs[0], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL);
     XtSetArg(selBoxArgs[1], XmNautoUnmanage, False);
     selBox = CreatePromptDialog(parent, "customSize", selBoxArgs, 2);
-    XtAddCallback(selBox, XmNokCallback, (XtCallbackProc)tabsOKCB, NULL);
-    XtAddCallback(selBox, XmNcancelCallback, (XtCallbackProc)tabsCancelCB,NULL);
-    XtAddCallback(selBox, XmNhelpCallback, (XtCallbackProc)tabsHelpCB,NULL);
+    XtAddCallback(selBox, XmNokCallback, (XtCallbackProc) tabsOKCB, NULL);
+    XtAddCallback(selBox, XmNcancelCallback, (XtCallbackProc) tabsCancelCB, NULL);
+    XtAddCallback(selBox, XmNhelpCallback, (XtCallbackProc) tabsHelpCB, NULL);
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_TEXT));
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_SELECTION_LABEL));
     XtVaSetValues(XtParent(selBox), XmNtitle, "Tabs", NULL);
-    
+
     form = XtVaCreateManagedWidget("form", xmFormWidgetClass, selBox, NULL);
 
-    TabDistText = XtVaCreateManagedWidget("tabDistText", xmTextWidgetClass,
-    	    form, XmNcolumns, 7,
-    	    XmNtopAttachment, XmATTACH_FORM,
-    	    XmNrightAttachment, XmATTACH_FORM, NULL);
+    TabDistText = XtVaCreateManagedWidget("tabDistText", xmTextWidgetClass, form, XmNcolumns, 7,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNrightAttachment, XmATTACH_FORM, NULL);
     RemapDeleteKey(TabDistText);
     XtVaCreateManagedWidget("tabDistLabel", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=XmStringCreateSimple(
-    	    	"Tab spacing (for hardware tab characters)"),
-	    XmNmnemonic, 'T',
-    	    XmNuserData, TabDistText,
-    	    XmNtopAttachment, XmATTACH_FORM,
-    	    XmNleftAttachment, XmATTACH_FORM,
-    	    XmNrightAttachment, XmATTACH_WIDGET,
-    	    XmNrightWidget, TabDistText,
-	    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
-	    XmNbottomWidget, TabDistText, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Tab spacing (for hardware tab characters)"),
+    XmNmnemonic, 'T',
+    XmNuserData, TabDistText,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNleftAttachment, XmATTACH_FORM,
+    XmNrightAttachment, XmATTACH_WIDGET,
+    XmNrightWidget, TabDistText,
+    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+    XmNbottomWidget, TabDistText, NULL);
     XmStringFree(s1);
- 
+
     EmTabText = XtVaCreateManagedWidget("emTabText", xmTextWidgetClass, form,
-    	    XmNcolumns, 7,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNtopWidget, TabDistText,
-    	    XmNrightAttachment, XmATTACH_OPPOSITE_WIDGET,
-    	    XmNrightWidget, TabDistText, NULL);
+    XmNcolumns, 7,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, TabDistText,
+    XmNrightAttachment, XmATTACH_OPPOSITE_WIDGET,
+    XmNrightWidget, TabDistText, NULL);
     RemapDeleteKey(EmTabText);
     EmTabLabel = XtVaCreateManagedWidget("emTabLabel", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=XmStringCreateSimple("Emulated tab spacing"),
-	    XmNmnemonic, 's',
-    	    XmNuserData, EmTabText,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNtopWidget, TabDistText,
-    	    XmNrightAttachment, XmATTACH_WIDGET,
-    	    XmNrightWidget, EmTabText,
-    	    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
-	    XmNbottomWidget, EmTabText, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Emulated tab spacing"),
+    XmNmnemonic, 's',
+    XmNuserData, EmTabText,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, TabDistText,
+    XmNrightAttachment, XmATTACH_WIDGET,
+    XmNrightWidget, EmTabText,
+    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+    XmNbottomWidget, EmTabText, NULL);
     XmStringFree(s1);
-    EmTabToggle = XtVaCreateManagedWidget("emTabToggle",
-    	    xmToggleButtonWidgetClass, form, XmNlabelString,
-    	    	s1=XmStringCreateSimple("Emulate tabs"),
-	    XmNmnemonic, 'E',
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNtopWidget, TabDistText,
-    	    XmNleftAttachment, XmATTACH_FORM,
-    	    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
-	    XmNbottomWidget, EmTabText, NULL);
+    EmTabToggle = XtVaCreateManagedWidget("emTabToggle", xmToggleButtonWidgetClass, form, XmNlabelString, s1 = XmStringCreateSimple("Emulate tabs"),
+    XmNmnemonic, 'E',
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, TabDistText,
+    XmNleftAttachment, XmATTACH_FORM,
+    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+    XmNbottomWidget, EmTabText, NULL);
     XmStringFree(s1);
     XtAddCallback(EmTabToggle, XmNvalueChangedCallback, emTabsCB, NULL);
-    UseTabsToggle = XtVaCreateManagedWidget("useTabsToggle",
-    	    xmToggleButtonWidgetClass, form,
-    	    XmNlabelString, s1=XmStringCreateSimple(
-    	    	"Use tab characters in padding and emulated tabs"),
-	    XmNmnemonic, 'U',
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNtopWidget, EmTabText,
-    	    XmNtopOffset, 5,
-    	    XmNleftAttachment, XmATTACH_FORM, NULL);
+    UseTabsToggle = XtVaCreateManagedWidget("useTabsToggle", xmToggleButtonWidgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple("Use tab characters in padding and emulated tabs"),
+    XmNmnemonic, 'U',
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, EmTabText,
+    XmNtopOffset, 5,
+    XmNleftAttachment, XmATTACH_FORM, NULL);
     XmStringFree(s1);
 
     /* Set default values */
     if (forWindow == NULL) {
-    	emTabDist = GetPrefEmTabDist(PLAIN_LANGUAGE_MODE);
-    	useTabs = GetPrefInsertTabs();
-    	tabDist = GetPrefTabDist(PLAIN_LANGUAGE_MODE);
+        emTabDist = GetPrefEmTabDist(PLAIN_LANGUAGE_MODE);
+        useTabs = GetPrefInsertTabs();
+        tabDist = GetPrefTabDist(PLAIN_LANGUAGE_MODE);
     } else {
-    	XtVaGetValues(forWindow->textArea, textNemulateTabs, &emTabDist, NULL);
-    	useTabs = forWindow->buffer->useTabs;
-    	tabDist = BufGetTabDistance(forWindow->buffer);
+        XtVaGetValues(forWindow->textArea, textNemulateTabs, &emTabDist, NULL);
+        useTabs = forWindow->buffer->useTabs;
+        tabDist = BufGetTabDistance(forWindow->buffer);
     }
     emulate = emTabDist != 0;
     SetIntText(TabDistText, tabDist);
     XmToggleButtonSetState(EmTabToggle, emulate, True);
     if (emulate)
-    	SetIntText(EmTabText, emTabDist);
+        SetIntText(EmTabText, emTabDist);
     XmToggleButtonSetState(UseTabsToggle, useTabs, False);
     XtSetSensitive(EmTabText, emulate);
     XtSetSensitive(EmTabLabel, emulate);
-    
+
     /* Handle mnemonic selection of buttons and focus to dialog */
     AddDialogMnemonicHandler(form, FALSE);
 
@@ -2559,18 +2506,17 @@ void TabsPrefDialog(Widget parent, WindowInfo *forWindow)
 #if XmVersion >= 1002
     XtVaSetValues(form, XmNinitialFocus, TabDistText, NULL);
 #endif
-    
+
     /* put up dialog and wait for user to press ok or cancel */
     TabsDialogForWindow = forWindow;
     DoneWithTabsDialog = False;
     ManageDialogCenteredOnPointer(selBox);
-    while (!DoneWithTabsDialog)
-    {
-       	XEvent event;
-       	XtAppNextEvent(XtWidgetToApplicationContext(parent), &event);
-       	ServerDispatchEvent(&event);
+    while (!DoneWithTabsDialog) {
+        XEvent event;
+        XtAppNextEvent(XtWidgetToApplicationContext(parent), &event);
+        ServerDispatchEvent(&event);
     }
-    
+
     XtDestroyWidget(selBox);
 }
 
@@ -2578,57 +2524,53 @@ static void tabsOKCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     int emulate, useTabs, stat, tabDist, emTabDist;
     WindowInfo *window = TabsDialogForWindow;
-    
+
     /* get the values that the user entered and make sure they're ok */
     emulate = XmToggleButtonGetState(EmTabToggle);
     useTabs = XmToggleButtonGetState(UseTabsToggle);
     stat = GetIntTextWarn(TabDistText, &tabDist, "tab spacing", True);
     if (stat != TEXT_READ_OK)
-    	return;
+        return;
 
-    if (tabDist <= 0 || tabDist > MAX_EXP_CHAR_LEN)
-    {
-        DialogF(DF_WARN, TabDistText, 1, "Tab Spacing",
-                "Tab spacing out of range", "OK");
+    if (tabDist <= 0 || tabDist > MAX_EXP_CHAR_LEN) {
+        DialogF(DF_WARN, TabDistText, 1, "Tab Spacing", "Tab spacing out of range", "OK");
         return;
     }
 
     if (emulate) {
-	stat = GetIntTextWarn(EmTabText, &emTabDist, "emulated tab spacing",True);
-	if (stat != TEXT_READ_OK)
-	    return;
+        stat = GetIntTextWarn(EmTabText, &emTabDist, "emulated tab spacing", True);
+        if (stat != TEXT_READ_OK)
+            return;
 
-        if (emTabDist <= 0 || tabDist >= 1000)
-        {
-            DialogF(DF_WARN, EmTabText, 1, "Tab Spacing",
-                    "Emulated tab spacing out of range", "OK");
+        if (emTabDist <= 0 || tabDist >= 1000) {
+            DialogF(DF_WARN, EmTabText, 1, "Tab Spacing", "Emulated tab spacing out of range", "OK");
             return;
         }
     } else
-    	emTabDist = 0;
-    
+        emTabDist = 0;
+
 #ifdef SGI_CUSTOM
     /* Ask the user about saving as a default preference */
     if (TabsDialogForWindow != NULL) {
-	int setDefault;
-	if (!shortPrefToDefault(window->shell, "Tab Settings", &setDefault)) {
-	    DoneWithTabsDialog = True;
-    	    return;
-	}
-	if (setDefault) {
-    	    SetPrefTabDist(tabDist);
-    	    SetPrefEmTabDist(emTabDist);
-    	    SetPrefInsertTabs(useTabs);
-	    SaveNEditPrefs(window->shell, GetPrefShortMenus());
-	}
+        int setDefault;
+        if (!shortPrefToDefault(window->shell, "Tab Settings", &setDefault)) {
+            DoneWithTabsDialog = True;
+            return;
+        }
+        if (setDefault) {
+            SetPrefTabDist(tabDist);
+            SetPrefEmTabDist(emTabDist);
+            SetPrefInsertTabs(useTabs);
+            SaveNEditPrefs(window->shell, GetPrefShortMenus());
+        }
     }
 #endif
 
     /* Set the value in either the requested window or default preferences */
     if (TabsDialogForWindow == NULL) {
-    	SetPrefTabDist(tabDist);
-    	SetPrefEmTabDist(emTabDist);
-    	SetPrefInsertTabs(useTabs);
+        SetPrefTabDist(tabDist);
+        SetPrefEmTabDist(emTabDist);
+        SetPrefInsertTabs(useTabs);
     } else {
         char *params[1];
         char numStr[25];
@@ -2642,11 +2584,11 @@ static void tabsOKCB(Widget w, XtPointer clientData, XtPointer callData)
         params[0] = numStr;
         sprintf(numStr, "%d", useTabs);
         XtCallActionProc(window->textArea, "set_use_tabs", NULL, params, 1);
-/*
-    	setTabDist(window, tabDist);
-    	setEmTabDist(window, emTabDist);
-       	window->buffer->useTabs = useTabs;
-*/
+        /*
+         setTabDist(window, tabDist);
+         setEmTabDist(window, emTabDist);
+         window->buffer->useTabs = useTabs;
+         */
     }
     DoneWithTabsDialog = True;
 }
@@ -2664,14 +2606,14 @@ static void tabsHelpCB(Widget w, XtPointer clientData, XtPointer callData)
 static void emTabsCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     int state = XmToggleButtonGetState(w);
-    
+
     XtSetSensitive(EmTabLabel, state);
     XtSetSensitive(EmTabText, state);
 }
 
 /*
-** Present the user a dialog for setting wrap margin.
-*/
+ ** Present the user a dialog for setting wrap margin.
+ */
 void WrapMarginDialog(Widget parent, WindowInfo *forWindow)
 {
     Widget form, selBox;
@@ -2682,55 +2624,51 @@ void WrapMarginDialog(Widget parent, WindowInfo *forWindow)
     XtSetArg(selBoxArgs[0], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL);
     XtSetArg(selBoxArgs[1], XmNautoUnmanage, False);
     selBox = CreatePromptDialog(parent, "wrapMargin", selBoxArgs, 2);
-    XtAddCallback(selBox, XmNokCallback, (XtCallbackProc)wrapOKCB, NULL);
-    XtAddCallback(selBox, XmNcancelCallback, (XtCallbackProc)wrapCancelCB,NULL);
+    XtAddCallback(selBox, XmNokCallback, (XtCallbackProc) wrapOKCB, NULL);
+    XtAddCallback(selBox, XmNcancelCallback, (XtCallbackProc) wrapCancelCB, NULL);
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_TEXT));
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_SELECTION_LABEL));
     XtUnmanageChild(XmSelectionBoxGetChild(selBox, XmDIALOG_HELP_BUTTON));
     XtVaSetValues(XtParent(selBox), XmNtitle, "Wrap Margin", NULL);
-    
+
     form = XtVaCreateManagedWidget("form", xmFormWidgetClass, selBox, NULL);
 
-    WrapWindowToggle = XtVaCreateManagedWidget("wrapWindowToggle",
-    	    xmToggleButtonWidgetClass, form, XmNlabelString,
-    	    	s1=XmStringCreateSimple("Wrap and Fill at width of window"),
-	    XmNmnemonic, 'W',
-    	    XmNtopAttachment, XmATTACH_FORM,
-    	    XmNleftAttachment, XmATTACH_FORM, NULL);
+    WrapWindowToggle = XtVaCreateManagedWidget("wrapWindowToggle", xmToggleButtonWidgetClass, form, XmNlabelString, s1 = XmStringCreateSimple("Wrap and Fill at width of window"),
+    XmNmnemonic, 'W',
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNleftAttachment, XmATTACH_FORM, NULL);
     XmStringFree(s1);
-    XtAddCallback(WrapWindowToggle, XmNvalueChangedCallback, wrapWindowCB,NULL);
+    XtAddCallback(WrapWindowToggle, XmNvalueChangedCallback, wrapWindowCB, NULL);
     WrapText = XtVaCreateManagedWidget("wrapText", xmTextWidgetClass, form,
-    	    XmNcolumns, 5,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNtopWidget, WrapWindowToggle,
-    	    XmNrightAttachment, XmATTACH_FORM, NULL);
+    XmNcolumns, 5,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, WrapWindowToggle,
+    XmNrightAttachment, XmATTACH_FORM, NULL);
     RemapDeleteKey(WrapText);
-    WrapTextLabel = XtVaCreateManagedWidget("wrapMarginLabel",
-    	    xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=XmStringCreateSimple(
-    	    	"Margin for Wrap and Fill"),
-	    XmNmnemonic, 'M',
-    	    XmNuserData, WrapText,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-    	    XmNtopWidget, WrapWindowToggle,
-    	    XmNleftAttachment, XmATTACH_FORM,
-    	    XmNrightAttachment, XmATTACH_WIDGET,
-    	    XmNrightWidget, WrapText,
-	    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
-	    XmNbottomWidget, WrapText, NULL);
+    WrapTextLabel = XtVaCreateManagedWidget("wrapMarginLabel", xmLabelGadgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple("Margin for Wrap and Fill"),
+    XmNmnemonic, 'M',
+    XmNuserData, WrapText,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, WrapWindowToggle,
+    XmNleftAttachment, XmATTACH_FORM,
+    XmNrightAttachment, XmATTACH_WIDGET,
+    XmNrightWidget, WrapText,
+    XmNbottomAttachment, XmATTACH_OPPOSITE_WIDGET,
+    XmNbottomWidget, WrapText, NULL);
     XmStringFree(s1);
 
     /* Set default value */
     if (forWindow == NULL)
-    	margin = GetPrefWrapMargin();
+        margin = GetPrefWrapMargin();
     else
-    	XtVaGetValues(forWindow->textArea, textNwrapMargin, &margin, NULL);
-    XmToggleButtonSetState(WrapWindowToggle, margin==0, True);
+        XtVaGetValues(forWindow->textArea, textNwrapMargin, &margin, NULL);
+    XmToggleButtonSetState(WrapWindowToggle, margin == 0, True);
     if (margin != 0)
-    	SetIntText(WrapText, margin);
-    XtSetSensitive(WrapText, margin!=0);
-    XtSetSensitive(WrapTextLabel, margin!=0);
-    
+        SetIntText(WrapText, margin);
+    XtSetSensitive(WrapText, margin != 0);
+    XtSetSensitive(WrapTextLabel, margin != 0);
+
     /* Handle mnemonic selection of buttons and focus to dialog */
     AddDialogMnemonicHandler(form, FALSE);
 
@@ -2738,13 +2676,12 @@ void WrapMarginDialog(Widget parent, WindowInfo *forWindow)
     WrapDialogForWindow = forWindow;
     DoneWithWrapDialog = False;
     ManageDialogCenteredOnPointer(selBox);
-    while (!DoneWithWrapDialog)
-    {
-       	XEvent event;
-       	XtAppNextEvent(XtWidgetToApplicationContext(parent), &event);
-       	ServerDispatchEvent(&event);
+    while (!DoneWithWrapDialog) {
+        XEvent event;
+        XtAppNextEvent(XtWidgetToApplicationContext(parent), &event);
+        ServerDispatchEvent(&event);
     }
-    
+
     XtDestroyWidget(selBox);
 }
 
@@ -2752,44 +2689,42 @@ static void wrapOKCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     int wrapAtWindow, margin, stat;
     WindowInfo *window = WrapDialogForWindow;
-    
+
     /* get the values that the user entered and make sure they're ok */
     wrapAtWindow = XmToggleButtonGetState(WrapWindowToggle);
     if (wrapAtWindow)
-    	margin = 0;
+        margin = 0;
     else {
-	stat = GetIntTextWarn(WrapText, &margin, "wrap Margin", True);
-	if (stat != TEXT_READ_OK)
-    	    return;
+        stat = GetIntTextWarn(WrapText, &margin, "wrap Margin", True);
+        if (stat != TEXT_READ_OK)
+            return;
 
-       if (margin <= 0 || margin >= 1000)
-       {
-           DialogF(DF_WARN, WrapText, 1, "Wrap Margin", 
-                   "Wrap margin out of range", "OK");
-           return;
-       }
+        if (margin <= 0 || margin >= 1000) {
+            DialogF(DF_WARN, WrapText, 1, "Wrap Margin", "Wrap margin out of range", "OK");
+            return;
+        }
 
     }
 
 #ifdef SGI_CUSTOM
     /* Ask the user about saving as a default preference */
     if (WrapDialogForWindow != NULL) {
-	int setDefault;
-	if (!shortPrefToDefault(window->shell, "Wrap Margin Settings",
-	    	&setDefault)) {
-	    DoneWithWrapDialog = True;
-    	    return;
-	}
-	if (setDefault) {
-    	    SetPrefWrapMargin(margin);
-	    SaveNEditPrefs(window->shell, GetPrefShortMenus());
-	}
+        int setDefault;
+        if (!shortPrefToDefault(window->shell, "Wrap Margin Settings",
+                        &setDefault)) {
+            DoneWithWrapDialog = True;
+            return;
+        }
+        if (setDefault) {
+            SetPrefWrapMargin(margin);
+            SaveNEditPrefs(window->shell, GetPrefShortMenus());
+        }
     }
 #endif
 
     /* Set the value in either the requested window or default preferences */
     if (WrapDialogForWindow == NULL)
-    	SetPrefWrapMargin(margin);
+        SetPrefWrapMargin(margin);
     else {
         char *params[1];
         char marginStr[25];
@@ -2808,14 +2743,14 @@ static void wrapCancelCB(Widget w, XtPointer clientData, XtPointer callData)
 static void wrapWindowCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     int wrapAtWindow = XmToggleButtonGetState(w);
-    
+
     XtSetSensitive(WrapTextLabel, !wrapAtWindow);
     XtSetSensitive(WrapText, !wrapAtWindow);
 }
 
 /*
-**  Create and show a dialog for selecting the shell
-*/
+ **  Create and show a dialog for selecting the shell
+ */
 void SelectShellDialog(Widget parent, WindowInfo* forWindow)
 {
     Widget shellSelDialog;
@@ -2823,26 +2758,21 @@ void SelectShellDialog(Widget parent, WindowInfo* forWindow)
     XmString label;
 
     /*  Set up the dialog.  */
-    XtSetArg(shellSelDialogArgs[0],
-            XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL);
+    XtSetArg(shellSelDialogArgs[0], XmNdialogStyle, XmDIALOG_FULL_APPLICATION_MODAL);
     XtSetArg(shellSelDialogArgs[1], XmNautoUnmanage, False);
-    shellSelDialog = CreatePromptDialog(parent, "shellSelDialog",
-            shellSelDialogArgs, 2);
+    shellSelDialog = CreatePromptDialog(parent, "shellSelDialog", shellSelDialogArgs, 2);
 
     /*  Fix dialog to our liking.  */
     XtVaSetValues(XtParent(shellSelDialog), XmNtitle, "Command Shell", NULL);
-    XtAddCallback(shellSelDialog, XmNokCallback, (XtCallbackProc) shellSelOKCB,
-            shellSelDialog);
-    XtAddCallback(shellSelDialog, XmNcancelCallback,
-            (XtCallbackProc) shellSelCancelCB, NULL);
+    XtAddCallback(shellSelDialog, XmNokCallback, (XtCallbackProc) shellSelOKCB, shellSelDialog);
+    XtAddCallback(shellSelDialog, XmNcancelCallback, (XtCallbackProc) shellSelCancelCB, NULL);
     XtUnmanageChild(XmSelectionBoxGetChild(shellSelDialog, XmDIALOG_HELP_BUTTON));
     label = XmStringCreateLocalized("Enter shell path:");
     XtVaSetValues(shellSelDialog, XmNselectionLabelString, label, NULL);
     XmStringFree(label);
 
     /*  Set dialog's text to the current setting.  */
-    XmTextSetString(XmSelectionBoxGetChild(shellSelDialog, XmDIALOG_TEXT),
-            (char*) GetPrefShell());
+    XmTextSetString(XmSelectionBoxGetChild(shellSelDialog, XmDIALOG_TEXT), (char*) GetPrefShell());
 
     DoneWithShellSelDialog = False;
 
@@ -2857,11 +2787,10 @@ void SelectShellDialog(Widget parent, WindowInfo* forWindow)
     XtDestroyWidget(shellSelDialog);
 }
 
-static void shellSelOKCB(Widget widget, XtPointer clientData,
-        XtPointer callData)
+static void shellSelOKCB(Widget widget, XtPointer clientData, XtPointer callData)
 {
     Widget shellSelDialog = (Widget) clientData;
-    String shellName = (char*)NEditMalloc(MAXPATHLEN);
+    String shellName = (char*) NEditMalloc(MAXPATHLEN);
     struct stat attribute;
     unsigned dlgResult;
 
@@ -2872,13 +2801,10 @@ static void shellSelOKCB(Widget widget, XtPointer clientData,
     }
 
     /*  Get the string that the user entered and make sure it's ok.  */
-    shellName = XmTextGetString(XmSelectionBoxGetChild(shellSelDialog,
-            XmDIALOG_TEXT));
+    shellName = XmTextGetString(XmSelectionBoxGetChild(shellSelDialog, XmDIALOG_TEXT));
 
     if (-1 == stat(shellName, &attribute)) {
-        dlgResult = DialogF(DF_WARN, shellSelDialog, 2, "Command Shell",
-                "The selected shell is not available.\nDo you want to use it anyway?",
-                "OK", "Cancel");
+        dlgResult = DialogF(DF_WARN, shellSelDialog, 2, "Command Shell", "The selected shell is not available.\nDo you want to use it anyway?", "OK", "Cancel");
         if (1 != dlgResult) {
             return;
         }
@@ -2890,16 +2816,15 @@ static void shellSelOKCB(Widget widget, XtPointer clientData,
     DoneWithShellSelDialog = True;
 }
 
-static void shellSelCancelCB(Widget widgget, XtPointer clientData,
-        XtPointer callData)
+static void shellSelCancelCB(Widget widgget, XtPointer clientData, XtPointer callData)
 {
     DoneWithShellSelDialog = True;
 }
 
 /*
-** Present a dialog for editing language mode information
-*/
-void EditLanguageModes(void)
+ ** Present a dialog for editing language mode information
+ */
+void EditLanguageModes()
 {
 #define LIST_RIGHT 40
 #define LEFT_MARGIN_POS 1
@@ -2915,365 +2840,349 @@ void EditLanguageModes(void)
 
     /* if the dialog is already displayed, just pop it to the top and return */
     if (LMDialog.shell != NULL) {
-    	RaiseDialogWindow(LMDialog.shell);
-    	return;
+        RaiseDialogWindow(LMDialog.shell);
+        return;
     }
-    
-    LMDialog.languageModeList = (languageModeRec **)NEditMalloc(
-    	    sizeof(languageModeRec *) * MAX_LANGUAGE_MODES);
-    for (i=0; i<NLanguageModes; i++)
-    	LMDialog.languageModeList[i] = copyLanguageModeRec(LanguageModes[i]);
+
+    LMDialog.languageModeList = (languageModeRec **) NEditMalloc(sizeof(languageModeRec *) * MAX_LANGUAGE_MODES);
+    for (i = 0; i < NLanguageModes; i++)
+        LMDialog.languageModeList[i] = copyLanguageModeRec(LanguageModes[i]);
     LMDialog.nLanguageModes = NLanguageModes;
 
     /* Create a form widget in an application shell */
     ac = 0;
-    XtSetArg(args[ac], XmNdeleteResponse, XmDO_NOTHING); ac++;
-    XtSetArg(args[ac], XmNiconName, "NEdit Language Modes"); ac++;
-    XtSetArg(args[ac], XmNtitle, "Language Modes"); ac++;
-    LMDialog.shell = CreateWidget(TheAppShell, "langModes",
-	    topLevelShellWidgetClass, args, ac);
+    XtSetArg(args[ac], XmNdeleteResponse, XmDO_NOTHING);
+    ac++;
+    XtSetArg(args[ac], XmNiconName, "NEdit Language Modes");
+    ac++;
+    XtSetArg(args[ac], XmNtitle, "Language Modes");
+    ac++;
+    LMDialog.shell = CreateWidget(TheAppShell, "langModes", topLevelShellWidgetClass, args, ac);
     AddSmallIcon(LMDialog.shell);
-    form = XtVaCreateManagedWidget("editLanguageModes", xmFormWidgetClass,
-	    LMDialog.shell, XmNautoUnmanage, False,
-	    XmNresizePolicy, XmRESIZE_NONE, NULL);
+    form = XtVaCreateManagedWidget("editLanguageModes", xmFormWidgetClass, LMDialog.shell, XmNautoUnmanage, False,
+    XmNresizePolicy, XmRESIZE_NONE, NULL);
     XtAddCallback(form, XmNdestroyCallback, lmDestroyCB, NULL);
     AddMotifCloseCallback(LMDialog.shell, lmCloseCB, NULL);
-    
+
     topLbl = XtVaCreateManagedWidget("topLabel", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=MKSTRING(
-"To modify the properties of an existing language mode, select the name from\n\
+    XmNlabelString, s1 = MKSTRING("To modify the properties of an existing language mode, select the name from\n\
 the list on the left.  To add a new language, select \"New\" from the list."),
-	    XmNmnemonic, 'N',
-	    XmNtopAttachment, XmATTACH_POSITION,
-	    XmNtopPosition, 2,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LEFT_MARGIN_POS,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
+    XmNmnemonic, 'N',
+    XmNtopAttachment, XmATTACH_POSITION,
+    XmNtopPosition, 2,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LEFT_MARGIN_POS,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
     XmStringFree(s1);
-    
+
     nameLbl = XtVaCreateManagedWidget("nameLbl", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=XmStringCreateSimple("Name"),
-	    XmNmnemonic, 'm',
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopOffset, H_MARGIN,
-	    XmNtopWidget, topLbl, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Name"),
+    XmNmnemonic, 'm',
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopOffset, H_MARGIN,
+    XmNtopWidget, topLbl, NULL);
     XmStringFree(s1);
- 
+
     LMDialog.nameW = XtVaCreateManagedWidget("name", xmTextWidgetClass, form,
-    	    XmNcolumns, 15,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, nameLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, (RIGHT_MARGIN_POS + LIST_RIGHT)/2, NULL);
+    XmNcolumns, 15,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, nameLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, (RIGHT_MARGIN_POS + LIST_RIGHT) / 2, NULL);
     RemapDeleteKey(LMDialog.nameW);
     XtVaSetValues(nameLbl, XmNuserData, LMDialog.nameW, NULL);
-    
+
     extLbl = XtVaCreateManagedWidget("extLbl", xmLabelGadgetClass, form,
-    	    XmNlabelString, 	    	
-    	    	s1=XmStringCreateSimple("File extensions (separate w/ space)"),
-    	    XmNmnemonic, 'F',
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopOffset, H_MARGIN,
-	    XmNtopWidget, LMDialog.nameW, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("File extensions (separate w/ space)"),
+    XmNmnemonic, 'F',
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopOffset, H_MARGIN,
+    XmNtopWidget, LMDialog.nameW, NULL);
     XmStringFree(s1);
- 
+
     LMDialog.extW = XtVaCreateManagedWidget("ext", xmTextWidgetClass, form,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, extLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, extLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
     RemapDeleteKey(LMDialog.extW);
     XtVaSetValues(extLbl, XmNuserData, LMDialog.extW, NULL);
-    
+
     recogLbl = XtVaCreateManagedWidget("recogLbl", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=MKSTRING(
-"Recognition regular expression (applied to first 200\n\
+    XmNlabelString, s1 = MKSTRING("Recognition regular expression (applied to first 200\n\
 characters of file to determine type from content)"),
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-    	    XmNmnemonic, 'R',
-	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopOffset, H_MARGIN,
-	    XmNtopWidget, LMDialog.extW, NULL);
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNmnemonic, 'R',
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopOffset, H_MARGIN,
+    XmNtopWidget, LMDialog.extW, NULL);
     XmStringFree(s1);
- 
+
     LMDialog.recogW = XtVaCreateManagedWidget("recog", xmTextWidgetClass, form,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, recogLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, recogLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
     RemapDeleteKey(LMDialog.recogW);
     XtVaSetValues(recogLbl, XmNuserData, LMDialog.recogW, NULL);
-	    
+
     defTipsLbl = XtVaCreateManagedWidget("defTipsLbl", xmLabelGadgetClass, form,
-    	    XmNlabelString, s1=MKSTRING(
-"Default calltips file(s) (separate w/colons)"),
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-    	    XmNmnemonic, 'c',
-	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopOffset, H_MARGIN,
-	    XmNtopWidget, LMDialog.recogW, NULL);
+    XmNlabelString, s1 = MKSTRING("Default calltips file(s) (separate w/colons)"),
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNmnemonic, 'c',
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopOffset, H_MARGIN,
+    XmNtopWidget, LMDialog.recogW, NULL);
     XmStringFree(s1);
- 
-    LMDialog.defTipsW = XtVaCreateManagedWidget("defTips", xmTextWidgetClass, 
-            form,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LIST_RIGHT,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, defTipsLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
+
+    LMDialog.defTipsW = XtVaCreateManagedWidget("defTips", xmTextWidgetClass, form,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, defTipsLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
     RemapDeleteKey(LMDialog.defTipsW);
     XtVaSetValues(defTipsLbl, XmNuserData, LMDialog.defTipsW, NULL);
-	    
+
     okBtn = XtVaCreateManagedWidget("ok", xmPushButtonWidgetClass, form,
-            XmNlabelString, s1=XmStringCreateSimple("OK"),
-            XmNmarginWidth, BUTTON_WIDTH_MARGIN,
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, 10,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNrightPosition, 30,
-    	    XmNbottomAttachment, XmATTACH_POSITION,
-    	    XmNbottomPosition, 99, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("OK"),
+    XmNmarginWidth, BUTTON_WIDTH_MARGIN,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 10,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 30,
+    XmNbottomAttachment, XmATTACH_POSITION,
+    XmNbottomPosition, 99, NULL);
     XtAddCallback(okBtn, XmNactivateCallback, lmOkCB, NULL);
     XmStringFree(s1);
 
     applyBtn = XtVaCreateManagedWidget("apply", xmPushButtonWidgetClass, form,
-    	    XmNlabelString, s1=XmStringCreateSimple("Apply"),
-    	    XmNmnemonic, 'A',
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, 40,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNrightPosition, 60,
-    	    XmNbottomAttachment, XmATTACH_POSITION,
-    	    XmNbottomPosition, 99, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Apply"),
+    XmNmnemonic, 'A',
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 40,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 60,
+    XmNbottomAttachment, XmATTACH_POSITION,
+    XmNbottomPosition, 99, NULL);
     XtAddCallback(applyBtn, XmNactivateCallback, lmApplyCB, NULL);
     XmStringFree(s1);
 
-    closeBtn = XtVaCreateManagedWidget("close",xmPushButtonWidgetClass,form,
-            XmNlabelString, s1=XmStringCreateSimple("Close"),
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, 70,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNrightPosition, 90,
-    	    XmNbottomAttachment, XmATTACH_POSITION,
-    	    XmNbottomPosition, 99, NULL);
+    closeBtn = XtVaCreateManagedWidget("close", xmPushButtonWidgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple("Close"),
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 70,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 90,
+    XmNbottomAttachment, XmATTACH_POSITION,
+    XmNbottomPosition, 99, NULL);
     XtAddCallback(closeBtn, XmNactivateCallback, lmCloseCB, NULL);
     XmStringFree(s1);
 
-    overrideFrame = XtVaCreateManagedWidget("overrideFrame",
-    	    xmFrameWidgetClass, form,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LEFT_MARGIN_POS,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS,
-	    XmNbottomAttachment, XmATTACH_WIDGET,
-            XmNbottomWidget, closeBtn,
-	    XmNbottomOffset, H_MARGIN, NULL);
-    overrideForm = XtVaCreateManagedWidget("overrideForm", xmFormWidgetClass,
-	    overrideFrame, NULL);
+    overrideFrame = XtVaCreateManagedWidget("overrideFrame", xmFrameWidgetClass, form,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LEFT_MARGIN_POS,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS,
+    XmNbottomAttachment, XmATTACH_WIDGET,
+    XmNbottomWidget, closeBtn,
+    XmNbottomOffset, H_MARGIN, NULL);
+    overrideForm = XtVaCreateManagedWidget("overrideForm", xmFormWidgetClass, overrideFrame, NULL);
     XtVaCreateManagedWidget("overrideLbl", xmLabelGadgetClass, overrideFrame,
-    	    XmNlabelString, s1=XmStringCreateSimple("Override Defaults"),
-	    XmNchildType, XmFRAME_TITLE_CHILD,
-	    XmNchildHorizontalAlignment, XmALIGNMENT_CENTER, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Override Defaults"),
+    XmNchildType, XmFRAME_TITLE_CHILD,
+    XmNchildHorizontalAlignment, XmALIGNMENT_CENTER, NULL);
     XmStringFree(s1);
- 
-    delimitForm = XtVaCreateManagedWidget("delimitForm", xmFormWidgetClass,
-	    overrideForm,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LEFT_MARGIN_POS,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNtopOffset, H_MARGIN,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
-    delimitLbl = XtVaCreateManagedWidget("delimitLbl", xmLabelGadgetClass,
-    	    delimitForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Word delimiters"),
-    	    XmNmnemonic, 'W',
-	    XmNleftAttachment, XmATTACH_FORM,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNbottomAttachment, XmATTACH_FORM, NULL);
+
+    delimitForm = XtVaCreateManagedWidget("delimitForm", xmFormWidgetClass, overrideForm,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LEFT_MARGIN_POS,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNtopOffset, H_MARGIN,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
+    delimitLbl = XtVaCreateManagedWidget("delimitLbl", xmLabelGadgetClass, delimitForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Word delimiters"),
+    XmNmnemonic, 'W',
+    XmNleftAttachment, XmATTACH_FORM,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNbottomAttachment, XmATTACH_FORM, NULL);
     XmStringFree(s1);
-    LMDialog.delimitW = XtVaCreateManagedWidget("delimit", xmTextWidgetClass,
-    	    delimitForm,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, delimitLbl,
-	    XmNrightAttachment, XmATTACH_FORM,
-	    XmNbottomAttachment, XmATTACH_FORM, NULL);
+    LMDialog.delimitW = XtVaCreateManagedWidget("delimit", xmTextWidgetClass, delimitForm,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, delimitLbl,
+    XmNrightAttachment, XmATTACH_FORM,
+    XmNbottomAttachment, XmATTACH_FORM, NULL);
     RemapDeleteKey(LMDialog.delimitW);
     XtVaSetValues(delimitLbl, XmNuserData, LMDialog.delimitW, NULL);
 
-    tabForm = XtVaCreateManagedWidget("tabForm", xmFormWidgetClass,
-	    overrideForm,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LEFT_MARGIN_POS,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, delimitForm,
-	    XmNtopOffset, H_MARGIN,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
+    tabForm = XtVaCreateManagedWidget("tabForm", xmFormWidgetClass, overrideForm,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LEFT_MARGIN_POS,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, delimitForm,
+    XmNtopOffset, H_MARGIN,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS, NULL);
     tabLbl = XtVaCreateManagedWidget("tabLbl", xmLabelGadgetClass, tabForm,
-    	    XmNlabelString, s1=XmStringCreateSimple(
-    	    	"Alternative hardware tab spacing"),
-    	    XmNmnemonic, 't',
-	    XmNleftAttachment, XmATTACH_FORM,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNbottomAttachment, XmATTACH_FORM, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Alternative hardware tab spacing"),
+    XmNmnemonic, 't',
+    XmNleftAttachment, XmATTACH_FORM,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNbottomAttachment, XmATTACH_FORM, NULL);
     XmStringFree(s1);
-    LMDialog.tabW = XtVaCreateManagedWidget("delimit", xmTextWidgetClass,
-    	    tabForm,
-    	    XmNcolumns, 3,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, tabLbl,
-	    XmNbottomAttachment, XmATTACH_FORM, NULL);
+    LMDialog.tabW = XtVaCreateManagedWidget("delimit", xmTextWidgetClass, tabForm,
+    XmNcolumns, 3,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, tabLbl,
+    XmNbottomAttachment, XmATTACH_FORM, NULL);
     RemapDeleteKey(LMDialog.tabW);
     XtVaSetValues(tabLbl, XmNuserData, LMDialog.tabW, NULL);
-    LMDialog.emTabW = XtVaCreateManagedWidget("delimit", xmTextWidgetClass,
-    	    tabForm,
-    	    XmNcolumns, 3,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNrightAttachment, XmATTACH_FORM,
-	    XmNbottomAttachment, XmATTACH_FORM, NULL);
+    LMDialog.emTabW = XtVaCreateManagedWidget("delimit", xmTextWidgetClass, tabForm,
+    XmNcolumns, 3,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNrightAttachment, XmATTACH_FORM,
+    XmNbottomAttachment, XmATTACH_FORM, NULL);
     RemapDeleteKey(LMDialog.emTabW);
     XtVaCreateManagedWidget("emTabLbl", xmLabelGadgetClass, tabForm,
-    	    XmNlabelString,
-    	    s1=XmStringCreateSimple("Alternative emulated tab spacing"),
-    	    XmNalignment, XmALIGNMENT_END, 
-    	    XmNmnemonic, 'e',
-	    XmNuserData, LMDialog.emTabW,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, LMDialog.tabW,
-	    XmNrightAttachment, XmATTACH_WIDGET,
-	    XmNrightWidget, LMDialog.emTabW,
-	    XmNtopAttachment, XmATTACH_FORM,
-	    XmNbottomAttachment, XmATTACH_FORM, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("Alternative emulated tab spacing"),
+    XmNalignment, XmALIGNMENT_END,
+    XmNmnemonic, 'e',
+    XmNuserData, LMDialog.emTabW,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, LMDialog.tabW,
+    XmNrightAttachment, XmATTACH_WIDGET,
+    XmNrightWidget, LMDialog.emTabW,
+    XmNtopAttachment, XmATTACH_FORM,
+    XmNbottomAttachment, XmATTACH_FORM, NULL);
     XmStringFree(s1);
 
-    indentBox = XtVaCreateManagedWidget("indentBox", xmRowColumnWidgetClass,
-    	    overrideForm,
-    	    XmNorientation, XmHORIZONTAL,
-    	    XmNpacking, XmPACK_TIGHT,
-    	    XmNradioBehavior, True,
-	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, LEFT_MARGIN_POS,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, tabForm,
-	    XmNtopOffset, H_MARGIN, NULL);
-    LMDialog.defaultIndentW = XtVaCreateManagedWidget("defaultIndent", 
-    	    xmToggleButtonWidgetClass, indentBox,
-    	    XmNset, True,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("Default indent style"),
-    	    XmNmnemonic, 'D', NULL);
+    indentBox = XtVaCreateManagedWidget("indentBox", xmRowColumnWidgetClass, overrideForm,
+    XmNorientation, XmHORIZONTAL,
+    XmNpacking, XmPACK_TIGHT,
+    XmNradioBehavior, True,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LEFT_MARGIN_POS,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, tabForm,
+    XmNtopOffset, H_MARGIN, NULL);
+    LMDialog.defaultIndentW = XtVaCreateManagedWidget("defaultIndent", xmToggleButtonWidgetClass, indentBox,
+    XmNset, True,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("Default indent style"),
+    XmNmnemonic, 'D', NULL);
     XmStringFree(s1);
-    LMDialog.noIndentW = XtVaCreateManagedWidget("noIndent", 
-    	    xmToggleButtonWidgetClass, indentBox,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("No automatic indent"),
-    	    XmNmnemonic, 'N', NULL);
+    LMDialog.noIndentW = XtVaCreateManagedWidget("noIndent", xmToggleButtonWidgetClass, indentBox,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("No automatic indent"),
+    XmNmnemonic, 'N', NULL);
     XmStringFree(s1);
-    LMDialog.autoIndentW = XtVaCreateManagedWidget("autoIndent", 
-    	    xmToggleButtonWidgetClass, indentBox,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("Auto-indent"),
-    	    XmNmnemonic, 'A', NULL);
+    LMDialog.autoIndentW = XtVaCreateManagedWidget("autoIndent", xmToggleButtonWidgetClass, indentBox,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("Auto-indent"),
+    XmNmnemonic, 'A', NULL);
     XmStringFree(s1);
-    LMDialog.smartIndentW = XtVaCreateManagedWidget("smartIndent", 
-    	    xmToggleButtonWidgetClass, indentBox,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("Smart-indent"),
-    	    XmNmnemonic, 'S', NULL);
+    LMDialog.smartIndentW = XtVaCreateManagedWidget("smartIndent", xmToggleButtonWidgetClass, indentBox,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("Smart-indent"),
+    XmNmnemonic, 'S', NULL);
     XmStringFree(s1);
 
-    wrapBox = XtVaCreateManagedWidget("wrapBox", xmRowColumnWidgetClass,
-    	    overrideForm,
-    	    XmNorientation, XmHORIZONTAL,
-    	    XmNpacking, XmPACK_TIGHT,
-    	    XmNradioBehavior, True,
-	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, LEFT_MARGIN_POS,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, indentBox,
-	    XmNtopOffset, H_MARGIN,
-	    XmNbottomAttachment, XmATTACH_FORM,
-	    XmNbottomOffset, H_MARGIN, NULL);
-    LMDialog.defaultWrapW = XtVaCreateManagedWidget("defaultWrap", 
-    	    xmToggleButtonWidgetClass, wrapBox,
-    	    XmNset, True,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("Default wrap style"),
-    	    XmNmnemonic, 'D', NULL);
+    wrapBox = XtVaCreateManagedWidget("wrapBox", xmRowColumnWidgetClass, overrideForm,
+    XmNorientation, XmHORIZONTAL,
+    XmNpacking, XmPACK_TIGHT,
+    XmNradioBehavior, True,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LEFT_MARGIN_POS,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, indentBox,
+    XmNtopOffset, H_MARGIN,
+    XmNbottomAttachment, XmATTACH_FORM,
+    XmNbottomOffset, H_MARGIN, NULL);
+    LMDialog.defaultWrapW = XtVaCreateManagedWidget("defaultWrap", xmToggleButtonWidgetClass, wrapBox,
+    XmNset, True,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("Default wrap style"),
+    XmNmnemonic, 'D', NULL);
     XmStringFree(s1);
-    LMDialog.noWrapW = XtVaCreateManagedWidget("noWrap", 
-    	    xmToggleButtonWidgetClass, wrapBox,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("No wrapping"),
-    	    XmNmnemonic, 'N', NULL);
+    LMDialog.noWrapW = XtVaCreateManagedWidget("noWrap", xmToggleButtonWidgetClass, wrapBox,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("No wrapping"),
+    XmNmnemonic, 'N', NULL);
     XmStringFree(s1);
-    LMDialog.newlineWrapW = XtVaCreateManagedWidget("newlineWrap", 
-    	    xmToggleButtonWidgetClass, wrapBox,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("Auto newline wrap"),
-    	    XmNmnemonic, 'A', NULL);
+    LMDialog.newlineWrapW = XtVaCreateManagedWidget("newlineWrap", xmToggleButtonWidgetClass, wrapBox,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("Auto newline wrap"),
+    XmNmnemonic, 'A', NULL);
     XmStringFree(s1);
-    LMDialog.contWrapW = XtVaCreateManagedWidget("contWrap", 
-    	    xmToggleButtonWidgetClass, wrapBox,
-    	    XmNmarginHeight, 0,
-    	    XmNlabelString, s1=XmStringCreateSimple("Continuous wrap"),
-    	    XmNmnemonic, 'C', NULL);
+    LMDialog.contWrapW = XtVaCreateManagedWidget("contWrap", xmToggleButtonWidgetClass, wrapBox,
+    XmNmarginHeight, 0,
+    XmNlabelString, s1 = XmStringCreateSimple("Continuous wrap"),
+    XmNmnemonic, 'C', NULL);
     XmStringFree(s1);
 
     XtVaCreateManagedWidget("stretchForm", xmFormWidgetClass, form,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, LMDialog.defTipsW,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, LIST_RIGHT,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, RIGHT_MARGIN_POS,
-	    XmNbottomAttachment, XmATTACH_WIDGET,
-	    XmNbottomWidget, overrideFrame,
-	    XmNbottomOffset, H_MARGIN*2, NULL);
-    
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, LMDialog.defTipsW,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, LIST_RIGHT,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, RIGHT_MARGIN_POS,
+    XmNbottomAttachment, XmATTACH_WIDGET,
+    XmNbottomWidget, overrideFrame,
+    XmNbottomOffset, H_MARGIN * 2, NULL);
+
     ac = 0;
-    XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET); ac++;
-    XtSetArg(args[ac], XmNtopOffset, H_MARGIN); ac++;
-    XtSetArg(args[ac], XmNtopWidget, topLbl); ac++;
-    XtSetArg(args[ac], XmNleftAttachment, XmATTACH_POSITION); ac++;
-    XtSetArg(args[ac], XmNleftPosition, LEFT_MARGIN_POS); ac++;
-    XtSetArg(args[ac], XmNrightAttachment, XmATTACH_POSITION); ac++;
-    XtSetArg(args[ac], XmNrightPosition, LIST_RIGHT-1); ac++;
-    XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET); ac++;
-    XtSetArg(args[ac], XmNbottomWidget, overrideFrame); ac++;
-    XtSetArg(args[ac], XmNbottomOffset, H_MARGIN*2); ac++;
-    LMDialog.managedListW = CreateManagedList(form, "list", args, ac,
-    	    (void **)LMDialog.languageModeList, &LMDialog.nLanguageModes,
-    	    MAX_LANGUAGE_MODES, 15, lmGetDisplayedCB, NULL, lmSetDisplayedCB,
-    	    NULL, lmFreeItemCB);
+    XtSetArg(args[ac], XmNtopAttachment, XmATTACH_WIDGET);
+    ac++;
+    XtSetArg(args[ac], XmNtopOffset, H_MARGIN);
+    ac++;
+    XtSetArg(args[ac], XmNtopWidget, topLbl);
+    ac++;
+    XtSetArg(args[ac], XmNleftAttachment, XmATTACH_POSITION);
+    ac++;
+    XtSetArg(args[ac], XmNleftPosition, LEFT_MARGIN_POS);
+    ac++;
+    XtSetArg(args[ac], XmNrightAttachment, XmATTACH_POSITION);
+    ac++;
+    XtSetArg(args[ac], XmNrightPosition, LIST_RIGHT-1);
+    ac++;
+    XtSetArg(args[ac], XmNbottomAttachment, XmATTACH_WIDGET);
+    ac++;
+    XtSetArg(args[ac], XmNbottomWidget, overrideFrame);
+    ac++;
+    XtSetArg(args[ac], XmNbottomOffset, H_MARGIN*2);
+    ac++;
+    LMDialog.managedListW = CreateManagedList(form, "list", args, ac, (void **) LMDialog.languageModeList, &LMDialog.nLanguageModes,
+    MAX_LANGUAGE_MODES, 15, lmGetDisplayedCB, NULL, lmSetDisplayedCB,
+    NULL, lmFreeItemCB);
     AddDeleteConfirmCB(LMDialog.managedListW, lmDeleteConfirmCB, NULL);
     XtVaSetValues(topLbl, XmNuserData, LMDialog.managedListW, NULL);
-    	
+
     /* Set initial default button */
     XtVaSetValues(form, XmNdefaultButton, okBtn, NULL);
     XtVaSetValues(form, XmNcancelButton, closeBtn, NULL);
-    
+
     /* Handle mnemonic selection of buttons and focus to dialog */
     AddDialogMnemonicHandler(form, FALSE);
 
@@ -3284,16 +3193,16 @@ characters of file to determine type from content)"),
 static void lmDestroyCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     int i;
-    
-    for (i=0; i<LMDialog.nLanguageModes; i++)
-    	freeLanguageModeRec(LMDialog.languageModeList[i]);
+
+    for (i = 0; i < LMDialog.nLanguageModes; i++)
+        freeLanguageModeRec(LMDialog.languageModeList[i]);
     NEditFree(LMDialog.languageModeList);
 }
 
 static void lmOkCB(Widget w, XtPointer clientData, XtPointer callData)
 {
     if (!updateLMList())
-    	return;
+        return;
 
     /* pop down and destroy the dialog */
     XtDestroyWidget(LMDialog.shell);
@@ -3315,18 +3224,15 @@ static void lmCloseCB(Widget w, XtPointer clientData, XtPointer callData)
 static int lmDeleteConfirmCB(int itemIndex, void *cbArg)
 {
     int i;
-    
+
     /* Allow duplicate names to be deleted regardless of dependencies */
-    for (i=0; i<LMDialog.nLanguageModes; i++)
-	if (i != itemIndex && !strcmp(LMDialog.languageModeList[i]->name,
-		LMDialog.languageModeList[itemIndex]->name))
-	    return True;
-    
+    for (i = 0; i < LMDialog.nLanguageModes; i++)
+        if (i != itemIndex && !strcmp(LMDialog.languageModeList[i]->name, LMDialog.languageModeList[itemIndex]->name))
+            return True;
+
     /* don't allow deletion if data will be lost */
-    if (LMHasHighlightPatterns(LMDialog.languageModeList[itemIndex]->name))
-    {
-        DialogF(DF_WARN, LMDialog.shell, 1, "Patterns exist",
-                "This language mode has syntax highlighting\n"
+    if (LMHasHighlightPatterns(LMDialog.languageModeList[itemIndex]->name)) {
+        DialogF(DF_WARN, LMDialog.shell, 1, "Patterns exist", "This language mode has syntax highlighting\n"
                 "patterns defined.  Please delete the patterns\n"
                 "first, in Preferences -> Default Settings ->\n"
                 "Syntax Highlighting, before proceeding here.", "OK");
@@ -3334,10 +3240,8 @@ static int lmDeleteConfirmCB(int itemIndex, void *cbArg)
     }
 
     /* don't allow deletion if data will be lost */
-    if (LMHasSmartIndentMacros(LMDialog.languageModeList[itemIndex]->name))
-    {
-        DialogF(DF_WARN, LMDialog.shell, 1, "Smart Indent Macros exist",
-                "This language mode has smart indent macros\n"
+    if (LMHasSmartIndentMacros(LMDialog.languageModeList[itemIndex]->name)) {
+        DialogF(DF_WARN, LMDialog.shell, 1, "Smart Indent Macros exist", "This language mode has smart indent macros\n"
                 "defined.  Please delete the macros first,\n"
                 "in Preferences -> Default Settings ->\n"
                 "Auto Indent -> Program Smart Indent,\n"
@@ -3349,149 +3253,138 @@ static int lmDeleteConfirmCB(int itemIndex, void *cbArg)
 }
 
 /*
-** Apply the changes that the user has made in the language modes dialog to the
-** stored language mode information for this NEdit session (the data array
-** LanguageModes)
-*/
-static int updateLMList(void)
+ ** Apply the changes that the user has made in the language modes dialog to the
+ ** stored language mode information for this NEdit session (the data array
+ ** LanguageModes)
+ */
+static int updateLMList()
 {
     WindowInfo *window;
     int oldLanguageMode;
     char *oldModeName, *newDelimiters;
     int i, j;
-    
+
     /* Get the current contents of the dialog fields */
     if (!UpdateManagedList(LMDialog.managedListW, True))
-    	return False;
+        return False;
 
     /* Fix up language mode indices in all open windows (which may change
-       if the currently selected mode is deleted or has changed position),
-       and update word delimiters */
-    for (window=WindowList; window!=NULL; window=window->next) {
-	if (window->languageMode != PLAIN_LANGUAGE_MODE) {
+     if the currently selected mode is deleted or has changed position),
+     and update word delimiters */
+    for (window = WindowList; window != NULL; window = window->next) {
+        if (window->languageMode != PLAIN_LANGUAGE_MODE) {
             oldLanguageMode = window->languageMode;
-    	    oldModeName = LanguageModes[window->languageMode]->name;
-    	    window->languageMode = PLAIN_LANGUAGE_MODE;
-    	    for (i=0; i<LMDialog.nLanguageModes; i++) {
-    		if (!strcmp(oldModeName, LMDialog.languageModeList[i]->name)) {
-    	    	    newDelimiters = LMDialog.languageModeList[i]->delimiters;
-    	    	    if (newDelimiters == NULL)
-    	    	    	newDelimiters = GetPrefDelimiters();
-    	    	    XtVaSetValues(window->textArea, textNwordDelimiters,
-    	    	    	    newDelimiters, NULL);
-    	    	    for (j=0; j<window->nPanes; j++)
-    	    	    	XtVaSetValues(window->textPanes[j],
-    	    	    	    	textNwordDelimiters, newDelimiters, NULL);
+            oldModeName = LanguageModes[window->languageMode]->name;
+            window->languageMode = PLAIN_LANGUAGE_MODE;
+            for (i = 0; i < LMDialog.nLanguageModes; i++) {
+                if (!strcmp(oldModeName, LMDialog.languageModeList[i]->name)) {
+                    newDelimiters = LMDialog.languageModeList[i]->delimiters;
+                    if (newDelimiters == NULL)
+                        newDelimiters = GetPrefDelimiters();
+                    XtVaSetValues(window->textArea, textNwordDelimiters, newDelimiters, NULL);
+                    for (j = 0; j < window->nPanes; j++)
+                        XtVaSetValues(window->textPanes[j],
+                        textNwordDelimiters, newDelimiters, NULL);
                     /* don't forget to adapt the LM stored within the user menu cache */
                     if (window->userMenuCache->umcLanguageMode == oldLanguageMode)
                         window->userMenuCache->umcLanguageMode = i;
                     if (window->userBGMenuCache.ubmcLanguageMode == oldLanguageMode)
                         window->userBGMenuCache.ubmcLanguageMode = i;
                     /* update the language mode of this window (document) */
-    	    	    window->languageMode = i;
-    	    	    break;
-    		}
-    	    }
-	}
+                    window->languageMode = i;
+                    break;
+                }
+            }
+        }
     }
-    
+
     /* If there were any name changes, re-name dependent highlight patterns
-       and smart-indent macros and fix up the weird rename-format names */
-    for (i=0; i<LMDialog.nLanguageModes; i++) {
-    	if (strchr(LMDialog.languageModeList[i]->name, ':') != NULL) {
-    	    char *newName = strrchr(LMDialog.languageModeList[i]->name, ':')+1;
-    	    *strchr(LMDialog.languageModeList[i]->name, ':') = '\0';
-    	    RenameHighlightPattern(LMDialog.languageModeList[i]->name, newName);
-    	    RenameSmartIndentMacros(LMDialog.languageModeList[i]->name, newName);
-    	    memmove(LMDialog.languageModeList[i]->name, newName,
-    	    	    strlen(newName) + 1);
-    	    ChangeManagedListData(LMDialog.managedListW);
-    	}
+     and smart-indent macros and fix up the weird rename-format names */
+    for (i = 0; i < LMDialog.nLanguageModes; i++) {
+        if (strchr(LMDialog.languageModeList[i]->name, ':') != NULL) {
+            char *newName = strrchr(LMDialog.languageModeList[i]->name, ':') + 1;
+            *strchr(LMDialog.languageModeList[i]->name, ':') = '\0';
+            RenameHighlightPattern(LMDialog.languageModeList[i]->name, newName);
+            RenameSmartIndentMacros(LMDialog.languageModeList[i]->name, newName);
+            memmove(LMDialog.languageModeList[i]->name, newName, strlen(newName) + 1);
+            ChangeManagedListData(LMDialog.managedListW);
+        }
     }
-    
+
     /* Replace the old language mode list with the new one from the dialog */
-    for (i=0; i<NLanguageModes; i++)
-    	freeLanguageModeRec(LanguageModes[i]);
-    for (i=0; i<LMDialog.nLanguageModes; i++)
-    	LanguageModes[i] = copyLanguageModeRec(LMDialog.languageModeList[i]);
+    for (i = 0; i < NLanguageModes; i++)
+        freeLanguageModeRec(LanguageModes[i]);
+    for (i = 0; i < LMDialog.nLanguageModes; i++)
+        LanguageModes[i] = copyLanguageModeRec(LMDialog.languageModeList[i]);
     NLanguageModes = LMDialog.nLanguageModes;
-    
+
     /* Update user menu info to update language mode dependencies of
-       user menu items */
+     user menu items */
     UpdateUserMenuInfo();
 
     /* Update the menus in the window menu bars and load any needed
-        calltips files */
-    for (window=WindowList; window!=NULL; window=window->next) {
-    	updateLanguageModeSubmenu(window);
-        if (window->languageMode != PLAIN_LANGUAGE_MODE &&
-                LanguageModes[window->languageMode]->defTipsFile != NULL)
+     calltips files */
+    for (window = WindowList; window != NULL; window = window->next) {
+        updateLanguageModeSubmenu(window);
+        if (window->languageMode != PLAIN_LANGUAGE_MODE && LanguageModes[window->languageMode]->defTipsFile != NULL)
             AddTagsFile(LanguageModes[window->languageMode]->defTipsFile, TIP);
         /* cache user menus: Rebuild all user menus of this window */
         RebuildAllMenus(window);
     }
-    
+
     /* If a syntax highlighting dialog is up, update its menu */
     UpdateLanguageModeMenu();
     /* The same for the smart indent macro dialog */
-    UpdateLangModeMenuSmartIndent(); 
+    UpdateLangModeMenuSmartIndent();
     /* Note that preferences have been changed */
     MarkPrefsChanged();
 
     return True;
 }
 
-static void *lmGetDisplayedCB(void *oldItem, int explicitRequest, int *abort,
-    	void *cbArg)
+static void *lmGetDisplayedCB(void *oldItem, int explicitRequest, int *abort, void *cbArg)
 {
-    languageModeRec *lm, *oldLM = (languageModeRec *)oldItem;
+    languageModeRec *lm, *oldLM = (languageModeRec *) oldItem;
     char *tempName;
     int i, nCopies, oldLen;
-    
+
     /* If the dialog is currently displaying the "new" entry and the
-       fields are empty, that's just fine */
+     fields are empty, that's just fine */
     if (oldItem == NULL && lmDialogEmpty())
-    	return NULL;
-    
+        return NULL;
+
     /* Read the data the user has entered in the dialog fields */
     lm = readLMDialogFields(True);
 
     /* If there was a name change of a non-duplicate language mode, modify the
-       name to the weird format of: ":old name:new name".  This signals that a
-       name change is necessary in lm dependent data such as highlight
-       patterns.  Duplicate language modes may be re-named at will, since no
-       data will be lost due to the name change. */
+     name to the weird format of: ":old name:new name".  This signals that a
+     name change is necessary in lm dependent data such as highlight
+     patterns.  Duplicate language modes may be re-named at will, since no
+     data will be lost due to the name change. */
     if (lm != NULL && oldLM != NULL && strcmp(oldLM->name, lm->name)) {
-    	nCopies = 0;
-	for (i=0; i<LMDialog.nLanguageModes; i++)
-	    if (!strcmp(oldLM->name, LMDialog.languageModeList[i]->name))
-		nCopies++;
-	if (nCopies <= 1) {
-    	    oldLen = strchr(oldLM->name, ':') == NULL ? strlen(oldLM->name) :
-    	    	    strchr(oldLM->name, ':') - oldLM->name;
-    	    tempName = (char*)NEditMalloc(oldLen + strlen(lm->name) + 2);
-    	    strncpy(tempName, oldLM->name, oldLen);
-    	    sprintf(&tempName[oldLen], ":%s", lm->name);
-    	    NEditFree(lm->name);
-    	    lm->name = tempName;
-	}
+        nCopies = 0;
+        for (i = 0; i < LMDialog.nLanguageModes; i++)
+            if (!strcmp(oldLM->name, LMDialog.languageModeList[i]->name))
+                nCopies++;
+        if (nCopies <= 1) {
+            oldLen = strchr(oldLM->name, ':') == NULL ? strlen(oldLM->name) : strchr(oldLM->name, ':') - oldLM->name;
+            tempName = (char*) NEditMalloc(oldLen + strlen(lm->name) + 2);
+            strncpy(tempName, oldLM->name, oldLen);
+            sprintf(&tempName[oldLen], ":%s", lm->name);
+            NEditFree(lm->name);
+            lm->name = tempName;
+        }
     }
-    
+
     /* If there are no problems reading the data, just return it */
     if (lm != NULL)
-    	return (void *)lm;
-    
+        return (void *) lm;
+
     /* If there are problems, and the user didn't ask for the fields to be
-       read, give more warning */
-    if (!explicitRequest)
-    {
-        if (DialogF(DF_WARN, LMDialog.shell, 2, "Discard Language Mode",
-                "Discard incomplete entry\nfor current language mode?", "Keep",
-                "Discard") == 2)
-        {
-            return oldItem == NULL
-                    ? NULL
-                    : (void *)copyLanguageModeRec((languageModeRec *)oldItem);
+     read, give more warning */
+    if (!explicitRequest) {
+        if (DialogF(DF_WARN, LMDialog.shell, 2, "Discard Language Mode", "Discard incomplete entry\nfor current language mode?", "Keep", "Discard") == 2) {
+            return oldItem == NULL ? NULL : (void *) copyLanguageModeRec((languageModeRec *) oldItem);
         }
     }
 
@@ -3503,103 +3396,94 @@ static void *lmGetDisplayedCB(void *oldItem, int explicitRequest, int *abort,
 
 static void lmSetDisplayedCB(void *item, void *cbArg)
 {
-    languageModeRec *lm = (languageModeRec *)item;
+    languageModeRec *lm = (languageModeRec *) item;
     char *extStr;
 
     if (item == NULL) {
-    	XmTextSetString(LMDialog.nameW, "");
-    	XmTextSetString(LMDialog.extW, "");
-    	XmTextSetString(LMDialog.recogW, "");
+        XmTextSetString(LMDialog.nameW, "");
+        XmTextSetString(LMDialog.extW, "");
+        XmTextSetString(LMDialog.recogW, "");
         XmTextSetString(LMDialog.defTipsW, "");
-    	XmTextSetString(LMDialog.delimitW, "");
-    	XmTextSetString(LMDialog.tabW, "");
-    	XmTextSetString(LMDialog.emTabW, "");
-    	RadioButtonChangeState(LMDialog.defaultIndentW, True, True);
-    	RadioButtonChangeState(LMDialog.defaultWrapW, True, True);
+        XmTextSetString(LMDialog.delimitW, "");
+        XmTextSetString(LMDialog.tabW, "");
+        XmTextSetString(LMDialog.emTabW, "");
+        RadioButtonChangeState(LMDialog.defaultIndentW, True, True);
+        RadioButtonChangeState(LMDialog.defaultWrapW, True, True);
     } else {
-    	XmTextSetString(LMDialog.nameW, strchr(lm->name, ':') == NULL ?
-    	    	lm->name : strchr(lm->name, ':')+1);
-    	extStr = createExtString(lm->extensions, lm->nExtensions);
-    	XmTextSetString(LMDialog.extW, extStr);
-    	NEditFree(extStr);
-    	XmTextSetString(LMDialog.recogW, lm->recognitionExpr);
+        XmTextSetString(LMDialog.nameW, strchr(lm->name, ':') == NULL ? lm->name : strchr(lm->name, ':') + 1);
+        extStr = createExtString(lm->extensions, lm->nExtensions);
+        XmTextSetString(LMDialog.extW, extStr);
+        NEditFree(extStr);
+        XmTextSetString(LMDialog.recogW, lm->recognitionExpr);
         XmTextSetString(LMDialog.defTipsW, lm->defTipsFile);
-    	XmTextSetString(LMDialog.delimitW, lm->delimiters);
-    	if (lm->tabDist == DEFAULT_TAB_DIST)
-    	    XmTextSetString(LMDialog.tabW, "");
-    	else
-    	    SetIntText(LMDialog.tabW, lm->tabDist);
-    	if (lm->emTabDist == DEFAULT_EM_TAB_DIST)
-    	    XmTextSetString(LMDialog.emTabW, "");
-    	else
-    	    SetIntText(LMDialog.emTabW, lm->emTabDist);
-    	RadioButtonChangeState(LMDialog.defaultIndentW,
-    	    	lm->indentStyle == DEFAULT_INDENT, False);
-    	RadioButtonChangeState(LMDialog.noIndentW,
-    	    	lm->indentStyle == NO_AUTO_INDENT, False);
-    	RadioButtonChangeState(LMDialog.autoIndentW,
-    	    	lm->indentStyle == AUTO_INDENT, False);
-    	RadioButtonChangeState(LMDialog.smartIndentW,
-    	    	lm->indentStyle == SMART_INDENT, False);
-    	RadioButtonChangeState(LMDialog.defaultWrapW,
-    	    	lm->wrapStyle == DEFAULT_WRAP, False);
-    	RadioButtonChangeState(LMDialog.noWrapW,
-    	    	lm->wrapStyle == NO_WRAP, False);
-    	RadioButtonChangeState(LMDialog.newlineWrapW,
-    	    	lm->wrapStyle == NEWLINE_WRAP, False);
-    	RadioButtonChangeState(LMDialog.contWrapW,
-    	    	lm->wrapStyle == CONTINUOUS_WRAP, False);
+        XmTextSetString(LMDialog.delimitW, lm->delimiters);
+        if (lm->tabDist == DEFAULT_TAB_DIST)
+            XmTextSetString(LMDialog.tabW, "");
+        else
+            SetIntText(LMDialog.tabW, lm->tabDist);
+        if (lm->emTabDist == DEFAULT_EM_TAB_DIST)
+            XmTextSetString(LMDialog.emTabW, "");
+        else
+            SetIntText(LMDialog.emTabW, lm->emTabDist);
+        RadioButtonChangeState(LMDialog.defaultIndentW, lm->indentStyle == DEFAULT_INDENT, False);
+        RadioButtonChangeState(LMDialog.noIndentW, lm->indentStyle == NO_AUTO_INDENT, False);
+        RadioButtonChangeState(LMDialog.autoIndentW, lm->indentStyle == AUTO_INDENT, False);
+        RadioButtonChangeState(LMDialog.smartIndentW, lm->indentStyle == SMART_INDENT, False);
+        RadioButtonChangeState(LMDialog.defaultWrapW, lm->wrapStyle == DEFAULT_WRAP, False);
+        RadioButtonChangeState(LMDialog.noWrapW, lm->wrapStyle == NO_WRAP, False);
+        RadioButtonChangeState(LMDialog.newlineWrapW, lm->wrapStyle == NEWLINE_WRAP, False);
+        RadioButtonChangeState(LMDialog.contWrapW, lm->wrapStyle == CONTINUOUS_WRAP, False);
     }
 }
 
 static void lmFreeItemCB(void *item)
 {
-    freeLanguageModeRec((languageModeRec *)item);
+    freeLanguageModeRec((languageModeRec *) item);
 }
 
 static void freeLanguageModeRec(languageModeRec *lm)
 {
     int i;
-    
+
     NEditFree(lm->name);
     NEditFree(lm->recognitionExpr);
     NEditFree(lm->defTipsFile);
     NEditFree(lm->delimiters);
-    for (i=0; i<lm->nExtensions; i++)
-    	NEditFree(lm->extensions[i]);
+    for (i = 0; i < lm->nExtensions; i++)
+        NEditFree(lm->extensions[i]);
     NEditFree(lm->extensions);
     NEditFree(lm);
 }
 
 /*
-** Copy a languageModeRec data structure and all of the allocated data it contains
-*/
+ ** Copy a languageModeRec data structure and all of the allocated data it contains
+ */
 static languageModeRec *copyLanguageModeRec(languageModeRec *lm)
 {
     languageModeRec *newLM;
     int i;
-    
-    newLM = (languageModeRec *)NEditMalloc(sizeof(languageModeRec));
+
+    newLM = (languageModeRec *) NEditMalloc(sizeof(languageModeRec));
     newLM->name = NEditStrdup(lm->name);
     newLM->nExtensions = lm->nExtensions;
-    newLM->extensions = (char **)NEditMalloc(sizeof(char *) * lm->nExtensions);
-    for (i=0; i<lm->nExtensions; i++) {
-    	newLM->extensions[i] = NEditStrdup(lm->extensions[i]);
+    newLM->extensions = (char **) NEditMalloc(sizeof(char *) * lm->nExtensions);
+    for (i = 0; i < lm->nExtensions; i++) {
+        newLM->extensions[i] = NEditStrdup(lm->extensions[i]);
     }
     if (lm->recognitionExpr == NULL)
-    	newLM->recognitionExpr = NULL;
+        newLM->recognitionExpr = NULL;
     else {
-	newLM->recognitionExpr = NEditStrdup(lm->recognitionExpr);
+        newLM->recognitionExpr = NEditStrdup(lm->recognitionExpr);
     }
     if (lm->defTipsFile == NULL)
-    	newLM->defTipsFile = NULL;
+        newLM->defTipsFile = NULL;
     else {
-	newLM->defTipsFile = NEditStrdup(lm->defTipsFile);
+        newLM->defTipsFile = NEditStrdup(lm->defTipsFile);
     }
     if (lm->delimiters == NULL)
-    	newLM->delimiters = NULL;
+        newLM->delimiters = NULL;
     else {
-	newLM->delimiters = NEditStrdup(lm->delimiters);
+        newLM->delimiters = NEditStrdup(lm->delimiters);
     }
     newLM->wrapStyle = lm->wrapStyle;
     newLM->indentStyle = lm->indentStyle;
@@ -3609,11 +3493,11 @@ static languageModeRec *copyLanguageModeRec(languageModeRec *lm)
 }
 
 /*
-** Read the fields in the language modes dialog and create a languageModeRec data
-** structure reflecting the current state of the selected language mode in the dialog.
-** If any of the information is incorrect or missing, display a warning dialog and
-** return NULL.  Passing "silent" as True, suppresses the warning dialogs.
-*/
+ ** Read the fields in the language modes dialog and create a languageModeRec data
+ ** structure reflecting the current state of the selected language mode in the dialog.
+ ** If any of the information is incorrect or missing, display a warning dialog and
+ ** return NULL.  Passing "silent" as True, suppresses the warning dialogs.
+ */
 static languageModeRec *readLMDialogFields(int silent)
 {
     languageModeRec *lm;
@@ -3621,186 +3505,155 @@ static languageModeRec *readLMDialogFields(int silent)
     char *compileMsg, *extStr, *extPtr;
 
     /* Allocate a language mode structure to return, set unread fields to
-       empty so everything can be freed on errors by freeLanguageModeRec */
-    lm = (languageModeRec *)NEditMalloc(sizeof(languageModeRec));
+     empty so everything can be freed on errors by freeLanguageModeRec */
+    lm = (languageModeRec *) NEditMalloc(sizeof(languageModeRec));
     lm->nExtensions = 0;
     lm->recognitionExpr = NULL;
     lm->defTipsFile = NULL;
     lm->delimiters = NULL;
 
     /* read the name field */
-    lm->name = ReadSymbolicFieldTextWidget(LMDialog.nameW,
-    	    "language mode name", silent);
+    lm->name = ReadSymbolicFieldTextWidget(LMDialog.nameW, "language mode name", silent);
     if (lm->name == NULL) {
-    	NEditFree(lm);
-    	return NULL;
+        NEditFree(lm);
+        return NULL;
     }
 
-    if (*lm->name == '\0')
-    {
-        if (!silent)
-        {
-            DialogF(DF_WARN, LMDialog.shell, 1, "Language Mode Name",
-                    "Please specify a name\nfor the language mode", "OK");
+    if (*lm->name == '\0') {
+        if (!silent) {
+            DialogF(DF_WARN, LMDialog.shell, 1, "Language Mode Name", "Please specify a name\nfor the language mode", "OK");
             XmProcessTraversal(LMDialog.nameW, XmTRAVERSE_CURRENT);
         }
         freeLanguageModeRec(lm);
         return NULL;
     }
-    
+
     /* read the extension list field */
     extStr = extPtr = XmTextGetString(LMDialog.extW);
     lm->extensions = readExtensionList(&extPtr, &lm->nExtensions);
     NEditFree(extStr);
-    
+
     /* read recognition expression */
     lm->recognitionExpr = XmTextGetString(LMDialog.recogW);
     if (*lm->recognitionExpr == '\0') {
-    	NEditFree(lm->recognitionExpr);
-    	lm->recognitionExpr = NULL;
-    } else
-    {
+        NEditFree(lm->recognitionExpr);
+        lm->recognitionExpr = NULL;
+    } else {
         compiledRE = CompileRE(lm->recognitionExpr, &compileMsg, REDFLT_STANDARD);
 
-        if (compiledRE == NULL)
-        {
-            if (!silent)
-            {
-                DialogF(DF_WARN, LMDialog.shell, 1, "Regex",
-                        "Recognition expression:\n%s", "OK", compileMsg);
+        if (compiledRE == NULL) {
+            if (!silent) {
+                DialogF(DF_WARN, LMDialog.shell, 1, "Regex", "Recognition expression:\n%s", "OK", compileMsg);
                 XmProcessTraversal(LMDialog.recogW, XmTRAVERSE_CURRENT);
             }
             NEditFree(compiledRE);
             freeLanguageModeRec(lm);
-            return NULL;    
+            return NULL;
         }
 
         NEditFree(compiledRE);
     }
-    
+
     /* Read the default calltips file for the language mode */
     lm->defTipsFile = XmTextGetString(LMDialog.defTipsW);
     if (*lm->defTipsFile == '\0') {
         /* Empty string */
-    	NEditFree(lm->defTipsFile);
-    	lm->defTipsFile = NULL;
+        NEditFree(lm->defTipsFile);
+        lm->defTipsFile = NULL;
     } else {
         /* Ensure that AddTagsFile will work */
         if (AddTagsFile(lm->defTipsFile, TIP) == FALSE) {
-            if (!silent)
-            {
-                DialogF(DF_WARN, LMDialog.shell, 1, "Error reading Calltips",
-                        "Can't read default calltips file(s):\n  \"%s\"\n",
-                        "OK", lm->defTipsFile);
+            if (!silent) {
+                DialogF(DF_WARN, LMDialog.shell, 1, "Error reading Calltips", "Can't read default calltips file(s):\n  \"%s\"\n", "OK", lm->defTipsFile);
                 XmProcessTraversal(LMDialog.recogW, XmTRAVERSE_CURRENT);
             }
             freeLanguageModeRec(lm);
             return NULL;
-        } else
-            if (DeleteTagsFile(lm->defTipsFile, TIP, False) == FALSE)
-                fprintf(stderr, "nedit: Internal error: Trouble deleting " 
-                        "calltips file(s):\n  \"%s\"\n", lm->defTipsFile);
+        } else if (DeleteTagsFile(lm->defTipsFile, TIP, False) == FALSE)
+            fprintf(stderr, "nedit: Internal error: Trouble deleting "
+                    "calltips file(s):\n  \"%s\"\n", lm->defTipsFile);
     }
-    
+
     /* read tab spacing field */
     if (TextWidgetIsBlank(LMDialog.tabW))
-    	lm->tabDist = DEFAULT_TAB_DIST;
+        lm->tabDist = DEFAULT_TAB_DIST;
     else {
-    	if (GetIntTextWarn(LMDialog.tabW, &lm->tabDist, "tab spacing", False)
-    	    	!= TEXT_READ_OK) {
-   	    freeLanguageModeRec(lm);
-    	    return NULL;
-	}
+        if (GetIntTextWarn(LMDialog.tabW, &lm->tabDist, "tab spacing", False) != TEXT_READ_OK) {
+            freeLanguageModeRec(lm);
+            return NULL;
+        }
 
-        if (lm->tabDist <= 0 || lm->tabDist > 100)
-        {
-            if (!silent)
-            {
-                DialogF(DF_WARN, LMDialog.shell, 1, "Invalid Tab Spacing",
-                        "Invalid tab spacing: %d", "OK", lm->tabDist);
+        if (lm->tabDist <= 0 || lm->tabDist > 100) {
+            if (!silent) {
+                DialogF(DF_WARN, LMDialog.shell, 1, "Invalid Tab Spacing", "Invalid tab spacing: %d", "OK", lm->tabDist);
                 XmProcessTraversal(LMDialog.tabW, XmTRAVERSE_CURRENT);
             }
             freeLanguageModeRec(lm);
             return NULL;
         }
     }
-    
+
     /* read emulated tab field */
-    if (TextWidgetIsBlank(LMDialog.emTabW))
-    {
+    if (TextWidgetIsBlank(LMDialog.emTabW)) {
         lm->emTabDist = DEFAULT_EM_TAB_DIST;
-    } else
-    {
-        if (GetIntTextWarn(LMDialog.emTabW, &lm->emTabDist,
-                "emulated tab spacing", False) != TEXT_READ_OK)
-        {
+    } else {
+        if (GetIntTextWarn(LMDialog.emTabW, &lm->emTabDist, "emulated tab spacing", False) != TEXT_READ_OK) {
             freeLanguageModeRec(lm);
             return NULL;
         }
 
-        if (lm->emTabDist < 0 || lm->emTabDist > 100)
-        {
-            if (!silent)
-            {
-                DialogF(DF_WARN, LMDialog.shell, 1, "Invalid Tab Spacing",
-                        "Invalid emulated tab spacing: %d", "OK",
-                        lm->emTabDist);
+        if (lm->emTabDist < 0 || lm->emTabDist > 100) {
+            if (!silent) {
+                DialogF(DF_WARN, LMDialog.shell, 1, "Invalid Tab Spacing", "Invalid emulated tab spacing: %d", "OK", lm->emTabDist);
                 XmProcessTraversal(LMDialog.emTabW, XmTRAVERSE_CURRENT);
             }
             freeLanguageModeRec(lm);
             return NULL;
         }
     }
-    
+
     /* read delimiters string */
     lm->delimiters = XmTextGetString(LMDialog.delimitW);
     if (*lm->delimiters == '\0') {
-    	NEditFree(lm->delimiters);
-    	lm->delimiters = NULL;
+        NEditFree(lm->delimiters);
+        lm->delimiters = NULL;
     }
-    
+
     /* read indent style */
     if (XmToggleButtonGetState(LMDialog.noIndentW))
-    	 lm->indentStyle = NO_AUTO_INDENT;
+        lm->indentStyle = NO_AUTO_INDENT;
     else if (XmToggleButtonGetState(LMDialog.autoIndentW))
-    	 lm->indentStyle = AUTO_INDENT;
+        lm->indentStyle = AUTO_INDENT;
     else if (XmToggleButtonGetState(LMDialog.smartIndentW))
-    	 lm->indentStyle = SMART_INDENT;
+        lm->indentStyle = SMART_INDENT;
     else
-    	 lm->indentStyle = DEFAULT_INDENT;
-    
+        lm->indentStyle = DEFAULT_INDENT;
+
     /* read wrap style */
     if (XmToggleButtonGetState(LMDialog.noWrapW))
-    	 lm->wrapStyle = NO_WRAP;
+        lm->wrapStyle = NO_WRAP;
     else if (XmToggleButtonGetState(LMDialog.newlineWrapW))
-    	 lm->wrapStyle = NEWLINE_WRAP;
+        lm->wrapStyle = NEWLINE_WRAP;
     else if (XmToggleButtonGetState(LMDialog.contWrapW))
-    	 lm->wrapStyle = CONTINUOUS_WRAP;
+        lm->wrapStyle = CONTINUOUS_WRAP;
     else
-    	 lm->wrapStyle = DEFAULT_WRAP;
-    
+        lm->wrapStyle = DEFAULT_WRAP;
+
     return lm;
 }
 
 /*
-** Return True if the language mode dialog fields are blank (unchanged from the "New"
-** language mode state).
-*/
-static int lmDialogEmpty(void)
+ ** Return True if the language mode dialog fields are blank (unchanged from the "New"
+ ** language mode state).
+ */
+static int lmDialogEmpty()
 {
-    return TextWidgetIsBlank(LMDialog.nameW) &&
- 	    TextWidgetIsBlank(LMDialog.extW) &&
-	    TextWidgetIsBlank(LMDialog.recogW) &&
-	    TextWidgetIsBlank(LMDialog.delimitW) &&
-	    TextWidgetIsBlank(LMDialog.tabW) &&
-	    TextWidgetIsBlank(LMDialog.emTabW) &&
-	    XmToggleButtonGetState(LMDialog.defaultIndentW) &&
-	    XmToggleButtonGetState(LMDialog.defaultWrapW);
-}   	
+    return TextWidgetIsBlank(LMDialog.nameW) && TextWidgetIsBlank(LMDialog.extW) && TextWidgetIsBlank(LMDialog.recogW) && TextWidgetIsBlank(LMDialog.delimitW) && TextWidgetIsBlank(LMDialog.tabW) && TextWidgetIsBlank(LMDialog.emTabW) && XmToggleButtonGetState(LMDialog.defaultIndentW) && XmToggleButtonGetState(LMDialog.defaultWrapW);
+}
 
 /*
-** Present a dialog for changing fonts (primary, and for highlighting).
-*/
+ ** Present a dialog for changing fonts (primary, and for highlighting).
+ */
 void ChooseFonts(WindowInfo *window, int forWindow)
 {
 #define MARGIN_SPACING 10
@@ -3816,20 +3669,22 @@ void ChooseFonts(WindowInfo *window, int forWindow)
 
     /* if the dialog is already displayed, just pop it to the top and return */
     if (window->fontDialog != NULL) {
-    	RaiseDialogWindow(((fontDialog *)window->fontDialog)->shell);
-    	return;
+        RaiseDialogWindow(((fontDialog *) window->fontDialog)->shell);
+        return;
     }
-    
+
     /* Create a structure for keeping track of dialog state */
-    fd = (fontDialog *)NEditMalloc(sizeof(fontDialog));
+    fd = (fontDialog *) NEditMalloc(sizeof(fontDialog));
     fd->window = window;
     fd->forWindow = forWindow;
-    window->fontDialog = (void*)fd;
-    
+    window->fontDialog = (void*) fd;
+
     /* Create a form widget in a dialog shell */
     ac = 0;
-    XtSetArg(args[ac], XmNautoUnmanage, False); ac++;
-    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE); ac++;
+    XtSetArg(args[ac], XmNautoUnmanage, False);
+    ac++;
+    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE);
+    ac++;
     form = CreateFormDialog(window->shell, "choose Fonts", args, ac);
     XtVaSetValues(form, XmNshadowThickness, 0, NULL);
     fd->shell = XtParent(form);
@@ -3837,310 +3692,279 @@ void ChooseFonts(WindowInfo *window, int forWindow)
     AddMotifCloseCallback(XtParent(form), fontCancelCB, fd);
     XtAddCallback(form, XmNdestroyCallback, fontDestroyCB, fd);
 
-    primaryFrame = XtVaCreateManagedWidget("primaryFrame", xmFrameWidgetClass,
-    	    form, XmNmarginHeight, 3,
-	    XmNtopAttachment, XmATTACH_POSITION,
-	    XmNtopPosition, 2,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
-    primaryForm = XtVaCreateManagedWidget("primaryForm", xmFormWidgetClass,
-	    primaryFrame, NULL);
-    primaryLbl = XtVaCreateManagedWidget("primaryFont", xmLabelGadgetClass,
-    	    primaryFrame,
-    	    XmNlabelString, s1=XmStringCreateSimple("Primary Font"),
-    	    XmNmnemonic, 'P',
-	    XmNchildType, XmFRAME_TITLE_CHILD,
-	    XmNchildHorizontalAlignment, XmALIGNMENT_CENTER, NULL);
+    primaryFrame = XtVaCreateManagedWidget("primaryFrame", xmFrameWidgetClass, form, XmNmarginHeight, 3,
+    XmNtopAttachment, XmATTACH_POSITION,
+    XmNtopPosition, 2,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
+    primaryForm = XtVaCreateManagedWidget("primaryForm", xmFormWidgetClass, primaryFrame, NULL);
+    primaryLbl = XtVaCreateManagedWidget("primaryFont", xmLabelGadgetClass, primaryFrame,
+    XmNlabelString, s1 = XmStringCreateSimple("Primary Font"),
+    XmNmnemonic, 'P',
+    XmNchildType, XmFRAME_TITLE_CHILD,
+    XmNchildHorizontalAlignment, XmALIGNMENT_CENTER, NULL);
     XmStringFree(s1);
 
-    primaryBtn = XtVaCreateManagedWidget("primaryBtn",
-    	    xmPushButtonWidgetClass, primaryForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Browse..."),
-    	    XmNmnemonic, 'r',
-	    XmNtopAttachment, XmATTACH_POSITION,
-	    XmNtopPosition, 2,
-	    XmNtopOffset, BTN_TEXT_OFFSET,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    primaryBtn = XtVaCreateManagedWidget("primaryBtn", xmPushButtonWidgetClass, primaryForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Browse..."),
+    XmNmnemonic, 'r',
+    XmNtopAttachment, XmATTACH_POSITION,
+    XmNtopPosition, 2,
+    XmNtopOffset, BTN_TEXT_OFFSET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
     XtAddCallback(primaryBtn, XmNactivateCallback, primaryBrowseCB, fd);
 
-    fd->primaryW = XtVaCreateManagedWidget("primary", xmTextWidgetClass,
-    	    primaryForm,
-    	    XmNcolumns, 70,
-    	    XmNmaxLength, MAX_FONT_LEN,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, primaryBtn,
-	    XmNtopAttachment, XmATTACH_POSITION,
-	    XmNtopPosition, 2,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->primaryW = XtVaCreateManagedWidget("primary", xmTextWidgetClass, primaryForm,
+    XmNcolumns, 70,
+    XmNmaxLength, MAX_FONT_LEN,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, primaryBtn,
+    XmNtopAttachment, XmATTACH_POSITION,
+    XmNtopPosition, 2,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     RemapDeleteKey(fd->primaryW);
-    XtAddCallback(fd->primaryW, XmNvalueChangedCallback,
-    	    primaryModifiedCB, fd);
+    XtAddCallback(fd->primaryW, XmNvalueChangedCallback, primaryModifiedCB, fd);
     XtVaSetValues(primaryLbl, XmNuserData, fd->primaryW, NULL);
 
-    highlightFrame = XtVaCreateManagedWidget("highlightFrame",
-    	    xmFrameWidgetClass, form,
-	    XmNmarginHeight, 3,
-	    XmNnavigationType, XmTAB_GROUP,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, primaryFrame,
-	    XmNtopOffset, 20,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
-    highlightForm = XtVaCreateManagedWidget("highlightForm", xmFormWidgetClass,
-    	    highlightFrame, NULL);
-    XtVaCreateManagedWidget("highlightFonts", xmLabelGadgetClass,
-    	    highlightFrame,
-    	    XmNlabelString,
-    	    	s1=XmStringCreateSimple("Fonts for Syntax Highlighting"),
-	    XmNchildType, XmFRAME_TITLE_CHILD,
-	    XmNchildHorizontalAlignment, XmALIGNMENT_CENTER, NULL);
+    highlightFrame = XtVaCreateManagedWidget("highlightFrame", xmFrameWidgetClass, form,
+    XmNmarginHeight, 3,
+    XmNnavigationType, XmTAB_GROUP,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, primaryFrame,
+    XmNtopOffset, 20,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
+    highlightForm = XtVaCreateManagedWidget("highlightForm", xmFormWidgetClass, highlightFrame, NULL);
+    XtVaCreateManagedWidget("highlightFonts", xmLabelGadgetClass, highlightFrame,
+    XmNlabelString, s1 = XmStringCreateSimple("Fonts for Syntax Highlighting"),
+    XmNchildType, XmFRAME_TITLE_CHILD,
+    XmNchildHorizontalAlignment, XmALIGNMENT_CENTER, NULL);
     XmStringFree(s1);
 
-    fd->fillW = XtVaCreateManagedWidget("fillBtn",
-    	    xmPushButtonWidgetClass, highlightForm,
-    	    XmNlabelString,
-    	    	s1=XmStringCreateSimple("Fill Highlight Fonts from Primary"),
-    	    XmNmnemonic, 'F',
-    	    XmNtopAttachment, XmATTACH_POSITION,
-	    XmNtopPosition, 2,
-	    XmNtopOffset, BTN_TEXT_OFFSET,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    fd->fillW = XtVaCreateManagedWidget("fillBtn", xmPushButtonWidgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Fill Highlight Fonts from Primary"),
+    XmNmnemonic, 'F',
+    XmNtopAttachment, XmATTACH_POSITION,
+    XmNtopPosition, 2,
+    XmNtopOffset, BTN_TEXT_OFFSET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
     XtAddCallback(fd->fillW, XmNactivateCallback, fillFromPrimaryCB, fd);
 
-    italicLbl = XtVaCreateManagedWidget("italicLbl", xmLabelGadgetClass,
-    	    highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Italic Font"),
-    	    XmNmnemonic, 'I',
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, fd->fillW,
-	    XmNtopOffset, MARGIN_SPACING,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    italicLbl = XtVaCreateManagedWidget("italicLbl", xmLabelGadgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Italic Font"),
+    XmNmnemonic, 'I',
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, fd->fillW,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
 
-    fd->italicErrW = XtVaCreateManagedWidget("italicErrLbl",
-    	    xmLabelGadgetClass, highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple(
-    	    	"(vvv  spacing is inconsistent with primary font  vvv)"),
-    	    XmNalignment, XmALIGNMENT_END,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, fd->fillW,
-	    XmNtopOffset, MARGIN_SPACING,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, italicLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->italicErrW = XtVaCreateManagedWidget("italicErrLbl", xmLabelGadgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("(vvv  spacing is inconsistent with primary font  vvv)"),
+    XmNalignment, XmALIGNMENT_END,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, fd->fillW,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, italicLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     XmStringFree(s1);
 
-    italicBtn = XtVaCreateManagedWidget("italicBtn",
-    	    xmPushButtonWidgetClass, highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Browse..."),
-    	    XmNmnemonic, 'o',
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, italicLbl,
-	    XmNtopOffset, BTN_TEXT_OFFSET,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    italicBtn = XtVaCreateManagedWidget("italicBtn", xmPushButtonWidgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Browse..."),
+    XmNmnemonic, 'o',
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, italicLbl,
+    XmNtopOffset, BTN_TEXT_OFFSET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
     XtAddCallback(italicBtn, XmNactivateCallback, italicBrowseCB, fd);
 
-    fd->italicW = XtVaCreateManagedWidget("italic", xmTextWidgetClass,
-    	    highlightForm,
-    	    XmNmaxLength, MAX_FONT_LEN,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, italicBtn,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, italicLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->italicW = XtVaCreateManagedWidget("italic", xmTextWidgetClass, highlightForm,
+    XmNmaxLength, MAX_FONT_LEN,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, italicBtn,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, italicLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     RemapDeleteKey(fd->italicW);
-    XtAddCallback(fd->italicW, XmNvalueChangedCallback,
-    	    italicModifiedCB, fd);
+    XtAddCallback(fd->italicW, XmNvalueChangedCallback, italicModifiedCB, fd);
     XtVaSetValues(italicLbl, XmNuserData, fd->italicW, NULL);
 
-    boldLbl = XtVaCreateManagedWidget("boldLbl", xmLabelGadgetClass,
-    	    highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Bold Font"),
-    	    XmNmnemonic, 'B',
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, italicBtn,
-	    XmNtopOffset, MARGIN_SPACING,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    boldLbl = XtVaCreateManagedWidget("boldLbl", xmLabelGadgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Bold Font"),
+    XmNmnemonic, 'B',
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, italicBtn,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
 
-    fd->boldErrW = XtVaCreateManagedWidget("boldErrLbl",
-    	    xmLabelGadgetClass, highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple(""),
-    	    XmNalignment, XmALIGNMENT_END,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, italicBtn,
-	    XmNtopOffset, MARGIN_SPACING,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, boldLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->boldErrW = XtVaCreateManagedWidget("boldErrLbl", xmLabelGadgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple(""),
+    XmNalignment, XmALIGNMENT_END,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, italicBtn,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, boldLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     XmStringFree(s1);
 
-    boldBtn = XtVaCreateManagedWidget("boldBtn",
-    	    xmPushButtonWidgetClass, highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Browse..."),
-    	    XmNmnemonic, 'w',
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, boldLbl,
-	    XmNtopOffset, BTN_TEXT_OFFSET,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    boldBtn = XtVaCreateManagedWidget("boldBtn", xmPushButtonWidgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Browse..."),
+    XmNmnemonic, 'w',
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, boldLbl,
+    XmNtopOffset, BTN_TEXT_OFFSET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
     XtAddCallback(boldBtn, XmNactivateCallback, boldBrowseCB, fd);
 
-    fd->boldW = XtVaCreateManagedWidget("bold", xmTextWidgetClass,
-    	    highlightForm,
-    	    XmNmaxLength, MAX_FONT_LEN,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, boldBtn,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, boldLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->boldW = XtVaCreateManagedWidget("bold", xmTextWidgetClass, highlightForm,
+    XmNmaxLength, MAX_FONT_LEN,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, boldBtn,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, boldLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     RemapDeleteKey(fd->boldW);
-    XtAddCallback(fd->boldW, XmNvalueChangedCallback,
-    	    boldModifiedCB, fd);
+    XtAddCallback(fd->boldW, XmNvalueChangedCallback, boldModifiedCB, fd);
     XtVaSetValues(boldLbl, XmNuserData, fd->boldW, NULL);
 
-    boldItalicLbl = XtVaCreateManagedWidget("boldItalicLbl", xmLabelGadgetClass,
-    	    highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Bold Italic Font"),
-    	    XmNmnemonic, 'l',
-    	    XmNalignment, XmALIGNMENT_BEGINNING,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, boldBtn,
-	    XmNtopOffset, MARGIN_SPACING,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    boldItalicLbl = XtVaCreateManagedWidget("boldItalicLbl", xmLabelGadgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Bold Italic Font"),
+    XmNmnemonic, 'l',
+    XmNalignment, XmALIGNMENT_BEGINNING,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, boldBtn,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
 
-    fd->boldItalicErrW = XtVaCreateManagedWidget("boldItalicErrLbl",
-    	    xmLabelGadgetClass, highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple(""),
-    	    XmNalignment, XmALIGNMENT_END,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, boldBtn,
-	    XmNtopOffset, MARGIN_SPACING,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, boldItalicLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->boldItalicErrW = XtVaCreateManagedWidget("boldItalicErrLbl", xmLabelGadgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple(""),
+    XmNalignment, XmALIGNMENT_END,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, boldBtn,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, boldItalicLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     XmStringFree(s1);
 
-    boldItalicBtn = XtVaCreateManagedWidget("boldItalicBtn",
-    	    xmPushButtonWidgetClass, highlightForm,
-    	    XmNlabelString, s1=XmStringCreateSimple("Browse..."),
-    	    XmNmnemonic, 's',
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, boldItalicLbl,
-	    XmNtopOffset, BTN_TEXT_OFFSET,
-	    XmNleftAttachment, XmATTACH_POSITION,
-	    XmNleftPosition, 1, NULL);
+    boldItalicBtn = XtVaCreateManagedWidget("boldItalicBtn", xmPushButtonWidgetClass, highlightForm,
+    XmNlabelString, s1 = XmStringCreateSimple("Browse..."),
+    XmNmnemonic, 's',
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, boldItalicLbl,
+    XmNtopOffset, BTN_TEXT_OFFSET,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1, NULL);
     XmStringFree(s1);
     XtAddCallback(boldItalicBtn, XmNactivateCallback, boldItalicBrowseCB, fd);
 
-    fd->boldItalicW = XtVaCreateManagedWidget("boldItalic",
-    	    xmTextWidgetClass, highlightForm,
-    	    XmNmaxLength, MAX_FONT_LEN,
-	    XmNleftAttachment, XmATTACH_WIDGET,
-	    XmNleftWidget, boldItalicBtn,
-	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, boldItalicLbl,
-	    XmNrightAttachment, XmATTACH_POSITION,
-	    XmNrightPosition, 99, NULL);
+    fd->boldItalicW = XtVaCreateManagedWidget("boldItalic", xmTextWidgetClass, highlightForm,
+    XmNmaxLength, MAX_FONT_LEN,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, boldItalicBtn,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, boldItalicLbl,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99, NULL);
     RemapDeleteKey(fd->boldItalicW);
-    XtAddCallback(fd->boldItalicW, XmNvalueChangedCallback,
-    	    boldItalicModifiedCB, fd);
-    XtVaSetValues(boldItalicLbl, XmNuserData, fd->boldItalicW, NULL);    
+    XtAddCallback(fd->boldItalicW, XmNvalueChangedCallback, boldItalicModifiedCB, fd);
+    XtVaSetValues(boldItalicLbl, XmNuserData, fd->boldItalicW, NULL);
 
     okBtn = XtVaCreateManagedWidget("ok", xmPushButtonWidgetClass, form,
-            XmNlabelString, s1=XmStringCreateSimple("OK"),
-            XmNmarginWidth, BUTTON_WIDTH_MARGIN,
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, highlightFrame,
-	    XmNtopOffset, MARGIN_SPACING,
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, forWindow ? 13 : 26,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNrightPosition, forWindow ? 27 : 40, NULL);
+    XmNlabelString, s1 = XmStringCreateSimple("OK"),
+    XmNmarginWidth, BUTTON_WIDTH_MARGIN,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, highlightFrame,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, forWindow ? 13 : 26,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, forWindow ? 27 : 40, NULL);
     XtAddCallback(okBtn, XmNactivateCallback, fontOkCB, fd);
     XmStringFree(s1);
 
     if (forWindow) {
-	applyBtn = XtVaCreateManagedWidget("apply",xmPushButtonWidgetClass,form,
-    		XmNlabelString, s1=XmStringCreateSimple("Apply"),
-    		XmNmnemonic, 'A',
-    		XmNtopAttachment, XmATTACH_WIDGET,
-		XmNtopWidget, highlightFrame,
-		XmNtopOffset, MARGIN_SPACING,
-    		XmNleftAttachment, XmATTACH_POSITION,
-    		XmNleftPosition, 43,
-    		XmNrightAttachment, XmATTACH_POSITION,
-    		XmNrightPosition, 57, NULL);
-	XtAddCallback(applyBtn, XmNactivateCallback, fontApplyCB, fd);
-	XmStringFree(s1);
+        applyBtn = XtVaCreateManagedWidget("apply", xmPushButtonWidgetClass, form,
+        XmNlabelString, s1 = XmStringCreateSimple("Apply"),
+        XmNmnemonic, 'A',
+        XmNtopAttachment, XmATTACH_WIDGET,
+        XmNtopWidget, highlightFrame,
+        XmNtopOffset, MARGIN_SPACING,
+        XmNleftAttachment, XmATTACH_POSITION,
+        XmNleftPosition, 43,
+        XmNrightAttachment, XmATTACH_POSITION,
+        XmNrightPosition, 57, NULL);
+        XtAddCallback(applyBtn, XmNactivateCallback, fontApplyCB, fd);
+        XmStringFree(s1);
     }
-    
-    cancelBtn = XtVaCreateManagedWidget("cancel",
-            xmPushButtonWidgetClass, form,
-            XmNlabelString,
-                    s1 = XmStringCreateSimple(forWindow ? "Close" : "Cancel"),
-    	    XmNtopAttachment, XmATTACH_WIDGET,
-	    XmNtopWidget, highlightFrame,
-	    XmNtopOffset, MARGIN_SPACING,
-    	    XmNleftAttachment, XmATTACH_POSITION,
-    	    XmNleftPosition, forWindow ? 73 : 59,
-    	    XmNrightAttachment, XmATTACH_POSITION,
-    	    XmNrightPosition, forWindow ? 87 : 73,
-            NULL);
+
+    cancelBtn = XtVaCreateManagedWidget("cancel", xmPushButtonWidgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple(forWindow ? "Close" : "Cancel"),
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, highlightFrame,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, forWindow ? 73 : 59,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, forWindow ? 87 : 73,
+    NULL);
     XtAddCallback(cancelBtn, XmNactivateCallback, fontCancelCB, fd);
     XmStringFree(s1);
- 
+
     /* Set initial default button */
     XtVaSetValues(form, XmNdefaultButton, okBtn, NULL);
     XtVaSetValues(form, XmNcancelButton, cancelBtn, NULL);
-    
+
     /* Set initial values */
     if (forWindow) {
-	XmTextSetString(fd->primaryW, window->fontName);
-	XmTextSetString(fd->boldW, window->boldFontName);
-	XmTextSetString(fd->italicW, window->italicFontName);
-	XmTextSetString(fd->boldItalicW, window->boldItalicFontName);
+        XmTextSetString(fd->primaryW, window->fontName);
+        XmTextSetString(fd->boldW, window->boldFontName);
+        XmTextSetString(fd->italicW, window->italicFontName);
+        XmTextSetString(fd->boldItalicW, window->boldItalicFontName);
     } else {
-    	XmTextSetString(fd->primaryW, GetPrefFontName());
-	XmTextSetString(fd->boldW, GetPrefBoldFontName());
-	XmTextSetString(fd->italicW, GetPrefItalicFontName());
-	XmTextSetString(fd->boldItalicW, GetPrefBoldItalicFontName());
+        XmTextSetString(fd->primaryW, GetPrefFontName());
+        XmTextSetString(fd->boldW, GetPrefBoldFontName());
+        XmTextSetString(fd->italicW, GetPrefItalicFontName());
+        XmTextSetString(fd->boldItalicW, GetPrefBoldItalicFontName());
     }
-    
+
     /* Handle mnemonic selection of buttons and focus to dialog */
     AddDialogMnemonicHandler(form, FALSE);
-    
+
     /* put up dialog */
     ManageDialogCenteredOnPointer(form);
 }
 
-static void fillFromPrimaryCB(Widget w, XtPointer clientData,
-    	XtPointer callData)
+static void fillFromPrimaryCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
     char *primaryName, *errMsg;
     char modifiedFontName[MAX_FONT_LEN];
     char *searchString = "(-[^-]*-[^-]*)-([^-]*)-([^-]*)-(.*)";
@@ -4150,34 +3974,33 @@ static void fillFromPrimaryCB(Widget w, XtPointer clientData,
     regexp *compiledRE;
 
     /* Match the primary font agains RE pattern for font names.  If it
-       doesn't match, we can't generate highlight font names, so return */
+     doesn't match, we can't generate highlight font names, so return */
     compiledRE = CompileRE(searchString, &errMsg, REDFLT_STANDARD);
     primaryName = XmTextGetString(fd->primaryW);
     if (!ExecRE(compiledRE, primaryName, NULL, False, '\0', '\0', NULL, NULL, NULL)) {
-    	XBell(XtDisplay(fd->shell), 0);
-    	free(compiledRE);
-    	NEditFree(primaryName);
-    	return;
+        XBell(XtDisplay(fd->shell), 0);
+        free(compiledRE);
+        NEditFree(primaryName);
+        return;
     }
-    
+
     /* Make up names for new fonts based on RE replace patterns */
     SubstituteRE(compiledRE, italicReplaceString, modifiedFontName,
-    	    MAX_FONT_LEN);
+    MAX_FONT_LEN);
     XmTextSetString(fd->italicW, modifiedFontName);
     SubstituteRE(compiledRE, boldReplaceString, modifiedFontName,
-    	    MAX_FONT_LEN);
+    MAX_FONT_LEN);
     XmTextSetString(fd->boldW, modifiedFontName);
     SubstituteRE(compiledRE, boldItalicReplaceString, modifiedFontName,
-    	    MAX_FONT_LEN);
+    MAX_FONT_LEN);
     XmTextSetString(fd->boldItalicW, modifiedFontName);
     NEditFree(primaryName);
     NEditFree(compiledRE);
 }
 
-static void primaryModifiedCB(Widget w, XtPointer clientData,
-	XtPointer callData)
+static void primaryModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     showFontStatus(fd, fd->italicW, fd->italicErrW);
     showFontStatus(fd, fd->boldW, fd->boldErrW);
@@ -4185,62 +4008,60 @@ static void primaryModifiedCB(Widget w, XtPointer clientData,
 }
 static void italicModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     showFontStatus(fd, fd->italicW, fd->italicErrW);
 }
 static void boldModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     showFontStatus(fd, fd->boldW, fd->boldErrW);
 }
-static void boldItalicModifiedCB(Widget w, XtPointer clientData,
-    	XtPointer callData)
+static void boldItalicModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     showFontStatus(fd, fd->boldItalicW, fd->boldItalicErrW);
 }
 
 static void primaryBrowseCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     browseFont(fd->shell, fd->primaryW);
 }
 static void italicBrowseCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     browseFont(fd->shell, fd->italicW);
 }
 static void boldBrowseCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     browseFont(fd->shell, fd->boldW);
 }
-static void boldItalicBrowseCB(Widget w, XtPointer clientData,
-    	XtPointer callData)
+static void boldItalicBrowseCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-   fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
-   browseFont(fd->shell, fd->boldItalicW);
+    browseFont(fd->shell, fd->boldItalicW);
 }
 
 static void fontDestroyCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
-    
+    fontDialog *fd = (fontDialog *) clientData;
+
     fd->window->fontDialog = NULL;
     NEditFree(fd);
 }
 
 static void fontOkCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
-    
+    fontDialog *fd = (fontDialog *) clientData;
+
     updateFonts(fd);
 
     /* pop down and destroy the dialog */
@@ -4249,96 +4070,95 @@ static void fontOkCB(Widget w, XtPointer clientData, XtPointer callData)
 
 static void fontApplyCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
-    
+    fontDialog *fd = (fontDialog *) clientData;
+
     updateFonts(fd);
 }
 
 static void fontCancelCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    fontDialog *fd = (fontDialog *)clientData;
+    fontDialog *fd = (fontDialog *) clientData;
 
     /* pop down and destroy the dialog */
     XtDestroyWidget(fd->shell);
 }
 
 /*
-** Check over a font name in a text field to make sure it agrees with the
-** primary font in height and spacing.
-*/
+ ** Check over a font name in a text field to make sure it agrees with the
+ ** primary font in height and spacing.
+ */
 static int checkFontStatus(fontDialog *fd, Widget fontTextFieldW)
 {
     char *primaryName, *testName;
     XFontStruct *primaryFont, *testFont;
     Display *display = XtDisplay(fontTextFieldW);
     int primaryWidth, primaryHeight, testWidth, testHeight;
-    
+
     /* Get width and height of the font to check.  Note the test for empty
-       name: X11R6 clients freak out X11R5 servers if they ask them to load
-       an empty font name, and kill the whole application! */
+     name: X11R6 clients freak out X11R5 servers if they ask them to load
+     an empty font name, and kill the whole application! */
     testName = XmTextGetString(fontTextFieldW);
     if (testName[0] == '\0') {
-	NEditFree(testName);
-    	return BAD_FONT;
+        NEditFree(testName);
+        return BAD_FONT;
     }
     testFont = XLoadQueryFont(display, testName);
     if (testFont == NULL) {
-    	NEditFree(testName);
-    	return BAD_FONT;
+        NEditFree(testName);
+        return BAD_FONT;
     }
     NEditFree(testName);
     testWidth = testFont->min_bounds.width;
     testHeight = testFont->ascent + testFont->descent;
     XFreeFont(display, testFont);
-    
+
     /* Get width and height of the primary font */
     primaryName = XmTextGetString(fd->primaryW);
     if (primaryName[0] == '\0') {
-	NEditFree(primaryName);
-    	return BAD_FONT;
+        NEditFree(primaryName);
+        return BAD_FONT;
     }
     primaryFont = XLoadQueryFont(display, primaryName);
     if (primaryFont == NULL) {
-    	NEditFree(primaryName);
-    	return BAD_PRIMARY;
+        NEditFree(primaryName);
+        return BAD_PRIMARY;
     }
     NEditFree(primaryName);
     primaryWidth = primaryFont->min_bounds.width;
     primaryHeight = primaryFont->ascent + primaryFont->descent;
     XFreeFont(display, primaryFont);
-    
+
     /* Compare font information */
     if (testWidth != primaryWidth)
-    	return BAD_SPACING;
+        return BAD_SPACING;
     if (testHeight != primaryHeight)
-    	return BAD_SIZE;
+        return BAD_SIZE;
     return GOOD_FONT;
 }
 
 /*
-** Update the error label for a font text field to reflect its validity and degree
-** of agreement with the currently selected primary font
-*/
-static int showFontStatus(fontDialog *fd, Widget fontTextFieldW,
-    	Widget errorLabelW)
+ ** Update the error label for a font text field to reflect its validity and degree
+ ** of agreement with the currently selected primary font
+ */
+static int showFontStatus(fontDialog *fd, Widget fontTextFieldW, Widget errorLabelW)
 {
     int status;
     XmString s;
     const char *msg;
-    
+
     status = checkFontStatus(fd, fontTextFieldW);
     if (status == BAD_PRIMARY)
-    	msg = "(font below may not match primary font)";
+        msg = "(font below may not match primary font)";
     else if (status == BAD_FONT)
-    	msg = "(xxx font below is invalid xxx)";
+        msg = "(xxx font below is invalid xxx)";
     else if (status == BAD_SIZE)
-    	msg = "(height of font below does not match primary)";
+        msg = "(height of font below does not match primary)";
     else if (status == BAD_SPACING)
-    	msg = "(spacing of font below does not match primary)";
+        msg = "(spacing of font below does not match primary)";
     else
-    	msg = "";
-    
-    XtVaSetValues(errorLabelW, XmNlabelString, s=XmStringCreateSimple((char*)msg), NULL);
+        msg = "";
+
+    XtVaSetValues(errorLabelW, XmNlabelString, s = XmStringCreateSimple((char*) msg), NULL);
     XmStringFree(s);
     return status;
 }
@@ -4348,7 +4168,7 @@ static void browseFont(Widget parent, Widget fontTextW)
 {
     Pixel fgPixel, bgPixel;
     int dummy;
-    
+
     std::string origFontName = neditxx::XmTextGetString(fontTextW);
 
     // Get the values from the defaults
@@ -4357,22 +4177,22 @@ static void browseFont(Widget parent, Widget fontTextW)
 
     std::string newFontName = FontSel(parent, PREF_FIXED, origFontName, fgPixel, bgPixel);
     if (newFontName.empty())
-    	return;
+        return;
     neditxx::XmTextSetString(fontTextW, newFontName);
 }
 
 /*
-** Accept the changes in the dialog and set the fonts regardless of errors
-*/
+ ** Accept the changes in the dialog and set the fonts regardless of errors
+ */
 static void updateFonts(fontDialog *fd)
 {
     char *fontName, *italicName, *boldName, *boldItalicName;
-    
+
     fontName = XmTextGetString(fd->primaryW);
     italicName = XmTextGetString(fd->italicW);
     boldName = XmTextGetString(fd->boldW);
     boldItalicName = XmTextGetString(fd->boldItalicW);
-    
+
     if (fd->forWindow) {
         char *params[4];
         params[0] = fontName;
@@ -4380,15 +4200,14 @@ static void updateFonts(fontDialog *fd)
         params[2] = boldName;
         params[3] = boldItalicName;
         XtCallActionProc(fd->window->textArea, "set_fonts", NULL, params, 4);
-/*
-    	SetFonts(fd->window, fontName, italicName, boldName, boldItalicName);
-*/
-    }
-    else {
-    	SetPrefFont(fontName);
-    	SetPrefItalicFont(italicName);
-    	SetPrefBoldFont(boldName);
-    	SetPrefBoldItalicFont(boldItalicName);
+        /*
+         SetFonts(fd->window, fontName, italicName, boldName, boldItalicName);
+         */
+    } else {
+        SetPrefFont(fontName);
+        SetPrefItalicFont(italicName);
+        SetPrefBoldFont(boldName);
+        SetPrefBoldItalicFont(boldItalicName);
     }
     NEditFree(fontName);
     NEditFree(italicName);
@@ -4397,9 +4216,9 @@ static void updateFonts(fontDialog *fd)
 }
 
 /*
-** Change the language mode to the one indexed by "mode", reseting word
-** delimiters, syntax highlighting and other mode specific parameters
-*/
+ ** Change the language mode to the one indexed by "mode", reseting word
+ ** delimiters, syntax highlighting and other mode specific parameters
+ */
 static void reapplyLanguageMode(WindowInfo *window, int mode, int forceDefaults)
 {
     char *delimiters;
@@ -4407,67 +4226,57 @@ static void reapplyLanguageMode(WindowInfo *window, int mode, int forceDefaults)
     int wrapModeIsDef, tabDistIsDef, emTabDistIsDef, indentStyleIsDef;
     int highlightIsDef, haveHighlightPatterns, haveSmartIndentMacros;
     int oldMode = window->languageMode;
-    
+
     /* If the mode is the same, and changes aren't being forced (as might
-       happen with Save As...), don't mess with already correct settings */
+     happen with Save As...), don't mess with already correct settings */
     if (window->languageMode == mode && !forceDefaults)
-	return;
-    
+        return;
+
     /* Change the mode name stored in the window */
     window->languageMode = mode;
-    
+
     /* Decref oldMode's default calltips file if needed */
     if (oldMode != PLAIN_LANGUAGE_MODE && LanguageModes[oldMode]->defTipsFile) {
-        DeleteTagsFile( LanguageModes[oldMode]->defTipsFile, TIP, False );
+        DeleteTagsFile(LanguageModes[oldMode]->defTipsFile, TIP, False);
     }
-    
+
     /* Set delimiters for all text widgets */
     if (mode == PLAIN_LANGUAGE_MODE || LanguageModes[mode]->delimiters == NULL)
-    	delimiters = GetPrefDelimiters();
+        delimiters = GetPrefDelimiters();
     else
-    	delimiters = LanguageModes[mode]->delimiters;
+        delimiters = LanguageModes[mode]->delimiters;
     XtVaSetValues(window->textArea, textNwordDelimiters, delimiters, NULL);
-    for (i=0; i<window->nPanes; i++)
-    	XtVaSetValues(window->textPanes[i], textNautoIndent, delimiters, NULL);
-    
+    for (i = 0; i < window->nPanes; i++)
+        XtVaSetValues(window->textPanes[i], textNautoIndent, delimiters, NULL);
+
     /* Decide on desired values for language-specific parameters.  If a
-       parameter was set to its default value, set it to the new default,
-       otherwise, leave it alone */
+     parameter was set to its default value, set it to the new default,
+     otherwise, leave it alone */
     wrapModeIsDef = window->wrapMode == GetPrefWrap(oldMode);
     tabDistIsDef = BufGetTabDistance(window->buffer) == GetPrefTabDist(oldMode);
     XtVaGetValues(window->textArea, textNemulateTabs, &oldEmTabDist, NULL);
     emTabDistIsDef = oldEmTabDist == GetPrefEmTabDist(oldMode);
-    indentStyleIsDef = window->indentStyle == GetPrefAutoIndent(oldMode) ||
-	    (GetPrefAutoIndent(oldMode) == SMART_INDENT &&
-	     window->indentStyle == AUTO_INDENT &&
-	     !SmartIndentMacrosAvailable(LanguageModeName(oldMode)));
-    highlightIsDef = window->highlightSyntax == GetPrefHighlightSyntax()
-	    || (GetPrefHighlightSyntax() &&
-		 FindPatternSet(LanguageModeName(oldMode)) == NULL);
-    wrapMode = wrapModeIsDef || forceDefaults ?
-    	    GetPrefWrap(mode) : window->wrapMode;
-    tabDist = tabDistIsDef || forceDefaults ?
-	    GetPrefTabDist(mode) : BufGetTabDistance(window->buffer);
-    emTabDist = emTabDistIsDef || forceDefaults ?
-	    GetPrefEmTabDist(mode) : oldEmTabDist;
-    indentStyle = indentStyleIsDef || forceDefaults ?
-    	    GetPrefAutoIndent(mode) : window->indentStyle;
-    highlight = highlightIsDef || forceDefaults ? 
-	    GetPrefHighlightSyntax() : window->highlightSyntax;
-	     
+    indentStyleIsDef = window->indentStyle == GetPrefAutoIndent(oldMode) || (GetPrefAutoIndent(oldMode) == SMART_INDENT && window->indentStyle == AUTO_INDENT && !SmartIndentMacrosAvailable(LanguageModeName(oldMode)));
+    highlightIsDef = window->highlightSyntax == GetPrefHighlightSyntax() || (GetPrefHighlightSyntax() && FindPatternSet(LanguageModeName(oldMode)) == NULL);
+    wrapMode = wrapModeIsDef || forceDefaults ? GetPrefWrap(mode) : window->wrapMode;
+    tabDist = tabDistIsDef || forceDefaults ? GetPrefTabDist(mode) : BufGetTabDistance(window->buffer);
+    emTabDist = emTabDistIsDef || forceDefaults ? GetPrefEmTabDist(mode) : oldEmTabDist;
+    indentStyle = indentStyleIsDef || forceDefaults ? GetPrefAutoIndent(mode) : window->indentStyle;
+    highlight = highlightIsDef || forceDefaults ? GetPrefHighlightSyntax() : window->highlightSyntax;
+
     /* Dim/undim smart-indent and highlighting menu items depending on
-       whether patterns/macros are available */
+     whether patterns/macros are available */
     haveHighlightPatterns = FindPatternSet(LanguageModeName(mode)) != NULL;
     haveSmartIndentMacros = SmartIndentMacrosAvailable(LanguageModeName(mode));
     if (IsTopDocument(window)) {
-	XtSetSensitive(window->highlightItem, haveHighlightPatterns);
-	XtSetSensitive(window->smartIndentItem, haveSmartIndentMacros);
+        XtSetSensitive(window->highlightItem, haveHighlightPatterns);
+        XtSetSensitive(window->smartIndentItem, haveSmartIndentMacros);
     }
-        
+
     /* Turn off requested options which are not available */
     highlight = haveHighlightPatterns && highlight;
     if (indentStyle == SMART_INDENT && !haveSmartIndentMacros)
-	indentStyle = AUTO_INDENT;
+        indentStyle = AUTO_INDENT;
 
     /* Change highlighting */
     window->highlightSyntax = highlight;
@@ -4476,23 +4285,23 @@ static void reapplyLanguageMode(WindowInfo *window, int mode, int forceDefaults)
 
     /* we defer highlighting to RaiseDocument() if doc is hidden */
     if (IsTopDocument(window) && highlight)
-    	StartHighlighting(window, False);
+        StartHighlighting(window, False);
 
     /* Force a change of smart indent macros (SetAutoIndent will re-start) */
     if (window->indentStyle == SMART_INDENT) {
-	EndSmartIndent(window);
-	window->indentStyle = AUTO_INDENT;
+        EndSmartIndent(window);
+        window->indentStyle = AUTO_INDENT;
     }
-    
+
     /* set requested wrap, indent, and tabs */
     SetAutoWrap(window, wrapMode);
     SetAutoIndent(window, indentStyle);
     SetTabDist(window, tabDist);
     SetEmTabDist(window, emTabDist);
-    
+
     /* Load calltips files for new mode */
     if (mode != PLAIN_LANGUAGE_MODE && LanguageModes[mode]->defTipsFile) {
-        AddTagsFile( LanguageModes[mode]->defTipsFile, TIP );
+        AddTagsFile(LanguageModes[mode]->defTipsFile, TIP);
     }
 
     /* Add/remove language specific menu items */
@@ -4500,10 +4309,10 @@ static void reapplyLanguageMode(WindowInfo *window, int mode, int forceDefaults)
 }
 
 /*
-** Find and return the name of the appropriate languange mode for
-** the file in "window".  Returns a pointer to a string, which will
-** remain valid until a change is made to the language modes list.
-*/
+ ** Find and return the name of the appropriate languange mode for
+ ** the file in "window".  Returns a pointer to a string, which will
+ ** remain valid until a change is made to the language modes list.
+ */
 static int matchLanguageMode(WindowInfo *window)
 {
     char *ext, *first200;
@@ -4511,47 +4320,44 @@ static int matchLanguageMode(WindowInfo *window)
     const char *versionExtendedPath;
 
     /*... look for an explicit mode statement first */
-    
+
     /* Do a regular expression search on for recognition pattern */
     first200 = BufGetRange(window->buffer, 0, 200);
-    for (i=0; i<NLanguageModes; i++) {
-    	if (LanguageModes[i]->recognitionExpr != NULL) {
-    	    if (SearchString(first200, LanguageModes[i]->recognitionExpr,
-    	    	    SEARCH_FORWARD, SEARCH_REGEX, False, 0, &beginPos,
-    	    	    &endPos, NULL, NULL, NULL))
-            {
-		NEditFree(first200);
-    	    	return i;
-	    }
-    	}
+    for (i = 0; i < NLanguageModes; i++) {
+        if (LanguageModes[i]->recognitionExpr != NULL) {
+            if (SearchString(first200, LanguageModes[i]->recognitionExpr, SEARCH_FORWARD, SEARCH_REGEX, False, 0, &beginPos, &endPos, NULL, NULL, NULL)) {
+                NEditFree(first200);
+                return i;
+            }
+        }
     }
     NEditFree(first200);
-    
+
     /* Look at file extension ("@@/" starts a ClearCase version extended path,
-       which gets appended after the file extension, and therefore must be
-       stripped off to recognize the extension to make ClearCase users happy) */
+     which gets appended after the file extension, and therefore must be
+     stripped off to recognize the extension to make ClearCase users happy) */
     fileNameLen = strlen(window->filename);
 #ifdef VMS
     if (strchr(window->filename, ';') != NULL)
-    	fileNameLen = strchr(window->filename, ';') - window->filename;
+    fileNameLen = strchr(window->filename, ';') - window->filename;
 #else
     if ((versionExtendedPath = GetClearCaseVersionExtendedPath(window->filename)) != NULL)
         fileNameLen = versionExtendedPath - window->filename;
 #endif
-    for (i=0; i<NLanguageModes; i++) {
-    	for (j=0; j<LanguageModes[i]->nExtensions; j++) {
-    	    ext = LanguageModes[i]->extensions[j];
-    	    extLen = strlen(ext);
-    	    start = fileNameLen - extLen;
+    for (i = 0; i < NLanguageModes; i++) {
+        for (j = 0; j < LanguageModes[i]->nExtensions; j++) {
+            ext = LanguageModes[i]->extensions[j];
+            extLen = strlen(ext);
+            start = fileNameLen - extLen;
 #if defined(__VMS) && (__VMS_VER >= 70200000) 
-          /* VMS v7.2 has case-preserving filenames */
+            /* VMS v7.2 has case-preserving filenames */
             if (start >= 0 && !strncasecmp(&window->filename[start], ext, extLen))
-               return i;
+            return i;
 #else
-            if (start >= 0 && !strncmp(&window->filename[start], ext, extLen))  
+            if (start >= 0 && !strncmp(&window->filename[start], ext, extLen))
                 return i;
 #endif
-    	}
+        }
     }
 
     /* no appropriate mode was found */
@@ -4559,192 +4365,184 @@ static int matchLanguageMode(WindowInfo *window)
 }
 
 static int loadLanguageModesString(char *inString, int fileVer)
-{    
+{
     char *errMsg, *styleName, *inPtr = inString;
     languageModeRec *lm;
     int i;
 
     for (;;) {
-   	
-	/* skip over blank space */
-	inPtr += strspn(inPtr, " \t\n");
-    	
-	/* Allocate a language mode structure to return, set unread fields to
-	   empty so everything can be freed on errors by freeLanguageModeRec */
-	lm = (languageModeRec *)NEditMalloc(sizeof(languageModeRec));
-	lm->nExtensions = 0;
-	lm->recognitionExpr = NULL;
-        lm->defTipsFile = NULL;
-	lm->delimiters = NULL;
 
-	/* read language mode name */
-	lm->name = ReadSymbolicField(&inPtr);
-	if (lm->name == NULL) {
-    	    NEditFree(lm);
-    	    return modeError(NULL,inString,inPtr,"language mode name required");
-	}
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-    	/* read list of extensions */
-    	lm->extensions = readExtensionList(&inPtr,
-    	    	&lm->nExtensions);
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-	/* read the recognition regular expression */
-	if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
-    	    lm->recognitionExpr = NULL;
-    	else if (!ReadQuotedString(&inPtr, &errMsg, &lm->recognitionExpr))
-    	    return modeError(lm, inString,inPtr, errMsg);
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-    	/* read the indent style */
-    	styleName = ReadSymbolicField(&inPtr);
-	if (styleName == NULL)
-    	    lm->indentStyle = DEFAULT_INDENT;
-    	else {
-	    for (i=0; i<N_INDENT_STYLES; i++) {
-	    	if (!strcmp(styleName, AutoIndentTypes[i])) {
-	    	    lm->indentStyle = i;
-	    	    break;
-	    	}
-	    }
-	    NEditFree(styleName);
-	    if (i == N_INDENT_STYLES)
-	    	return modeError(lm,inString,inPtr,"unrecognized indent style");
-	}
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-    	/* read the wrap style */
-    	styleName = ReadSymbolicField(&inPtr);
-	if (styleName == NULL)
-    	    lm->wrapStyle = DEFAULT_WRAP;
-    	else {
-	    for (i=0; i<N_WRAP_STYLES; i++) {
-	    	if (!strcmp(styleName, AutoWrapTypes[i])) {
-	    	    lm->wrapStyle = i;
-	    	    break;
-	    	}
-	    }
-	    NEditFree(styleName);
-	    if (i == N_WRAP_STYLES)
-	    	return modeError(lm, inString, inPtr,"unrecognized wrap style");
-	}
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-    	/* read the tab distance */
-	if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
-    	    lm->tabDist = DEFAULT_TAB_DIST;
-    	else if (!ReadNumericField(&inPtr, &lm->tabDist))
-    	    return modeError(lm, inString, inPtr, "bad tab spacing");
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-    	/* read emulated tab distance */
-    	if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
-    	    lm->emTabDist = DEFAULT_EM_TAB_DIST;
-    	else if (!ReadNumericField(&inPtr, &lm->emTabDist))
-    	    return modeError(lm, inString, inPtr, "bad emulated tab spacing");
-	if (!SkipDelimiter(&inPtr, &errMsg))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-	/* read the delimiters string */
-	if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
-    	    lm->delimiters = NULL;
-    	else if (!ReadQuotedString(&inPtr, &errMsg, &lm->delimiters))
-    	    return modeError(lm, inString, inPtr, errMsg);
-        
+        /* skip over blank space */
+        inPtr += strspn(inPtr, " \t\n");
+
+        /* Allocate a language mode structure to return, set unread fields to
+         empty so everything can be freed on errors by freeLanguageModeRec */
+        lm = (languageModeRec *) NEditMalloc(sizeof(languageModeRec));
+        lm->nExtensions = 0;
+        lm->recognitionExpr = NULL;
+        lm->defTipsFile = NULL;
+        lm->delimiters = NULL;
+
+        /* read language mode name */
+        lm->name = ReadSymbolicField(&inPtr);
+        if (lm->name == NULL) {
+            NEditFree(lm);
+            return modeError(NULL, inString, inPtr, "language mode name required");
+        }
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read list of extensions */
+        lm->extensions = readExtensionList(&inPtr, &lm->nExtensions);
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read the recognition regular expression */
+        if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
+            lm->recognitionExpr = NULL;
+        else if (!ReadQuotedString(&inPtr, &errMsg, &lm->recognitionExpr))
+            return modeError(lm, inString, inPtr, errMsg);
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read the indent style */
+        styleName = ReadSymbolicField(&inPtr);
+        if (styleName == NULL)
+            lm->indentStyle = DEFAULT_INDENT;
+        else {
+            for (i = 0; i < N_INDENT_STYLES; i++) {
+                if (!strcmp(styleName, AutoIndentTypes[i])) {
+                    lm->indentStyle = i;
+                    break;
+                }
+            }
+            NEditFree(styleName);
+            if (i == N_INDENT_STYLES)
+                return modeError(lm, inString, inPtr, "unrecognized indent style");
+        }
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read the wrap style */
+        styleName = ReadSymbolicField(&inPtr);
+        if (styleName == NULL)
+            lm->wrapStyle = DEFAULT_WRAP;
+        else {
+            for (i = 0; i < N_WRAP_STYLES; i++) {
+                if (!strcmp(styleName, AutoWrapTypes[i])) {
+                    lm->wrapStyle = i;
+                    break;
+                }
+            }
+            NEditFree(styleName);
+            if (i == N_WRAP_STYLES)
+                return modeError(lm, inString, inPtr, "unrecognized wrap style");
+        }
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read the tab distance */
+        if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
+            lm->tabDist = DEFAULT_TAB_DIST;
+        else if (!ReadNumericField(&inPtr, &lm->tabDist))
+            return modeError(lm, inString, inPtr, "bad tab spacing");
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read emulated tab distance */
+        if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
+            lm->emTabDist = DEFAULT_EM_TAB_DIST;
+        else if (!ReadNumericField(&inPtr, &lm->emTabDist))
+            return modeError(lm, inString, inPtr, "bad emulated tab spacing");
+        if (!SkipDelimiter(&inPtr, &errMsg))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* read the delimiters string */
+        if (*inPtr == '\n' || *inPtr == '\0' || *inPtr == ':')
+            lm->delimiters = NULL;
+        else if (!ReadQuotedString(&inPtr, &errMsg, &lm->delimiters))
+            return modeError(lm, inString, inPtr, errMsg);
+
         /* After 5.3 all language modes need a default tips file field */
-	if (!SkipDelimiter(&inPtr, &errMsg))
+        if (!SkipDelimiter(&inPtr, &errMsg))
             if (fileVer > 5003)
-    	        return modeError(lm, inString, inPtr, errMsg);
+                return modeError(lm, inString, inPtr, errMsg);
 
         /* read the default tips file */
-	if (*inPtr == '\n' || *inPtr == '\0')
-    	    lm->defTipsFile = NULL;
-    	else if (!ReadQuotedString(&inPtr, &errMsg, &lm->defTipsFile))
-    	    return modeError(lm, inString, inPtr, errMsg);
-    	
-   	/* pattern set was read correctly, add/replace it in the list */
-   	for (i=0; i<NLanguageModes; i++) {
-	    if (!strcmp(LanguageModes[i]->name, lm->name)) {
-		freeLanguageModeRec(LanguageModes[i]);
-		LanguageModes[i] = lm;
-		break;
-	    }
-	}
-	if (i == NLanguageModes) {
-	    LanguageModes[NLanguageModes++] = lm;
-   	    if (NLanguageModes > MAX_LANGUAGE_MODES)
-   		return modeError(NULL, inString, inPtr,
-   	    		"maximum allowable number of language modes exceeded");
-	}
-    	
-    	/* if the string ends here, we're done */
-   	inPtr += strspn(inPtr, " \t\n");
-    	if (*inPtr == '\0')
-    	    return True;
+        if (*inPtr == '\n' || *inPtr == '\0')
+            lm->defTipsFile = NULL;
+        else if (!ReadQuotedString(&inPtr, &errMsg, &lm->defTipsFile))
+            return modeError(lm, inString, inPtr, errMsg);
+
+        /* pattern set was read correctly, add/replace it in the list */
+        for (i = 0; i < NLanguageModes; i++) {
+            if (!strcmp(LanguageModes[i]->name, lm->name)) {
+                freeLanguageModeRec(LanguageModes[i]);
+                LanguageModes[i] = lm;
+                break;
+            }
+        }
+        if (i == NLanguageModes) {
+            LanguageModes[NLanguageModes++] = lm;
+            if (NLanguageModes > MAX_LANGUAGE_MODES)
+                return modeError(NULL, inString, inPtr, "maximum allowable number of language modes exceeded");
+        }
+
+        /* if the string ends here, we're done */
+        inPtr += strspn(inPtr, " \t\n");
+        if (*inPtr == '\0')
+            return True;
     } /* End for(;;) */
 }
 
-static char *writeLanguageModesString(void)
+static char *writeLanguageModesString()
 {
     int i;
     char *outStr, *escapedStr, *str, numBuf[25];
     textBuffer *outBuf;
-    
+
     outBuf = BufCreate();
-    for (i=0; i<NLanguageModes; i++) {
-    	BufInsert(outBuf, outBuf->length, "\t");
-    	BufInsert(outBuf, outBuf->length, LanguageModes[i]->name);
-    	BufInsert(outBuf, outBuf->length, ":");
-    	BufInsert(outBuf, outBuf->length, str = createExtString(
-    	    	LanguageModes[i]->extensions, LanguageModes[i]->nExtensions));
-    	NEditFree(str);
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->recognitionExpr != NULL) {
-    	    BufInsert(outBuf, outBuf->length,
-    	    	    str=MakeQuotedString(LanguageModes[i]->recognitionExpr));
-    	    NEditFree(str);
-    	}
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->indentStyle != DEFAULT_INDENT)
-    	    BufInsert(outBuf, outBuf->length,
-    	    	    AutoIndentTypes[LanguageModes[i]->indentStyle]);
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->wrapStyle != DEFAULT_WRAP)
-    	    BufInsert(outBuf, outBuf->length,
-    	    	    AutoWrapTypes[LanguageModes[i]->wrapStyle]);
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->tabDist != DEFAULT_TAB_DIST) {
-    	    sprintf(numBuf, "%d", LanguageModes[i]->tabDist);
-    	    BufInsert(outBuf, outBuf->length, numBuf);
-    	}
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->emTabDist != DEFAULT_EM_TAB_DIST) {
-    	    sprintf(numBuf, "%d", LanguageModes[i]->emTabDist);
-    	    BufInsert(outBuf, outBuf->length, numBuf);
-    	}
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->delimiters != NULL) {
-    	    BufInsert(outBuf, outBuf->length,
-    	    	    str=MakeQuotedString(LanguageModes[i]->delimiters));
-    	    NEditFree(str);
-    	}
-    	BufInsert(outBuf, outBuf->length, ":");
-    	if (LanguageModes[i]->defTipsFile != NULL) {
-    	    BufInsert(outBuf, outBuf->length,
-    	    	    str=MakeQuotedString(LanguageModes[i]->defTipsFile));
-    	    NEditFree(str);
-    	}
-        
-    	BufInsert(outBuf, outBuf->length, "\n");
+    for (i = 0; i < NLanguageModes; i++) {
+        BufInsert(outBuf, outBuf->length, "\t");
+        BufInsert(outBuf, outBuf->length, LanguageModes[i]->name);
+        BufInsert(outBuf, outBuf->length, ":");
+        BufInsert(outBuf, outBuf->length, str = createExtString(LanguageModes[i]->extensions, LanguageModes[i]->nExtensions));
+        NEditFree(str);
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->recognitionExpr != NULL) {
+            BufInsert(outBuf, outBuf->length, str = MakeQuotedString(LanguageModes[i]->recognitionExpr));
+            NEditFree(str);
+        }
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->indentStyle != DEFAULT_INDENT)
+            BufInsert(outBuf, outBuf->length, AutoIndentTypes[LanguageModes[i]->indentStyle]);
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->wrapStyle != DEFAULT_WRAP)
+            BufInsert(outBuf, outBuf->length, AutoWrapTypes[LanguageModes[i]->wrapStyle]);
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->tabDist != DEFAULT_TAB_DIST) {
+            sprintf(numBuf, "%d", LanguageModes[i]->tabDist);
+            BufInsert(outBuf, outBuf->length, numBuf);
+        }
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->emTabDist != DEFAULT_EM_TAB_DIST) {
+            sprintf(numBuf, "%d", LanguageModes[i]->emTabDist);
+            BufInsert(outBuf, outBuf->length, numBuf);
+        }
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->delimiters != NULL) {
+            BufInsert(outBuf, outBuf->length, str = MakeQuotedString(LanguageModes[i]->delimiters));
+            NEditFree(str);
+        }
+        BufInsert(outBuf, outBuf->length, ":");
+        if (LanguageModes[i]->defTipsFile != NULL) {
+            BufInsert(outBuf, outBuf->length, str = MakeQuotedString(LanguageModes[i]->defTipsFile));
+            NEditFree(str);
+        }
+
+        BufInsert(outBuf, outBuf->length, "\n");
     }
-    
+
     /* Get the output, and lop off the trailing newline */
     outStr = BufGetRange(outBuf, 0, outBuf->length - 1);
     BufFree(outBuf);
@@ -4758,18 +4556,18 @@ static char *createExtString(char **extensions, int nExtensions)
     int e, length = 1;
     char *outStr, *outPtr;
 
-    for (e=0; e<nExtensions; e++)
-    	length += strlen(extensions[e]) + 1;
-    outStr = outPtr = (char*)NEditMalloc(length);
-    for (e=0; e<nExtensions; e++) {
-    	strcpy(outPtr, extensions[e]);
-    	outPtr += strlen(extensions[e]);
-    	*outPtr++ = ' ';
+    for (e = 0; e < nExtensions; e++)
+        length += strlen(extensions[e]) + 1;
+    outStr = outPtr = (char*) NEditMalloc(length);
+    for (e = 0; e < nExtensions; e++) {
+        strcpy(outPtr, extensions[e]);
+        outPtr += strlen(extensions[e]);
+        *outPtr++ = ' ';
     }
     if (nExtensions == 0)
-    	*outPtr = '\0';
+        *outPtr = '\0';
     else
-    	*(outPtr-1) = '\0';
+        *(outPtr - 1) = '\0';
     return outStr;
 }
 
@@ -4778,24 +4576,24 @@ static char **readExtensionList(char **inPtr, int *nExtensions)
     char *extensionList[MAX_FILE_EXTENSIONS];
     char **retList, *strStart;
     int i, len;
-    
+
     /* skip over blank space */
     *inPtr += strspn(*inPtr, " \t");
-    
-    for (i=0; i<MAX_FILE_EXTENSIONS && **inPtr!=':' && **inPtr!='\0'; i++) {
-    	*inPtr += strspn(*inPtr, " \t");
-	strStart = *inPtr;
-	while (**inPtr!=' ' && **inPtr!='\t' && **inPtr!=':' && **inPtr!='\0')
-	    (*inPtr)++;
-    	len = *inPtr - strStart;
-    	extensionList[i] = (char*)NEditMalloc(len + 1);
-    	strncpy(extensionList[i], strStart, len);
-    	extensionList[i][len] = '\0';
+
+    for (i = 0; i < MAX_FILE_EXTENSIONS && **inPtr != ':' && **inPtr != '\0'; i++) {
+        *inPtr += strspn(*inPtr, " \t");
+        strStart = *inPtr;
+        while (**inPtr != ' ' && **inPtr != '\t' && **inPtr != ':' && **inPtr != '\0')
+            (*inPtr)++;
+        len = *inPtr - strStart;
+        extensionList[i] = (char*) NEditMalloc(len + 1);
+        strncpy(extensionList[i], strStart, len);
+        extensionList[i][len] = '\0';
     }
     *nExtensions = i;
     if (i == 0)
-    	return NULL;
-    retList = (char **)NEditMalloc(sizeof(char *) * i);
+        return NULL;
+    retList = (char **) NEditMalloc(sizeof(char *) * i);
     memcpy(retList, extensionList, sizeof(char *) * i);
     return retList;
 }
@@ -4803,108 +4601,106 @@ static char **readExtensionList(char **inPtr, int *nExtensions)
 int ReadNumericField(char **inPtr, int *value)
 {
     int charsRead;
-    
+
     /* skip over blank space */
     *inPtr += strspn(*inPtr, " \t");
-    
+
     if (sscanf(*inPtr, "%d%n", value, &charsRead) != 1)
-    	return False;
+        return False;
     *inPtr += charsRead;
     return True;
 }
 
 /*
-** Parse a symbolic field, skipping initial and trailing whitespace,
-** stops on first invalid character or end of string.  Valid characters
-** are letters, numbers, _, -, +, $, #, and internal whitespace.  Internal
-** whitespace is compressed to single space characters.
-*/
+ ** Parse a symbolic field, skipping initial and trailing whitespace,
+ ** stops on first invalid character or end of string.  Valid characters
+ ** are letters, numbers, _, -, +, $, #, and internal whitespace.  Internal
+ ** whitespace is compressed to single space characters.
+ */
 char *ReadSymbolicField(char **inPtr)
 {
     char *outStr, *outPtr, *strStart, *strPtr;
     int len;
-    
+
     /* skip over initial blank space */
     *inPtr += strspn(*inPtr, " \t");
-    
+
     /* Find the first invalid character or end of string to know how
-       much memory to allocate for the returned string */
+     much memory to allocate for the returned string */
     strStart = *inPtr;
-    while (isalnum((unsigned char)**inPtr) || **inPtr=='_' || **inPtr=='-' ||  
-      	    **inPtr=='+' || **inPtr=='$' || **inPtr=='#' || **inPtr==' ' || 
-      	    **inPtr=='\t')
-    	(*inPtr)++;
+    while (isalnum((unsigned char) **inPtr) || **inPtr == '_' || **inPtr == '-' || **inPtr == '+' || **inPtr == '$' || **inPtr == '#' || **inPtr == ' ' || **inPtr == '\t')
+        (*inPtr)++;
     len = *inPtr - strStart;
     if (len == 0)
-    	return NULL;
-    outStr = outPtr = (char*)NEditMalloc(len + 1);
-    
+        return NULL;
+    outStr = outPtr = (char*) NEditMalloc(len + 1);
+
     /* Copy the string, compressing internal whitespace to a single space */
     strPtr = strStart;
     while (strPtr - strStart < len) {
-    	if (*strPtr == ' ' || *strPtr == '\t') {
-    	    strPtr += strspn(strPtr, " \t");
-    	    *outPtr++ = ' ';
-    	} else
-    	    *outPtr++ = *strPtr++;
+        if (*strPtr == ' ' || *strPtr == '\t') {
+            strPtr += strspn(strPtr, " \t");
+            *outPtr++ = ' ';
+        } else
+            *outPtr++ = *strPtr++;
     }
-    
+
     /* If there's space on the end, take it back off */
-    if (outPtr > outStr && *(outPtr-1) == ' ')
-    	outPtr--;
+    if (outPtr > outStr && *(outPtr - 1) == ' ')
+        outPtr--;
     if (outPtr == outStr) {
-    	NEditFree(outStr);
-    	return NULL;
+        NEditFree(outStr);
+        return NULL;
     }
     *outPtr = '\0';
     return outStr;
 }
 
 /*
-** parse an individual quoted string.  Anything between
-** double quotes is acceptable, quote characters can be escaped by "".
-** Returns allocated string "string" containing
-** argument minus quotes.  If not successful, returns False with
-** (statically allocated) message in "errMsg".
-*/
+ ** parse an individual quoted string.  Anything between
+ ** double quotes is acceptable, quote characters can be escaped by "".
+ ** Returns allocated string "string" containing
+ ** argument minus quotes.  If not successful, returns False with
+ ** (statically allocated) message in "errMsg".
+ */
 int ReadQuotedString(char **inPtr, char **errMsg, char **string)
 {
     char *outPtr, *c;
-    
+
     /* skip over blank space */
     *inPtr += strspn(*inPtr, " \t");
-    
+
     /* look for initial quote */
     if (**inPtr != '\"') {
-    	*errMsg = "expecting quoted string";
-    	return False;
+        *errMsg = "expecting quoted string";
+        return False;
     }
     (*inPtr)++;
-    
+
     /* calculate max length and allocate returned string */
-    for (c= *inPtr; ; c++) {
-    	if (*c == '\0') {
-    	    *errMsg = "string not terminated";
-    	    return False;
-    	} else if (*c == '\"') {
-    	    if (*(c+1) == '\"')
-    	    	c++;
-    	    else
-    	    	break;
-    	}
+    for (c = *inPtr;; c++) {
+        if (*c == '\0') {
+            *errMsg = "string not terminated";
+            return False;
+        } else if (*c == '\"') {
+            if (*(c + 1) == '\"')
+                c++;
+            else
+                break;
+        }
     }
-    
+
     /* copy string up to end quote, transforming escaped quotes into quotes */
-    *string = (char*)NEditMalloc(c - *inPtr + 1);
+    *string = (char*) NEditMalloc(c - *inPtr + 1);
     outPtr = *string;
     while (True) {
-    	if (**inPtr == '\"') {
-    	    if (*(*inPtr+1) == '\"')
-    	    	(*inPtr)++;
-    	    else
-    	    	break;
-    	}
-    	*outPtr++ = *(*inPtr)++;
+        if (**inPtr == '\"') {
+            if (*(*inPtr + 1) == '\"')
+                (*inPtr)++;
+            else
+                break;
+        }
+        *outPtr++ = *(*inPtr)++;
     }
     *outPtr = '\0';
 
@@ -4914,15 +4710,15 @@ int ReadQuotedString(char **inPtr, char **errMsg, char **string)
 }
 
 /*
-** Replace characters which the X resource file reader considers control
-** characters, such that a string will read back as it appears in "string".
-** (So far, newline characters are replaced with with \n\<newline> and
-** backslashes with \\.  This has not been tested exhaustively, and
-** probably should be.  It would certainly be more asthetic if other
-** control characters were replaced as well).
-**
-** Returns an allocated string which must be freed by the caller with NEditFree.
-*/
+ ** Replace characters which the X resource file reader considers control
+ ** characters, such that a string will read back as it appears in "string".
+ ** (So far, newline characters are replaced with with \n\<newline> and
+ ** backslashes with \\.  This has not been tested exhaustively, and
+ ** probably should be.  It would certainly be more asthetic if other
+ ** control characters were replaced as well).
+ **
+ ** Returns an allocated string which must be freed by the caller with NEditFree.
+ */
 char *EscapeSensitiveChars(const char *string)
 {
     const char *c;
@@ -4930,36 +4726,36 @@ char *EscapeSensitiveChars(const char *string)
     int length = 0;
 
     /* calculate length and allocate returned string */
-    for (c=string; *c!='\0'; c++) {
-    	if (*c == '\\')
-    	    length++;
-    	else if (*c == '\n')
-    	    length += 3;
-    	length++;
+    for (c = string; *c != '\0'; c++) {
+        if (*c == '\\')
+            length++;
+        else if (*c == '\n')
+            length += 3;
+        length++;
     }
-    outStr = (char*)NEditMalloc(length + 1);
+    outStr = (char*) NEditMalloc(length + 1);
     outPtr = outStr;
-    
+
     /* add backslashes */
-    for (c=string; *c!='\0'; c++) {
-    	if (*c == '\\')
-    	    *outPtr++ = '\\';
-    	else if (*c == '\n') {
-    	    *outPtr++ = '\\';
-    	    *outPtr++ = 'n';
-    	    *outPtr++ = '\\';
-    	}
-    	*outPtr++ = *c;
+    for (c = string; *c != '\0'; c++) {
+        if (*c == '\\')
+            *outPtr++ = '\\';
+        else if (*c == '\n') {
+            *outPtr++ = '\\';
+            *outPtr++ = 'n';
+            *outPtr++ = '\\';
+        }
+        *outPtr++ = *c;
     }
     *outPtr = '\0';
     return outStr;
 }
 
 /*
-** Adds double quotes around a string and escape existing double quote
-** characters with two double quotes.  Enables the string to be read back
-** by ReadQuotedString.
-*/
+ ** Adds double quotes around a string and escape existing double quote
+ ** characters with two double quotes.  Enables the string to be read back
+ ** by ReadQuotedString.
+ */
 char *MakeQuotedString(const char *string)
 {
     const char *c;
@@ -4967,24 +4763,24 @@ char *MakeQuotedString(const char *string)
     int length = 0;
 
     /* calculate length and allocate returned string */
-    for (c=string; *c!='\0'; c++) {
-    	if (*c == '\"')
-    	    length++;
-    	length++;
+    for (c = string; *c != '\0'; c++) {
+        if (*c == '\"')
+            length++;
+        length++;
     }
-    outStr = (char*)NEditMalloc(length + 3);
+    outStr = (char*) NEditMalloc(length + 3);
     outPtr = outStr;
-    
+
     /* add starting quote */
     *outPtr++ = '\"';
-    
+
     /* copy string, escaping quotes with "" */
-    for (c=string; *c!='\0'; c++) {
-    	if (*c == '\"')
-    	    *outPtr++ = '\"';
-    	*outPtr++ = *c;
+    for (c = string; *c != '\0'; c++) {
+        if (*c == '\"')
+            *outPtr++ = '\"';
+        *outPtr++ = *c;
     }
-    
+
     /* add ending quote */
     *outPtr++ = '\"';
 
@@ -4994,33 +4790,29 @@ char *MakeQuotedString(const char *string)
 }
 
 /*
-** Read a dialog text field containing a symbolic name (language mode names,
-** style names, highlight pattern names, colors, and fonts), clean the
-** entered text of leading and trailing whitespace, compress all
-** internal whitespace to one space character, and check it over for
-** colons, which interfere with the preferences file reader/writer syntax.
-** Returns NULL on error, and puts up a dialog if silent is False.  Returns
-** an empty string if the text field is blank.
-*/
+ ** Read a dialog text field containing a symbolic name (language mode names,
+ ** style names, highlight pattern names, colors, and fonts), clean the
+ ** entered text of leading and trailing whitespace, compress all
+ ** internal whitespace to one space character, and check it over for
+ ** colons, which interfere with the preferences file reader/writer syntax.
+ ** Returns NULL on error, and puts up a dialog if silent is False.  Returns
+ ** an empty string if the text field is blank.
+ */
 char *ReadSymbolicFieldTextWidget(Widget textW, const char *fieldName, int silent)
 {
     char *string, *stringPtr, *parsedString;
-    
+
     /* read from the text widget */
     string = stringPtr = XmTextGetString(textW);
-    
+
     /* parse it with the same routine used to read symbolic fields from
-       files.  If the string is not read entirely, there are invalid
-       characters, so warn the user if not in silent mode. */
+     files.  If the string is not read entirely, there are invalid
+     characters, so warn the user if not in silent mode. */
     parsedString = ReadSymbolicField(&stringPtr);
-    if (*stringPtr != '\0')
-    {
-        if (!silent)
-        {
+    if (*stringPtr != '\0') {
+        if (!silent) {
             *(stringPtr + 1) = '\0';
-            DialogF(DF_WARN, textW, 1, "Invalid Character",
-                    "Invalid character \"%s\" in %s", "OK", stringPtr,
-                    fieldName);
+            DialogF(DF_WARN, textW, 1, "Invalid Character", "Invalid character \"%s\" in %s", "OK", stringPtr, fieldName);
             XmProcessTraversal(textW, XmTRAVERSE_CURRENT);
         }
         NEditFree(string);
@@ -5029,15 +4821,15 @@ char *ReadSymbolicFieldTextWidget(Widget textW, const char *fieldName, int silen
     }
     NEditFree(string);
     if (parsedString == NULL) {
-    	parsedString = NEditStrdup("");
+        parsedString = NEditStrdup("");
     }
     return parsedString;
 }
 
 /*
-** Create a pulldown menu pane with the names of the current language modes.
-** XmNuserData for each item contains the language mode name.
-*/
+ ** Create a pulldown menu pane with the names of the current language modes.
+ ** XmNuserData for each item contains the language mode name.
+ */
 Widget CreateLanguageModeMenu(Widget parent, XtCallbackProc cbProc, void *cbArg)
 {
     Widget menu, btn;
@@ -5045,22 +4837,21 @@ Widget CreateLanguageModeMenu(Widget parent, XtCallbackProc cbProc, void *cbArg)
     XmString s1;
 
     menu = CreatePulldownMenu(parent, "languageModes", NULL, 0);
-    for (i=0; i<NLanguageModes; i++) {
-        btn = XtVaCreateManagedWidget("languageMode", xmPushButtonGadgetClass,
-        	menu,
-        	XmNlabelString, s1=XmStringCreateSimple(LanguageModes[i]->name),
-		XmNmarginHeight, 0,
-    		XmNuserData, (void *)LanguageModes[i]->name, NULL);
+    for (i = 0; i < NLanguageModes; i++) {
+        btn = XtVaCreateManagedWidget("languageMode", xmPushButtonGadgetClass, menu,
+        XmNlabelString, s1 = XmStringCreateSimple(LanguageModes[i]->name),
+        XmNmarginHeight, 0,
+        XmNuserData, (void *) LanguageModes[i]->name, NULL);
         XmStringFree(s1);
-	XtAddCallback(btn, XmNactivateCallback, cbProc, cbArg);
+        XtAddCallback(btn, XmNactivateCallback, cbProc, cbArg);
     }
     return menu;
 }
 
 /*
-** Set the language mode menu in option menu "optMenu" to
-** show a particular language mode
-*/
+ ** Set the language mode menu in option menu "optMenu" to
+ ** show a particular language mode
+ */
 void SetLangModeMenu(Widget optMenu, const char *modeName)
 {
     int i;
@@ -5072,70 +4863,65 @@ void SetLangModeMenu(Widget optMenu, const char *modeName)
     XtVaGetValues(optMenu, XmNsubMenuId, &pulldown, NULL);
     XtVaGetValues(pulldown, XmNchildren, &items, XmNnumChildren, &nItems, NULL);
     if (nItems == 0)
-    	return;
+        return;
     selectedItem = items[0];
-    for (i=0; i<(int)nItems; i++) {
-    	XtVaGetValues(items[i], XmNuserData, &itemName, NULL);
-    	if (!strcmp(itemName, modeName)) {
-    	    selectedItem = items[i];
-    	    break;
-    	}
+    for (i = 0; i < (int) nItems; i++) {
+        XtVaGetValues(items[i], XmNuserData, &itemName, NULL);
+        if (!strcmp(itemName, modeName)) {
+            selectedItem = items[i];
+            break;
+        }
     }
-    XtVaSetValues(optMenu, XmNmenuHistory, selectedItem,NULL);
+    XtVaSetValues(optMenu, XmNmenuHistory, selectedItem, NULL);
 }
 
 /*
-** Create a submenu for chosing language mode for the current window.
-*/
-void CreateLanguageModeSubMenu(WindowInfo* window, const Widget parent,
-        const char* name, const char* label, char mnemonic)
+ ** Create a submenu for chosing language mode for the current window.
+ */
+void CreateLanguageModeSubMenu(WindowInfo* window, const Widget parent, const char* name, const char* label, char mnemonic)
 {
     XmString string = XmStringCreateSimple((char*) label);
 
-    window->langModeCascade = XtVaCreateManagedWidget(name,
-            xmCascadeButtonGadgetClass, parent,
-            XmNlabelString, string,
-            XmNmnemonic, mnemonic,
-            XmNsubMenuId, NULL,
-            NULL);
+    window->langModeCascade = XtVaCreateManagedWidget(name, xmCascadeButtonGadgetClass, parent,
+    XmNlabelString, string,
+    XmNmnemonic, mnemonic,
+    XmNsubMenuId, NULL,
+    NULL);
     XmStringFree(string);
 
     updateLanguageModeSubmenu(window);
 }
 
 /*
-** Re-build the language mode sub-menu using the current data stored
-** in the master list: LanguageModes.
-*/
+ ** Re-build the language mode sub-menu using the current data stored
+ ** in the master list: LanguageModes.
+ */
 static void updateLanguageModeSubmenu(WindowInfo *window)
 {
     int i;
     XmString s1;
     Widget menu, btn;
-    Arg args[1] = {{XmNradioBehavior, (XtArgVal)True}};
-    
+    Arg args[1] = { { XmNradioBehavior, (XtArgVal) True } };
+
     /* Destroy and re-create the menu pane */
     XtVaGetValues(window->langModeCascade, XmNsubMenuId, &menu, NULL);
     if (menu != NULL)
-    	XtDestroyWidget(menu);
-    menu = CreatePulldownMenu(XtParent(window->langModeCascade),
-    	    "languageModes", args, 1);
-    btn = XtVaCreateManagedWidget("languageMode",
-            xmToggleButtonGadgetClass, menu,
-            XmNlabelString, s1=XmStringCreateSimple("Plain"),
-    	    XmNuserData, (void *)PLAIN_LANGUAGE_MODE,
-    	    XmNset, window->languageMode==PLAIN_LANGUAGE_MODE, NULL);
+        XtDestroyWidget(menu);
+    menu = CreatePulldownMenu(XtParent(window->langModeCascade), "languageModes", args, 1);
+    btn = XtVaCreateManagedWidget("languageMode", xmToggleButtonGadgetClass, menu,
+    XmNlabelString, s1 = XmStringCreateSimple("Plain"),
+    XmNuserData, (void *) PLAIN_LANGUAGE_MODE,
+    XmNset, window->languageMode == PLAIN_LANGUAGE_MODE, NULL);
     XmStringFree(s1);
     XtAddCallback(btn, XmNvalueChangedCallback, setLangModeCB, window);
-    for (i=0; i<NLanguageModes; i++) {
-        btn = XtVaCreateManagedWidget("languageMode",
-            	xmToggleButtonGadgetClass, menu,
-            	XmNlabelString, s1=XmStringCreateSimple(LanguageModes[i]->name),
- 	    	XmNmarginHeight, 0,
-   		XmNuserData, (void *)(intptr_t)i,
-    		XmNset, window->languageMode==i, NULL);
+    for (i = 0; i < NLanguageModes; i++) {
+        btn = XtVaCreateManagedWidget("languageMode", xmToggleButtonGadgetClass, menu,
+        XmNlabelString, s1 = XmStringCreateSimple(LanguageModes[i]->name),
+        XmNmarginHeight, 0,
+        XmNuserData, (void *) (intptr_t) i,
+        XmNset, window->languageMode == i, NULL);
         XmStringFree(s1);
-	XtAddCallback(btn, XmNvalueChangedCallback, setLangModeCB, window);
+        XtAddCallback(btn, XmNvalueChangedCallback, setLangModeCB, window);
     }
     XtVaSetValues(window->langModeCascade, XmNsubMenuId, menu, NULL);
 }
@@ -5145,34 +4931,34 @@ static void setLangModeCB(Widget w, XtPointer clientData, XtPointer callData)
     WindowInfo *window = WidgetToWindow(MENU_WIDGET(w));
     char *params[1];
     void *mode;
-    
+
     if (!XmToggleButtonGetState(w))
-    	return;
-    	
+        return;
+
     /* get name of language mode stored in userData field of menu item */
     XtVaGetValues(w, XmNuserData, &mode, NULL);
-    
+
     /* If the mode didn't change, do nothing */
-    if (window->languageMode == (int)(intptr_t)mode)
-    	return;
-    
+    if (window->languageMode == (int) (intptr_t) mode)
+        return;
+
     /* redo syntax highlighting word delimiters, etc. */
-/*
-    reapplyLanguageMode(window, (int)mode, False);
-*/
-    params[0] = (((int)(intptr_t)mode) == PLAIN_LANGUAGE_MODE) ? "" : LanguageModes[(int)(intptr_t)mode]->name;
+    /*
+     reapplyLanguageMode(window, (int)mode, False);
+     */
+    params[0] = (((int) (intptr_t) mode) == PLAIN_LANGUAGE_MODE) ? "" : LanguageModes[(int) (intptr_t) mode]->name;
     XtCallActionProc(window->textArea, "set_language_mode", NULL, params, 1);
 }
 
 /*
-** Skip a delimiter and it's surrounding whitespace
-*/
+ ** Skip a delimiter and it's surrounding whitespace
+ */
 int SkipDelimiter(char **inPtr, char **errMsg)
 {
     *inPtr += strspn(*inPtr, " \t");
     if (**inPtr != ':') {
-    	*errMsg = "syntax error";
-    	return False;
+        *errMsg = "syntax error";
+        return False;
     }
     (*inPtr)++;
     *inPtr += strspn(*inPtr, " \t");
@@ -5180,14 +4966,14 @@ int SkipDelimiter(char **inPtr, char **errMsg)
 }
 
 /*
-** Skip an optional separator and its surrounding whitespace
-** return true if delimiter found
-*/
+ ** Skip an optional separator and its surrounding whitespace
+ ** return true if delimiter found
+ */
 int SkipOptSeparator(char separator, char **inPtr)
 {
     *inPtr += strspn(*inPtr, " \t");
     if (**inPtr != separator) {
-    	return False;
+        return False;
     }
     (*inPtr)++;
     *inPtr += strspn(*inPtr, " \t");
@@ -5195,368 +4981,322 @@ int SkipOptSeparator(char separator, char **inPtr)
 }
 
 /*
-** Short-hand error processing for language mode parsing errors, frees
-** lm (if non-null), prints a formatted message explaining where the
-** error is, and returns False;
-*/
-static int modeError(languageModeRec *lm, const char *stringStart,
-        const char *stoppedAt, const char *message)
+ ** Short-hand error processing for language mode parsing errors, frees
+ ** lm (if non-null), prints a formatted message explaining where the
+ ** error is, and returns False;
+ */
+static int modeError(languageModeRec *lm, const char *stringStart, const char *stoppedAt, const char *message)
 {
     if (lm != NULL)
-    	freeLanguageModeRec(lm);
-    return ParseError(NULL, stringStart, stoppedAt,
-    	    "language mode specification", message);
+        freeLanguageModeRec(lm);
+    return ParseError(NULL, stringStart, stoppedAt, "language mode specification", message);
 }
 
 /*
-** Report parsing errors in resource strings or macros, formatted nicely so
-** the user can tell where things became botched.  Errors can be sent either
-** to stderr, or displayed in a dialog.  For stderr, pass toDialog as NULL.
-** For a dialog, pass the dialog parent in toDialog.
-*/
-int ParseError(Widget toDialog, const char *stringStart, const char *stoppedAt,
-	const char *errorIn, const char *message)
+ ** Report parsing errors in resource strings or macros, formatted nicely so
+ ** the user can tell where things became botched.  Errors can be sent either
+ ** to stderr, or displayed in a dialog.  For stderr, pass toDialog as NULL.
+ ** For a dialog, pass the dialog parent in toDialog.
+ */
+int ParseError(Widget toDialog, const char *stringStart, const char *stoppedAt, const char *errorIn, const char *message)
 {
     int len, nNonWhite = 0;
     const char *c;
     char *errorLine;
-    
-    for (c=stoppedAt; c>=stringStart; c--) {
-    	if (c == stringStart)
-    	    break;
-    	else if (*c == '\n' && nNonWhite >= 5)
-    	    break;
-    	else if (*c != ' ' && *c != '\t')
-    	    nNonWhite++;
+
+    for (c = stoppedAt; c >= stringStart; c--) {
+        if (c == stringStart)
+            break;
+        else if (*c == '\n' && nNonWhite >= 5)
+            break;
+        else if (*c != ' ' && *c != '\t')
+            nNonWhite++;
     }
     len = stoppedAt - c + (*stoppedAt == '\0' ? 0 : 1);
-    errorLine = (char*)NEditMalloc(len+4);
+    errorLine = (char*) NEditMalloc(len + 4);
     strncpy(errorLine, c, len);
     errorLine[len++] = '<';
     errorLine[len++] = '=';
     errorLine[len++] = '=';
     errorLine[len] = '\0';
-    if (toDialog == NULL)
-    {
+    if (toDialog == NULL) {
         fprintf(stderr, "NEdit: %s in %s:\n%s\n", message, errorIn, errorLine);
-    } else
-    {
-        DialogF(DF_WARN, toDialog, 1, "Parse Error", "%s in %s:\n%s", "OK",
-                message, errorIn, errorLine);
+    } else {
+        DialogF(DF_WARN, toDialog, 1, "Parse Error", "%s in %s:\n%s", "OK", message, errorIn, errorLine);
     }
     NEditFree(errorLine);
     return False;
 }
 
 /*
-** Compare two strings which may be NULL
-*/
+ ** Compare two strings which may be NULL
+ */
 int AllocatedStringsDiffer(const char *s1, const char *s2)
 {
     if (s1 == NULL && s2 == NULL)
-    	return False;
+        return False;
     if (s1 == NULL || s2 == NULL)
-    	return True;
+        return True;
     return strcmp(s1, s2);
 }
 
-static void updatePatternsTo5dot1(void)
+static void updatePatternsTo5dot1()
 {
     const char *htmlDefaultExpr = "^[ \t]*HTML[ \t]*:[ \t]*Default[ \t]*$";
     const char *vhdlAnchorExpr = "^[ \t]*VHDL:";
-    
+
     /* Add new patterns if there aren't already existing patterns with
-       the same name.  If possible, insert before VHDL in language mode
-       list.  If not, just add to end */
+     the same name.  If possible, insert before VHDL in language mode
+     list.  If not, just add to end */
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*PostScript:"))
-	spliceString(&TempStringPrefs.highlight, "PostScript:Default",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.highlight, "PostScript:Default", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.language, "^[ \t]*PostScript:"))
-	spliceString(&TempStringPrefs.language,
-		"PostScript:.ps .PS .eps .EPS .epsf .epsi::::::",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.language, "PostScript:.ps .PS .eps .EPS .epsf .epsi::::::", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*Lex:"))
-	spliceString(&TempStringPrefs.highlight, "Lex:Default",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.highlight, "Lex:Default", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.language, "^[ \t]*Lex:"))
-	spliceString(&TempStringPrefs.language, "Lex:.lex::::::",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.language, "Lex:.lex::::::", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*SQL:"))
-	spliceString(&TempStringPrefs.highlight, "SQL:Default",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.highlight, "SQL:Default", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.language, "^[ \t]*SQL:"))
-	spliceString(&TempStringPrefs.language, "SQL:.sql::::::",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.language, "SQL:.sql::::::", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*Matlab:"))
-	spliceString(&TempStringPrefs.highlight, "Matlab:Default",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.highlight, "Matlab:Default", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.language, "^[ \t]*Matlab:"))
-	spliceString(&TempStringPrefs.language, "Matlab:..m .oct .sci::::::",
-		vhdlAnchorExpr);
+        spliceString(&TempStringPrefs.language, "Matlab:..m .oct .sci::::::", vhdlAnchorExpr);
     if (!regexFind(TempStringPrefs.smartIndent, "^[ \t]*Matlab:"))
-	spliceString(&TempStringPrefs.smartIndent, "Matlab:Default", NULL);
+        spliceString(&TempStringPrefs.smartIndent, "Matlab:Default", NULL);
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Label:"))
-	spliceString(&TempStringPrefs.styles, "Label:red:Italic",
-		"^[ \t]*Flag:");
+        spliceString(&TempStringPrefs.styles, "Label:red:Italic", "^[ \t]*Flag:");
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Storage Type1:"))
-	spliceString(&TempStringPrefs.styles, "Storage Type1:saddle brown:Bold",
-		"^[ \t]*String:");
+        spliceString(&TempStringPrefs.styles, "Storage Type1:saddle brown:Bold", "^[ \t]*String:");
 
     /* Replace html pattern with sgml html pattern, as long as there
-       isn't an existing html pattern which will be overwritten */
+     isn't an existing html pattern which will be overwritten */
     if (regexFind(TempStringPrefs.highlight, htmlDefaultExpr)) {
-	regexReplace(&TempStringPrefs.highlight, htmlDefaultExpr,
-	    	"SGML HTML:Default");
-    	if (!regexReplace(&TempStringPrefs.language, "^[ \t]*HTML:.*$",
-	    	"SGML HTML:.sgml .sgm .html .htm:\"\\<(?ihtml)\\>\":::::\n")) {
-	    spliceString(&TempStringPrefs.language,
-		    "SGML HTML:.sgml .sgm .html .htm:\"\\<(?ihtml)\\>\":::::\n",
-		    vhdlAnchorExpr);
-	}
+        regexReplace(&TempStringPrefs.highlight, htmlDefaultExpr, "SGML HTML:Default");
+        if (!regexReplace(&TempStringPrefs.language, "^[ \t]*HTML:.*$", "SGML HTML:.sgml .sgm .html .htm:\"\\<(?ihtml)\\>\":::::\n")) {
+            spliceString(&TempStringPrefs.language, "SGML HTML:.sgml .sgm .html .htm:\"\\<(?ihtml)\\>\":::::\n", vhdlAnchorExpr);
+        }
     }
 }
 
-static void updatePatternsTo5dot2(void)
+static void updatePatternsTo5dot2()
 {
 #ifdef VMS
     const char *cppLm5dot1 =
-	"^[ \t]*C\\+\\+:\\.CC \\.HH \\.I::::::\"\\.,/\\\\`'!\\|@#%\\^&\\*\\(\\)-=\\+\\{\\}\\[\\]\"\":;\\<\\>\\?~\"";
+    "^[ \t]*C\\+\\+:\\.CC \\.HH \\.I::::::\"\\.,/\\\\`'!\\|@#%\\^&\\*\\(\\)-=\\+\\{\\}\\[\\]\"\":;\\<\\>\\?~\"";
     const char *perlLm5dot1 =
-	"^[ \t]*Perl:\\.PL \\.PM \\.P5:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\.\\*perl\":::::";
+    "^[ \t]*Perl:\\.PL \\.PM \\.P5:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\.\\*perl\":::::";
     const char *psLm5dot1 =
-        "^[ \t]*PostScript:\\.ps \\.PS \\.eps \\.EPS \\.epsf \\.epsi:\"\\^%!\":::::\"/%\\(\\)\\{\\}\\[\\]\\<\\>\"";
+    "^[ \t]*PostScript:\\.ps \\.PS \\.eps \\.EPS \\.epsf \\.epsi:\"\\^%!\":::::\"/%\\(\\)\\{\\}\\[\\]\\<\\>\"";
     const char *tclLm5dot1 = "^[ \t]*Tcl:\\.TCL::::::";
 
     const char *cppLm5dot2 =
-        "C++:.CC .HH .C .H .I .CXX .HXX .CPP::::::\".,/\\`'!|@#%^&*()-=+{}[]\"\":;<>?~\"";
+    "C++:.CC .HH .C .H .I .CXX .HXX .CPP::::::\".,/\\`'!|@#%^&*()-=+{}[]\"\":;<>?~\"";
     const char *perlLm5dot2 =
-        "Perl:.PL .PM .P5:\"^[ \\t]*#[ \\t]*!.*perl\":Auto:None:::\".,/\\\\`'!$@#%^&*()-=+{}[]\"\":;<>?~|\"";
+    "Perl:.PL .PM .P5:\"^[ \\t]*#[ \\t]*!.*perl\":Auto:None:::\".,/\\\\`'!$@#%^&*()-=+{}[]\"\":;<>?~|\"";
     const char *psLm5dot2 =
-        "PostScript:.ps .PS .eps .EPS .epsf .epsi:\"^%!\":::::\"/%(){}[]<>\"";
+    "PostScript:.ps .PS .eps .EPS .epsf .epsi:\"^%!\":::::\"/%(){}[]<>\"";
     const char *tclLm5dot2 =
-        "Tcl:.TCL::Smart:None:::";
+    "Tcl:.TCL::Smart:None:::";
 #else
-    const char *cppLm5dot1 =
-	"^[ \t]*C\\+\\+:\\.cc \\.hh \\.C \\.H \\.i \\.cxx \\.hxx::::::\"\\.,/\\\\`'!\\|@#%\\^&\\*\\(\\)-=\\+\\{\\}\\[\\]\"\":;\\<\\>\\?~\"";
-    const char *perlLm5dot1 =
-	"^[ \t]*Perl:\\.pl \\.pm \\.p5:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\.\\*perl\":::::";
-    const char *psLm5dot1 =
-        "^[ \t]*PostScript:\\.ps \\.PS \\.eps \\.EPS \\.epsf \\.epsi:\"\\^%!\":::::\"/%\\(\\)\\{\\}\\[\\]\\<\\>\"";
-    const char *shLm5dot1 =
-        "^[ \t]*Sh Ksh Bash:\\.sh \\.bash \\.ksh \\.profile:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/bin/\\(sh\\|ksh\\|bash\\)\":::::";
+    const char *cppLm5dot1 = "^[ \t]*C\\+\\+:\\.cc \\.hh \\.C \\.H \\.i \\.cxx \\.hxx::::::\"\\.,/\\\\`'!\\|@#%\\^&\\*\\(\\)-=\\+\\{\\}\\[\\]\"\":;\\<\\>\\?~\"";
+    const char *perlLm5dot1 = "^[ \t]*Perl:\\.pl \\.pm \\.p5:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\.\\*perl\":::::";
+    const char *psLm5dot1 = "^[ \t]*PostScript:\\.ps \\.PS \\.eps \\.EPS \\.epsf \\.epsi:\"\\^%!\":::::\"/%\\(\\)\\{\\}\\[\\]\\<\\>\"";
+    const char *shLm5dot1 = "^[ \t]*Sh Ksh Bash:\\.sh \\.bash \\.ksh \\.profile:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/bin/\\(sh\\|ksh\\|bash\\)\":::::";
     const char *tclLm5dot1 = "^[ \t]*Tcl:\\.tcl::::::";
 
-    const char *cppLm5dot2 =
-        "C++:.cc .hh .C .H .i .cxx .hxx .cpp::::::\".,/\\`'!|@#%^&*()-=+{}[]\"\":;<>?~\"";
-    const char *perlLm5dot2 =
-        "Perl:.pl .pm .p5 .PL:\"^[ \\t]*#[ \\t]*!.*perl\":Auto:None:::\".,/\\\\`'!$@#%^&*()-=+{}[]\"\":;<>?~|\"";
-    const char *psLm5dot2 =
-        "PostScript:.ps .eps .epsf .epsi:\"^%!\":::::\"/%(){}[]<>\"";
-    const char *shLm5dot2 =
-        "Sh Ksh Bash:.sh .bash .ksh .profile .bashrc .bash_logout .bash_login .bash_profile:\"^[ \\t]*#[ \\t]*![ \\t]*/.*bin/(sh|ksh|bash)\":::::";
-    const char *tclLm5dot2 =
-        "Tcl:.tcl .tk .itcl .itk::Smart:None:::";
+    const char *cppLm5dot2 = "C++:.cc .hh .C .H .i .cxx .hxx .cpp::::::\".,/\\`'!|@#%^&*()-=+{}[]\"\":;<>?~\"";
+    const char *perlLm5dot2 = "Perl:.pl .pm .p5 .PL:\"^[ \\t]*#[ \\t]*!.*perl\":Auto:None:::\".,/\\\\`'!$@#%^&*()-=+{}[]\"\":;<>?~|\"";
+    const char *psLm5dot2 = "PostScript:.ps .eps .epsf .epsi:\"^%!\":::::\"/%(){}[]<>\"";
+    const char *shLm5dot2 = "Sh Ksh Bash:.sh .bash .ksh .profile .bashrc .bash_logout .bash_login .bash_profile:\"^[ \\t]*#[ \\t]*![ \\t]*/.*bin/(sh|ksh|bash)\":::::";
+    const char *tclLm5dot2 = "Tcl:.tcl .tk .itcl .itk::Smart:None:::";
 #endif /* VMS */
 
-    const char *cssLm5dot2 =
-        "CSS:css::Auto:None:::\".,/\\`'!|@#%^&*()=+{}[]\"\":;<>?~\"";
-    const char *reLm5dot2 =
-        "Regex:.reg .regex:\"\\(\\?[:#=!iInN].+\\)\":None:Continuous:::";
-    const char *xmlLm5dot2 =
-        "XML:.xml .xsl .dtd:\"\\<(?i\\?xml|!doctype)\"::None:::\"<>/=\"\"'()+*?|\"";
-    
+    const char *cssLm5dot2 = "CSS:css::Auto:None:::\".,/\\`'!|@#%^&*()=+{}[]\"\":;<>?~\"";
+    const char *reLm5dot2 = "Regex:.reg .regex:\"\\(\\?[:#=!iInN].+\\)\":None:Continuous:::";
+    const char *xmlLm5dot2 = "XML:.xml .xsl .dtd:\"\\<(?i\\?xml|!doctype)\"::None:::\"<>/=\"\"'()+*?|\"";
+
     const char *cssHl5dot2 = "CSS:Default";
-    const char *reHl5dot2 =  "Regex:Default";
+    const char *reHl5dot2 = "Regex:Default";
     const char *xmlHl5dot2 = "XML:Default";
-    
+
     const char *ptrStyle = "Pointer:#660000:Bold";
     const char *reStyle = "Regex:#009944:Bold";
     const char *wrnStyle = "Warning:brown2:Italic";
 
     /* First upgrade modified language modes, only if the user hasn't
-       altered the default 5.1 definitions. */
+     altered the default 5.1 definitions. */
     if (regexFind(TempStringPrefs.language, cppLm5dot1))
-	regexReplace(&TempStringPrefs.language, cppLm5dot1, cppLm5dot2);
+        regexReplace(&TempStringPrefs.language, cppLm5dot1, cppLm5dot2);
     if (regexFind(TempStringPrefs.language, perlLm5dot1))
-	regexReplace(&TempStringPrefs.language, perlLm5dot1, perlLm5dot2);
+        regexReplace(&TempStringPrefs.language, perlLm5dot1, perlLm5dot2);
     if (regexFind(TempStringPrefs.language, psLm5dot1))
-	regexReplace(&TempStringPrefs.language, psLm5dot1, psLm5dot2);
+        regexReplace(&TempStringPrefs.language, psLm5dot1, psLm5dot2);
 #ifndef VMS
     if (regexFind(TempStringPrefs.language, shLm5dot1))
-	regexReplace(&TempStringPrefs.language, shLm5dot1, shLm5dot2);
+        regexReplace(&TempStringPrefs.language, shLm5dot1, shLm5dot2);
 #endif
     if (regexFind(TempStringPrefs.language, tclLm5dot1))
-	regexReplace(&TempStringPrefs.language, tclLm5dot1, tclLm5dot2);
+        regexReplace(&TempStringPrefs.language, tclLm5dot1, tclLm5dot2);
 
     /* Then append the new modes (trying to keep them in alphabetical order
-       makes no sense, since 5.1 didn't use alphabetical order). */
+     makes no sense, since 5.1 didn't use alphabetical order). */
     if (!regexFind(TempStringPrefs.language, "^[ \t]*CSS:"))
-	spliceString(&TempStringPrefs.language, cssLm5dot2, NULL);
+        spliceString(&TempStringPrefs.language, cssLm5dot2, NULL);
     if (!regexFind(TempStringPrefs.language, "^[ \t]*Regex:"))
-	spliceString(&TempStringPrefs.language, reLm5dot2, NULL);
+        spliceString(&TempStringPrefs.language, reLm5dot2, NULL);
     if (!regexFind(TempStringPrefs.language, "^[ \t]*XML:"))
-	spliceString(&TempStringPrefs.language, xmlLm5dot2, NULL);
-    
+        spliceString(&TempStringPrefs.language, xmlLm5dot2, NULL);
+
     /* Enable default highlighting patterns for these modes, unless already
-       present */
+     present */
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*CSS:"))
-	spliceString(&TempStringPrefs.highlight, cssHl5dot2, NULL);
+        spliceString(&TempStringPrefs.highlight, cssHl5dot2, NULL);
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*Regex:"))
-	spliceString(&TempStringPrefs.highlight, reHl5dot2, NULL);
+        spliceString(&TempStringPrefs.highlight, reHl5dot2, NULL);
     if (!regexFind(TempStringPrefs.highlight, "^[ \t]*XML:"))
-	spliceString(&TempStringPrefs.highlight, xmlHl5dot2, NULL);
+        spliceString(&TempStringPrefs.highlight, xmlHl5dot2, NULL);
 
     /* Finally, append the new highlight styles */
 
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Warning:"))
-	spliceString(&TempStringPrefs.styles, wrnStyle, NULL);
+        spliceString(&TempStringPrefs.styles, wrnStyle, NULL);
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Regex:"))
-	spliceString(&TempStringPrefs.styles, reStyle, "^[ \t]*Warning:");
+        spliceString(&TempStringPrefs.styles, reStyle, "^[ \t]*Warning:");
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Pointer:"))
-	spliceString(&TempStringPrefs.styles, ptrStyle, "^[ \t]*Regex:");
+        spliceString(&TempStringPrefs.styles, ptrStyle, "^[ \t]*Regex:");
 }
 
-static void updatePatternsTo5dot3(void)
+static void updatePatternsTo5dot3()
 {
     /* This is a bogus function on non-VMS */
 #ifdef VMS
     const char *psLm5dot2 =
-        "^[ \t]*PostScript:\\.ps \\.PS \\.eps \\.EPS \\.epsf \\.epsi:\"\\^%!\":::::\"/%\\(\\)\\{\\}\\[\\]\\<\\>\"";
+    "^[ \t]*PostScript:\\.ps \\.PS \\.eps \\.EPS \\.epsf \\.epsi:\"\\^%!\":::::\"/%\\(\\)\\{\\}\\[\\]\\<\\>\"";
 
-    const char *psLm5dot3 = 
-        "PostScript:.ps .PS .eps .EPS .epsf .EPSF .epsi .EPSI:\"^%!\":::::\"/%(){}[]<>\"";
-    
+    const char *psLm5dot3 =
+    "PostScript:.ps .PS .eps .EPS .epsf .EPSF .epsi .EPSI:\"^%!\":::::\"/%(){}[]<>\"";
+
     /* Upgrade modified language modes, only if the user hasn't
-       altered the default 5.2 definitions. */
+     altered the default 5.2 definitions. */
     if (regexFind(TempStringPrefs.language, psLm5dot2))
-	regexReplace(&TempStringPrefs.language, psLm5dot2, psLm5dot3);
+    regexReplace(&TempStringPrefs.language, psLm5dot2, psLm5dot3);
 #endif 
 }
 
-static void updatePatternsTo5dot4(void)
+static void updatePatternsTo5dot4()
 {
 #ifdef VMS
     const char *pyLm5dot3 =
-        "Python:\\.PY:\"\\^#!\\.\\*python\":Auto:None::::?\n";
+    "Python:\\.PY:\"\\^#!\\.\\*python\":Auto:None::::?\n";
     const char *xrLm5dot3 =
-        "X Resources:\\.XRESOURCES \\.XDEFAULTS \\.NEDIT:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::?\n";
+    "X Resources:\\.XRESOURCES \\.XDEFAULTS \\.NEDIT:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::?\n";
 
-    const char *pyLm5dot4 = 
-        "Python:.PY:\"^#!.*python\":Auto:None:::\"!\"\"#$%&'()*+,-./:;<=>?@[\\\\]^`{|}~\":\n";
+    const char *pyLm5dot4 =
+    "Python:.PY:\"^#!.*python\":Auto:None:::\"!\"\"#$%&'()*+,-./:;<=>?@[\\\\]^`{|}~\":\n";
     const char *xrLm5dot4 =
-        "X Resources:.XRESOURCES .XDEFAULTS .NEDIT NEDIT.RC:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n";
+    "X Resources:.XRESOURCES .XDEFAULTS .NEDIT NEDIT.RC:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n";
 #else
-    const char *pyLm5dot3 =
-        "Python:\\.py:\"\\^#!\\.\\*python\":Auto:None::::?\n";
-    const char *xrLm5dot3 =
-        "X Resources:\\.Xresources \\.Xdefaults \\.nedit:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::?\n";
+    const char *pyLm5dot3 = "Python:\\.py:\"\\^#!\\.\\*python\":Auto:None::::?\n";
+    const char *xrLm5dot3 = "X Resources:\\.Xresources \\.Xdefaults \\.nedit:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::?\n";
 
-    const char *pyLm5dot4 = 
-        "Python:.py:\"^#!.*python\":Auto:None:::\"!\"\"#$%&'()*+,-./:;<=>?@[\\\\]^`{|}~\":\n";
-    const char *xrLm5dot4 =
-        "X Resources:.Xresources .Xdefaults .nedit nedit.rc:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n";
+    const char *pyLm5dot4 = "Python:.py:\"^#!.*python\":Auto:None:::\"!\"\"#$%&'()*+,-./:;<=>?@[\\\\]^`{|}~\":\n";
+    const char *xrLm5dot4 = "X Resources:.Xresources .Xdefaults .nedit nedit.rc:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n";
 #endif
 
     /* Upgrade modified language modes, only if the user hasn't
-       altered the default 5.3 definitions. */
+     altered the default 5.3 definitions. */
     if (regexFind(TempStringPrefs.language, pyLm5dot3))
-	regexReplace(&TempStringPrefs.language, pyLm5dot3, pyLm5dot4);
+        regexReplace(&TempStringPrefs.language, pyLm5dot3, pyLm5dot4);
     if (regexFind(TempStringPrefs.language, xrLm5dot3))
-	regexReplace(&TempStringPrefs.language, xrLm5dot3, xrLm5dot4);
-    
+        regexReplace(&TempStringPrefs.language, xrLm5dot3, xrLm5dot4);
+
     /* Add new styles */
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Identifier2:"))
-	spliceString(&TempStringPrefs.styles, "Identifier2:SteelBlue:Plain",
-		"^[ \t]*Subroutine:");
+        spliceString(&TempStringPrefs.styles, "Identifier2:SteelBlue:Plain", "^[ \t]*Subroutine:");
 }
 
-static void updatePatternsTo5dot6(void)
+static void updatePatternsTo5dot6()
 {
     const char *pats[] = {
 #ifndef VMS
-        "Csh:\\.csh \\.cshrc \\.login \\.logout:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/bin/csh\"::::::\\n",
-        "Csh:.csh .cshrc .tcshrc .login .logout:\"^[ \\t]*#[ \\t]*![ \\t]*/bin/t?csh\"::::::\n",
-	"LaTeX:\\.tex \\.sty \\.cls \\.ltx \\.ins:::::::\\n",
-	"LaTeX:.tex .sty .cls .ltx .ins .clo .fd:::::::\n",
-        "X Resources:\\.Xresources \\.Xdefaults \\.nedit:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::\\n",
-        "X Resources:.Xresources .Xdefaults .nedit .pats nedit.rc:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n",
+            "Csh:\\.csh \\.cshrc \\.login \\.logout:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/bin/csh\"::::::\\n", "Csh:.csh .cshrc .tcshrc .login .logout:\"^[ \\t]*#[ \\t]*![ \\t]*/bin/t?csh\"::::::\n", "LaTeX:\\.tex \\.sty \\.cls \\.ltx \\.ins:::::::\\n", "LaTeX:.tex .sty .cls .ltx .ins .clo .fd:::::::\n", "X Resources:\\.Xresources \\.Xdefaults \\.nedit:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::\\n",
+            "X Resources:.Xresources .Xdefaults .nedit .pats nedit.rc:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n",
 #else
-	"Csh:\\.csh \\.cshrc \\.login \\.logout:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/bin/csh\"::::::\\n",
-	"Csh:.CSH .CSHRC .TCSHRC .LOGIN .LOGOUT:\"^[ \\t]*#[ \\t]*![ \\t]*/bin/t?csh\"::::::\n",
-	"LaTeX:\\.TEX \\.STY \\.CLS \\.LTX \\.INS:::::::\\n",
-	"LaTeX:.TEX .STY .CLS .LTX .INS .CLO .FD:::::::\n",
-	"Lex:\\.lex:::::::\\n",
-	"Lex:.LEX:::::::\n",
-	"Matlab:\\.m \\.oct \\.sci:::::::\\n",
-	"Matlab:.M .OCT .SCI:::::::\n",
-	"Regex:\\.reg \\.regex:\"\\\\\\(\\\\\\?\\[:#=!iInN\\]\\.\\+\\\\\\\)\":None:Continuous::::\\n",
-	"Regex:.REG .REGEX:\"\\(\\?[:#=!iInN].+\\)\":None:Continuous::::\n",
-	"SGML HTML:\\.sgml \\.sgm \\.html \\.htm:\"\\\\\\<\\[Hh\\]\\[Tt\\]\\[Mm\\]\\[Ll\\]\\\\\\>\"::::::\\n",
-	"SGML HTML:.SGML .SGM .HTML .HTM:\"\\<[Hh][Tt][Mm][Ll]\\>\"::::::\n",
-	"SQL:\\.sql:::::::\\n",
-	"SQL:.SQL:::::::\n",
-	"Sh Ksh Bash:\\.sh \\.bash \\.ksh \\.profile \\.bashrc \\.bash_logout \\.bash_login \\.bash_profile:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/\\.\\*bin/\\(bash\\|ksh\\|sh\\|zsh\\)\"::::::\\n",
-	"Sh Ksh Bash:.SH .BASH .KSH .PROFILE .BASHRC .BASH_LOGOUT .BASH_LOGIN .BASH_PROFILE:\"^[ \\t]*#[ \\t]*![ \\t]*/.*bin/(bash|ksh|sh|zsh)\"::::::\n",
-	"XML:\\.xml \\.xsl \\.dtd:\"\\\\\\<\\(\\?i\\\\\\?xml\\|!doctype\\)\"::None:::\"\\<\\>/=\"\"'\\(\\)\\+\\*\\?\\|\":\\n",
-	"XML:.XML .XSL .DTD:\"\\<(?i\\?xml|!doctype)\"::None:::\"<>/=\"\"'()+*?|\":\n",
-	"X Resources:\\.XRESOURCES \\.XDEFAULTS \\.NEDIT:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::\\n",
-	"X Resources:.XRESOURCES .XDEFAULTS .NEDIT .PATS NEDIT.RC:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n",
+            "Csh:\\.csh \\.cshrc \\.login \\.logout:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/bin/csh\"::::::\\n",
+            "Csh:.CSH .CSHRC .TCSHRC .LOGIN .LOGOUT:\"^[ \\t]*#[ \\t]*![ \\t]*/bin/t?csh\"::::::\n",
+            "LaTeX:\\.TEX \\.STY \\.CLS \\.LTX \\.INS:::::::\\n",
+            "LaTeX:.TEX .STY .CLS .LTX .INS .CLO .FD:::::::\n",
+            "Lex:\\.lex:::::::\\n",
+            "Lex:.LEX:::::::\n",
+            "Matlab:\\.m \\.oct \\.sci:::::::\\n",
+            "Matlab:.M .OCT .SCI:::::::\n",
+            "Regex:\\.reg \\.regex:\"\\\\\\(\\\\\\?\\[:#=!iInN\\]\\.\\+\\\\\\\)\":None:Continuous::::\\n",
+            "Regex:.REG .REGEX:\"\\(\\?[:#=!iInN].+\\)\":None:Continuous::::\n",
+            "SGML HTML:\\.sgml \\.sgm \\.html \\.htm:\"\\\\\\<\\[Hh\\]\\[Tt\\]\\[Mm\\]\\[Ll\\]\\\\\\>\"::::::\\n",
+            "SGML HTML:.SGML .SGM .HTML .HTM:\"\\<[Hh][Tt][Mm][Ll]\\>\"::::::\n",
+            "SQL:\\.sql:::::::\\n",
+            "SQL:.SQL:::::::\n",
+            "Sh Ksh Bash:\\.sh \\.bash \\.ksh \\.profile \\.bashrc \\.bash_logout \\.bash_login \\.bash_profile:\"\\^\\[ \\\\t\\]\\*#\\[ \\\\t\\]\\*!\\[ \\\\t\\]\\*/\\.\\*bin/\\(bash\\|ksh\\|sh\\|zsh\\)\"::::::\\n",
+            "Sh Ksh Bash:.SH .BASH .KSH .PROFILE .BASHRC .BASH_LOGOUT .BASH_LOGIN .BASH_PROFILE:\"^[ \\t]*#[ \\t]*![ \\t]*/.*bin/(bash|ksh|sh|zsh)\"::::::\n",
+            "XML:\\.xml \\.xsl \\.dtd:\"\\\\\\<\\(\\?i\\\\\\?xml\\|!doctype\\)\"::None:::\"\\<\\>/=\"\"'\\(\\)\\+\\*\\?\\|\":\\n",
+            "XML:.XML .XSL .DTD:\"\\<(?i\\?xml|!doctype)\"::None:::\"<>/=\"\"'()+*?|\":\n",
+            "X Resources:\\.XRESOURCES \\.XDEFAULTS \\.NEDIT:\"\\^\\[!#\\]\\.\\*\\(\\[Aa\\]pp\\|\\[Xx\\]\\)\\.\\*\\[Dd\\]efaults\"::::::\\n",
+            "X Resources:.XRESOURCES .XDEFAULTS .NEDIT .PATS NEDIT.RC:\"^[!#].*([Aa]pp|[Xx]).*[Dd]efaults\"::::::\n",
 #endif
-        NULL };
+            NULL };
 
     /* Upgrade modified language modes, only if the user hasn't
-       altered the default 5.5 definitions. */
+     altered the default 5.5 definitions. */
     int i;
-    for (i = 0; pats[i]; i+=2) {
+    for (i = 0; pats[i]; i += 2) {
         if (regexFind(TempStringPrefs.language, pats[i]))
-            regexReplace(&TempStringPrefs.language, pats[i], pats[i+1]);
+            regexReplace(&TempStringPrefs.language, pats[i], pats[i + 1]);
     }
 
     /* Add new styles */
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Bracket:"))
-	spliceString(&TempStringPrefs.styles, "Bracket:dark blue:Bold",
-		"^[ \t]*Storage Type:");
+        spliceString(&TempStringPrefs.styles, "Bracket:dark blue:Bold", "^[ \t]*Storage Type:");
     if (!regexFind(TempStringPrefs.styles, "^[ \t]*Operator:"))
-	spliceString(&TempStringPrefs.styles, "Operator:dark blue:Bold",
-		"^[ \t]*Bracket:");
+        spliceString(&TempStringPrefs.styles, "Operator:dark blue:Bold", "^[ \t]*Bracket:");
 }
-
 
 /* 
  * We migrate a color from the X resources to the prefs if:
  *      1.  The prefs entry is equal to the default entry
  *      2.  The X resource is not equal to the default entry
  */
-static void migrateColor(XrmDatabase prefDB, XrmDatabase appDB,
-        char *c_class, char *name, int color_index, char *default_val)
+static void migrateColor(XrmDatabase prefDB, XrmDatabase appDB, char *c_class, char *name, int color_index, char *default_val)
 {
     char *type, *valueString;
     XrmValue rsrcValue;
-    
+
     /* If this color has been customized in the color dialog then use
-        that value */
-    if ( strcmp(default_val, PrefData.colorNames[color_index]) )
+     that value */
+    if (strcmp(default_val, PrefData.colorNames[color_index]))
         return;
-    
+
     /* Retrieve the value of the resource from the DB */
     if (XrmGetResource(prefDB, name, c_class, &type, &rsrcValue)) {
         if (strcmp(type, XmRString)) {
-            fprintf(stderr,"Internal Error: Unexpected resource type, %s\n", type);
+            fprintf(stderr, "Internal Error: Unexpected resource type, %s\n", type);
             return;
         }
         valueString = rsrcValue.addr;
     } else if (XrmGetResource(appDB, name, c_class, &type, &rsrcValue)) {
         if (strcmp(type, XmRString)) {
-            fprintf(stderr,"Internal Error: Unexpected resource type, %s\n", type);
+            fprintf(stderr, "Internal Error: Unexpected resource type, %s\n", type);
             return;
         }
         valueString = rsrcValue.addr;
     } else
         /* No resources set */
         return;
-    
+
     /* An X resource is set.  If it's non-default, update the prefs. */
-    if ( strcmp(valueString, default_val) ) {
+    if (strcmp(valueString, default_val)) {
         strncpy(PrefData.colorNames[color_index], valueString, MAX_COLOR_LEN);
     }
 }
@@ -5570,56 +5310,54 @@ static void migrateColor(XrmDatabase prefDB, XrmDatabase appDB,
 static void migrateColorResources(XrmDatabase prefDB, XrmDatabase appDB)
 {
     migrateColor(prefDB, appDB, APP_CLASS ".Text.Foreground",
-            APP_NAME ".text.foreground", TEXT_FG_COLOR, 
-            NEDIT_DEFAULT_FG);
+    APP_NAME ".text.foreground", TEXT_FG_COLOR,
+    NEDIT_DEFAULT_FG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.Background",
-            APP_NAME ".text.background", TEXT_BG_COLOR, 
-            NEDIT_DEFAULT_TEXT_BG);
+    APP_NAME ".text.background", TEXT_BG_COLOR,
+    NEDIT_DEFAULT_TEXT_BG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.SelectForeground",
-            APP_NAME ".text.selectForeground", SELECT_FG_COLOR, 
-            NEDIT_DEFAULT_SEL_FG);
+    APP_NAME ".text.selectForeground", SELECT_FG_COLOR,
+    NEDIT_DEFAULT_SEL_FG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.SelectBackground",
-            APP_NAME ".text.selectBackground", SELECT_BG_COLOR, 
-            NEDIT_DEFAULT_SEL_BG);
+    APP_NAME ".text.selectBackground", SELECT_BG_COLOR,
+    NEDIT_DEFAULT_SEL_BG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.HighlightForeground",
-            APP_NAME ".text.highlightForeground", HILITE_FG_COLOR, 
-            NEDIT_DEFAULT_HI_FG);
+    APP_NAME ".text.highlightForeground", HILITE_FG_COLOR,
+    NEDIT_DEFAULT_HI_FG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.HighlightBackground",
-            APP_NAME ".text.highlightBackground", HILITE_BG_COLOR, 
-            NEDIT_DEFAULT_HI_BG);
+    APP_NAME ".text.highlightBackground", HILITE_BG_COLOR,
+    NEDIT_DEFAULT_HI_BG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.LineNumForeground",
-            APP_NAME ".text.lineNumForeground", LINENO_FG_COLOR, 
-            NEDIT_DEFAULT_LINENO_FG);
+    APP_NAME ".text.lineNumForeground", LINENO_FG_COLOR,
+    NEDIT_DEFAULT_LINENO_FG);
     migrateColor(prefDB, appDB, APP_CLASS ".Text.CursorForeground",
-            APP_NAME ".text.cursorForeground", CURSOR_FG_COLOR, 
-            NEDIT_DEFAULT_CURSOR_FG);
+    APP_NAME ".text.cursorForeground", CURSOR_FG_COLOR,
+    NEDIT_DEFAULT_CURSOR_FG);
 }
 
 /*
-** Inserts a string into intoString, reallocating it with nedit_realloc.  If
-** regular expression atExpr is found, inserts the string before atExpr
-** followed by a newline.  If atExpr is not found, inserts insertString
-** at the end, PRECEDED by a newline.
-*/
+ ** Inserts a string into intoString, reallocating it with nedit_realloc.  If
+ ** regular expression atExpr is found, inserts the string before atExpr
+ ** followed by a newline.  If atExpr is not found, inserts insertString
+ ** at the end, PRECEDED by a newline.
+ */
 static void spliceString(char **intoString, const char *insertString, const char *atExpr)
 {
     int beginPos, endPos;
     int intoLen = strlen(*intoString);
     int insertLen = strlen(insertString);
-    char *newString = (char*)NEditMalloc(intoLen + insertLen + 2);
-    
-    if (atExpr != NULL && SearchString(*intoString, atExpr,
-	    SEARCH_FORWARD, SEARCH_REGEX, False, 0, &beginPos, &endPos,
-	    NULL, NULL, NULL)) {
-	strncpy(newString, *intoString, beginPos);
-    	strncpy(&newString[beginPos], insertString, insertLen);
-	newString[beginPos+insertLen] = '\n';
-	strncpy(&newString[beginPos+insertLen+1],
-		&((*intoString)[beginPos]), intoLen - beginPos);
+    char *newString = (char*) NEditMalloc(intoLen + insertLen + 2);
+
+    if (atExpr != NULL && SearchString(*intoString, atExpr, SEARCH_FORWARD, SEARCH_REGEX, False, 0, &beginPos, &endPos,
+    NULL, NULL, NULL)) {
+        strncpy(newString, *intoString, beginPos);
+        strncpy(&newString[beginPos], insertString, insertLen);
+        newString[beginPos + insertLen] = '\n';
+        strncpy(&newString[beginPos + insertLen + 1], &((*intoString)[beginPos]), intoLen - beginPos);
     } else {
-	strncpy(newString, *intoString, intoLen);
-	newString[intoLen] = '\n';
-	strncpy(&newString[intoLen+1], insertString, insertLen);
+        strncpy(newString, *intoString, intoLen);
+        newString[intoLen] = '\n';
+        strncpy(&newString[intoLen + 1], insertString, insertLen);
     }
     newString[intoLen + insertLen + 1] = '\0';
     NEditFree(*intoString);
@@ -5627,47 +5365,43 @@ static void spliceString(char **intoString, const char *insertString, const char
 }
 
 /*
-** Simplified regular expression search routine which just returns true
-** or false depending on whether inString matches expr
-*/
+ ** Simplified regular expression search routine which just returns true
+ ** or false depending on whether inString matches expr
+ */
 static int regexFind(const char *inString, const char *expr)
 {
     int beginPos, endPos;
-    return SearchString(inString, expr, SEARCH_FORWARD, SEARCH_REGEX, False,
-	    0, &beginPos, &endPos, NULL, NULL, NULL);
+    return SearchString(inString, expr, SEARCH_FORWARD, SEARCH_REGEX, False, 0, &beginPos, &endPos, NULL, NULL, NULL);
 }
 
 /*
-** Simplified case-sensisitive string search routine which just 
-** returns true or false depending on whether inString matches expr
-*/
+ ** Simplified case-sensisitive string search routine which just
+ ** returns true or false depending on whether inString matches expr
+ */
 static int caseFind(const char *inString, const char *expr)
 {
     int beginPos, endPos;
     return SearchString(inString, expr, SEARCH_FORWARD, SEARCH_CASE_SENSE,
-            False, 0, &beginPos, &endPos, NULL, NULL, NULL);
+    False, 0, &beginPos, &endPos, NULL, NULL, NULL);
 }
 
 /*
-** Common implementation for simplified string replacement routines.
-*/
-static int stringReplace(char **inString, const char *expr, 
-                         const char *replaceWith, int searchType,
-			 int replaceLen)
+ ** Common implementation for simplified string replacement routines.
+ */
+static int stringReplace(char **inString, const char *expr, const char *replaceWith, int searchType, int replaceLen)
 {
     int beginPos, endPos, newLen;
     char *newString;
     int inLen = strlen(*inString);
-    if (0 >= replaceLen) replaceLen = strlen(replaceWith);
-    if (!SearchString(*inString, expr, SEARCH_FORWARD, searchType, False,
-	    0, &beginPos, &endPos, NULL, NULL, NULL))
-	return FALSE;
-    newLen = inLen + replaceLen - (endPos-beginPos);
-    newString = (char*)NEditMalloc(newLen + 1);
+    if (0 >= replaceLen)
+        replaceLen = strlen(replaceWith);
+    if (!SearchString(*inString, expr, SEARCH_FORWARD, searchType, False, 0, &beginPos, &endPos, NULL, NULL, NULL))
+        return FALSE;
+    newLen = inLen + replaceLen - (endPos - beginPos);
+    newString = (char*) NEditMalloc(newLen + 1);
     strncpy(newString, *inString, beginPos);
     strncpy(&newString[beginPos], replaceWith, replaceLen);
-    strncpy(&newString[beginPos+replaceLen],
-	    &((*inString)[endPos]), inLen - endPos);
+    strncpy(&newString[beginPos + replaceLen], &((*inString)[endPos]), inLen - endPos);
     newString[newLen] = '\0';
     NEditFree(*inString);
     *inString = newString;
@@ -5675,38 +5409,34 @@ static int stringReplace(char **inString, const char *expr,
 }
 
 /*
-** Simplified regular expression replacement routine which replaces the
-** first occurence of expr in inString with replaceWith, reallocating
-** inString with NEditMalloc.  If expr is not found, does nothing and
-** returns false.
-*/
-static int regexReplace(char **inString, const char *expr, 
-                        const char *replaceWith)
+ ** Simplified regular expression replacement routine which replaces the
+ ** first occurence of expr in inString with replaceWith, reallocating
+ ** inString with NEditMalloc.  If expr is not found, does nothing and
+ ** returns false.
+ */
+static int regexReplace(char **inString, const char *expr, const char *replaceWith)
 {
     return stringReplace(inString, expr, replaceWith, SEARCH_REGEX, -1);
 }
 
 /*
-** Simplified case-sensisitive string replacement routine which 
-** replaces the first occurence of expr in inString with replaceWith,
-** reallocating inString with NEditMalloc.  If expr is not found, does nothing 
-** and returns false.
-*/
-static int caseReplace(char **inString, const char *expr, 
-                       const char *replaceWith, int replaceLen)
+ ** Simplified case-sensisitive string replacement routine which
+ ** replaces the first occurence of expr in inString with replaceWith,
+ ** reallocating inString with NEditMalloc.  If expr is not found, does nothing
+ ** and returns false.
+ */
+static int caseReplace(char **inString, const char *expr, const char *replaceWith, int replaceLen)
 {
-    return stringReplace(inString, expr, replaceWith, SEARCH_CASE_SENSE,
-                         replaceLen);
+    return stringReplace(inString, expr, replaceWith, SEARCH_CASE_SENSE, replaceLen);
 }
 
 /*
-** Looks for a (case-sensitive literal) match of an old macro text in a
-** temporary macro commands buffer. If the text is found, it is replaced by
-** a substring of the default macros, bounded by a given start and end pattern
-** (inclusive). Returns the length of the replacement.
-*/
-static int replaceMacroIfUnchanged(const char* oldText, const char* newStart, 
-                                   const char* newEnd)
+ ** Looks for a (case-sensitive literal) match of an old macro text in a
+ ** temporary macro commands buffer. If the text is found, it is replaced by
+ ** a substring of the default macros, bounded by a given start and end pattern
+ ** (inclusive). Returns the length of the replacement.
+ */
+static int replaceMacroIfUnchanged(const char* oldText, const char* newStart, const char* newEnd)
 {
     if (caseFind(TempStringPrefs.macroCmds, oldText)) {
 #ifdef VMS
@@ -5714,79 +5444,79 @@ static int replaceMacroIfUnchanged(const char* oldText, const char* newStart,
 #else
         const char *start = strstr(PrefDescrip[2].defaultString, newStart);
 #endif
-	if (start) {
+        if (start) {
             const char *end = strstr(start, newEnd);
             if (end) {
-                int length = (int)(end-start) + strlen(newEnd);
+                int length = (int) (end - start) + strlen(newEnd);
                 caseReplace(&TempStringPrefs.macroCmds, oldText, start, length);
                 return length;
             }
-	}
+        }
     }
     return 0;
 }
 
 #ifndef VMS
 /* 
-** Replace all '#' characters in shell commands by '##' to keep commands
-** containing those working. '#' is a line number placeholder in 5.3 and
-** had no special meaning before.
-*/
-static void updateShellCmdsTo5dot3(void)
+ ** Replace all '#' characters in shell commands by '##' to keep commands
+ ** containing those working. '#' is a line number placeholder in 5.3 and
+ ** had no special meaning before.
+ */
+static void updateShellCmdsTo5dot3()
 {
     char *cOld, *cNew, *pCol, *pNL;
-    int  nHash, isCmd;
+    int nHash, isCmd;
     char *newString;
 
-    if(!TempStringPrefs.shellCmds)
-	return;
+    if (!TempStringPrefs.shellCmds)
+        return;
 
     /* Count number of '#'. If there are '#' characters in the non-command
-    ** part of the definition we count too much and later allocate too much
-    ** memory for the new string, but this doesn't hurt.
-    */
-    for(cOld=TempStringPrefs.shellCmds, nHash=0; *cOld; cOld++)
-	if(*cOld == '#')
-	    nHash++;
+     ** part of the definition we count too much and later allocate too much
+     ** memory for the new string, but this doesn't hurt.
+     */
+    for (cOld = TempStringPrefs.shellCmds, nHash = 0; *cOld; cOld++)
+        if (*cOld == '#')
+            nHash++;
 
     /* No '#' -> no conversion necessary. */
-    if(!nHash)
-	return;
+    if (!nHash)
+        return;
 
-    newString=(char*)NEditMalloc(strlen(TempStringPrefs.shellCmds) + 1 + nHash);
+    newString = (char*) NEditMalloc(strlen(TempStringPrefs.shellCmds) + 1 + nHash);
 
-    cOld  = TempStringPrefs.shellCmds;
-    cNew  = newString;
+    cOld = TempStringPrefs.shellCmds;
+    cNew = newString;
     isCmd = 0;
-    pCol  = NULL;
-    pNL   = NULL;
+    pCol = NULL;
+    pNL = NULL;
 
     /* Copy all characters from TempStringPrefs.shellCmds into newString
-    ** and duplicate '#' in command parts. A simple check for really beeing
-    ** inside a command part (starting with '\n', between the the two last
-    ** '\n' a colon ':' must have been found) is preformed.
-    */
-    while(*cOld) {
-	/* actually every 2nd line is a command. We additionally
-	** check if there is a colon ':' in the previous line.
-	*/
-	if(*cOld=='\n') {
-	    if((pCol > pNL) && !isCmd)
-	      	isCmd=1;
-	    else
-	      	isCmd=0;
-	    pNL=cOld;
-	}
+     ** and duplicate '#' in command parts. A simple check for really beeing
+     ** inside a command part (starting with '\n', between the the two last
+     ** '\n' a colon ':' must have been found) is preformed.
+     */
+    while (*cOld) {
+        /* actually every 2nd line is a command. We additionally
+         ** check if there is a colon ':' in the previous line.
+         */
+        if (*cOld == '\n') {
+            if ((pCol > pNL) && !isCmd)
+                isCmd = 1;
+            else
+                isCmd = 0;
+            pNL = cOld;
+        }
 
-	if(!isCmd && *cOld ==':')
-	    pCol = cOld;
+        if (!isCmd && *cOld == ':')
+            pCol = cOld;
 
-	/* Duplicate hashes if we're in a command part */
-	if(isCmd && *cOld=='#')
-	    *cNew++ = '#';
+        /* Duplicate hashes if we're in a command part */
+        if (isCmd && *cOld == '#')
+            *cNew++ = '#';
 
-	/* Copy every character */
-	*cNew++ = *cOld++;
+        /* Copy every character */
+        *cNew++ = *cOld++;
 
     }
 
@@ -5803,63 +5533,60 @@ static void updateShellCmdsTo5dot3(void)
 
 #else
 
-static void updateShellCmdsTo5dot3(void) {
+static void updateShellCmdsTo5dot3() {
     /* No shell commands in VMS ! */
     return;
-}  
+}
 
 #endif
 
-static void updateShellCmdsTo5dot4(void) 
+static void updateShellCmdsTo5dot4()
 {
 #ifndef VMS /* No shell commands on VMS */
 
 #ifdef __FreeBSD__
-    const char* wc5dot3 = 
-      "^(\\s*)set wc=`wc`; echo \\$wc\\[1\\] \"words,\" \\$wc\\[2\\] \"lines,\" \\$wc\\[3\\] \"characters\"\\n";
-    const char* wc5dot4 = 
-      "wc | awk '{print $2 \" lines, \" $1 \" words, \" $3 \" characters\"}'\n";
+    const char* wc5dot3 =
+    "^(\\s*)set wc=`wc`; echo \\$wc\\[1\\] \"words,\" \\$wc\\[2\\] \"lines,\" \\$wc\\[3\\] \"characters\"\\n";
+    const char* wc5dot4 =
+    "wc | awk '{print $2 \" lines, \" $1 \" words, \" $3 \" characters\"}'\n";
 #else    
-    const char* wc5dot3 = 
-      "^(\\s*)set wc=`wc`; echo \\$wc\\[1\\] \"lines,\" \\$wc\\[2\\] \"words,\" \\$wc\\[3\\] \"characters\"\\n";
-    const char* wc5dot4 = 
-      "wc | awk '{print $1 \" lines, \" $2 \" words, \" $3 \" characters\"}'\n";
+    const char* wc5dot3 = "^(\\s*)set wc=`wc`; echo \\$wc\\[1\\] \"lines,\" \\$wc\\[2\\] \"words,\" \\$wc\\[3\\] \"characters\"\\n";
+    const char* wc5dot4 = "wc | awk '{print $1 \" lines, \" $2 \" words, \" $3 \" characters\"}'\n";
 #endif /* __FreeBSD__ */
-    
+
     if (regexFind(TempStringPrefs.shellCmds, wc5dot3))
-	regexReplace(&TempStringPrefs.shellCmds, wc5dot3, wc5dot4);
-    
+        regexReplace(&TempStringPrefs.shellCmds, wc5dot3, wc5dot4);
+
 #endif /* VMS */
-    
+
     return;
 }
 
-static void updateMacroCmdsTo5dot5(void) 
+static void updateMacroCmdsTo5dot5()
 {
-    const char* uc5dot4 = 
-      "^(\\s*)if \\(substring\\(sel, keepEnd - 1, keepEnd == \" \"\\)\\)\\n";
-    const char* uc5dot5 = 
-      "		if (substring(sel, keepEnd - 1, keepEnd) == \" \")\n";
+    const char* uc5dot4 = "^(\\s*)if \\(substring\\(sel, keepEnd - 1, keepEnd == \" \"\\)\\)\\n";
+    const char* uc5dot5 = "		if (substring(sel, keepEnd - 1, keepEnd) == \" \")\n";
     if (regexFind(TempStringPrefs.macroCmds, uc5dot4))
-	regexReplace(&TempStringPrefs.macroCmds, uc5dot4, uc5dot5);
+        regexReplace(&TempStringPrefs.macroCmds, uc5dot4, uc5dot5);
 
     return;
 }
 
-static void updateMacroCmdsTo5dot6(void) 
+static void updateMacroCmdsTo5dot6()
 {
     /* 
-       This is ridiculous. Macros don't belong in the default preferences
-       string.
-       This code is also likely to break when the macro commands are upgraded
-       again in a next release, because it looks for patterns in the default
-       macro string (which may change). 
-       Using a "Default" mechanism, like we do for highlighting patterns 
-       would simplify upgrading A LOT in the future, but changing the way
-       default macros are stored, is a lot of work too, unfortunately.
-    */
-    const char *pats[] = {
-        "Complete Word:Alt+D::: {\n\
+     This is ridiculous. Macros don't belong in the default preferences
+     string.
+     This code is also likely to break when the macro commands are upgraded
+     again in a next release, because it looks for patterns in the default
+     macro string (which may change).
+     Using a "Default" mechanism, like we do for highlighting patterns
+     would simplify upgrading A LOT in the future, but changing the way
+     default macros are stored, is a lot of work too, unfortunately.
+     */
+    const char *pats[] =
+            {
+                    "Complete Word:Alt+D::: {\n\
 		# Tuning parameters\n\
 		ScanDistance = 200\n\
 		\n\
@@ -5902,8 +5629,9 @@ static void updateMacroCmdsTo5dot6(void)
 		\n\
 		# replace it in the window\n\
 		replace_range(startScan + keyStart, $cursor, completedWord)\n\
-	}", "Complete Word:", "\n\t}",
-        "Fill Sel. w/Char:::R: {\n\
+	}",
+                    "Complete Word:", "\n\t}",
+                    "Fill Sel. w/Char:::R: {\n\
 		if ($selection_start == -1) {\n\
 		    beep()\n\
 		    return\n\
@@ -5953,8 +5681,9 @@ static void updateMacroCmdsTo5dot6(void)
 		\n\
 		# Replace the selection with the fill text\n\
 		replace_selection(fillText)\n\
-	}", "Fill Sel. w/Char:", "\n\t}",
-        "Comments>/* Uncomment */@C@C++@Java@CSS@JavaScript@Lex:::R: {\n\
+	}",
+                    "Fill Sel. w/Char:", "\n\t}",
+                    "Comments>/* Uncomment */@C@C++@Java@CSS@JavaScript@Lex:::R: {\n\
 		sel = get_selection()\n\
 		selStart = $selection_start\n\
 		selEnd = $selection_end\n\
@@ -5971,16 +5700,16 @@ static void updateMacroCmdsTo5dot6(void)
 			substring(sel, keepStart, keepEnd))\n\
 		select(selStart, selEnd - (keepStart-commentStart) - \\\n\
 			(commentEnd - keepEnd))\n\
-	}", "Comments>/* Uncomment */", "\n\t}",
-        "Comments>Bar Uncomment@C:::R: {\n\
+	}",
+                    "Comments>/* Uncomment */", "\n\t}", "Comments>Bar Uncomment@C:::R: {\n\
 		selStart = $selection_start\n\
 		selEnd = $selection_end\n\
 		newText = get_range(selStart+3, selEnd-4)\n\
 		newText = replace_in_string(newText, \"^ \\\\* \", \"\", \"regex\")\n\
 		replace_range(selStart, selEnd, newText)\n\
 		select(selStart, selStart + length(newText))\n\
-	}","Comments>Bar Uncomment@C:", "\n\t}",
-        "Make C Prototypes@C@C++:::: {\n\
+	}", "Comments>Bar Uncomment@C:", "\n\t}",
+                    "Make C Prototypes@C@C++:::: {\n\
 		if ($selection_start == -1) {\n\
 		    start = 0\n\
 		    end = $text_length\n\
@@ -5990,41 +5719,41 @@ static void updateMacroCmdsTo5dot6(void)
 		}\n\
 		string = get_range(start, end)\n\
 		nDefs = 0", "Make C Prototypes@C@C++:", "\t\tnDefs = 0",
-        NULL };
+                    NULL };
     int i;
-    for (i = 0; pats[i]; i+=3) 
-        replaceMacroIfUnchanged(pats[i], pats[i+1], pats[i+2]);
+    for (i = 0; pats[i]; i += 3)
+        replaceMacroIfUnchanged(pats[i], pats[i + 1], pats[i + 2]);
     return;
 }
 
 #ifdef SGI_CUSTOM
 /*
-** Present the user a dialog for specifying whether or not a short
-** menu mode preference should be applied toward the default setting.
-** Return False (function value) if operation was canceled, return True
-** in setDefault if requested to reset the default value.
-*/
+ ** Present the user a dialog for specifying whether or not a short
+ ** menu mode preference should be applied toward the default setting.
+ ** Return False (function value) if operation was canceled, return True
+ ** in setDefault if requested to reset the default value.
+ */
 static int shortPrefToDefault(Widget parent, const char *settingName, int *setDefault)
 {
     char msg[100] = "";
-    
+
     if (!GetPrefShortMenus()) {
         *setDefault = False;
         return True;
     }
-    
+
     sprintf(msg, "%s\nSave as default for future windows as well?", settingName);
     switch (DialogF (DF_QUES, parent, 3, "Save Default", msg, "Yes", "No",
-            "Cancel"))
+                    "Cancel"))
     {
         case 1: /* yes */
-            *setDefault = True;
-            return True;
+        *setDefault = True;
+        return True;
         case 2: /* no */
-            *setDefault = False;
-            return True;
+        *setDefault = False;
+        return True;
         case 3: /* cancel */
-            return False;
+        return False;
     }
     return False; /* not reached */
 }
@@ -6034,10 +5763,10 @@ static int shortPrefToDefault(Widget parent, const char *settingName, int *setDe
 void UnloadLanguageModeTipsFile(WindowInfo *window)
 {
     int mode;
-    
+
     mode = window->languageMode;
     if (mode != PLAIN_LANGUAGE_MODE && LanguageModes[mode]->defTipsFile) {
-        DeleteTagsFile( LanguageModes[mode]->defTipsFile, TIP, False );
+        DeleteTagsFile(LanguageModes[mode]->defTipsFile, TIP, False);
     }
 }
 
@@ -6046,78 +5775,69 @@ void UnloadLanguageModeTipsFile(WindowInfo *window)
  ******************************************************************************/
 
 /* 
-There are 8 colors:   And 8 indices:
-textFg                TEXT_FG_COLOR
-textBg                TEXT_BG_COLOR
-selectFg              SELECT_FG_COLOR
-selectBg              SELECT_BG_COLOR
-hiliteFg              HILITE_FG_COLOR
-hiliteBg              HILITE_BG_COLOR
-lineNoFg              LINENO_FG_COLOR
-cursorFg              CURSOR_FG_COLOR
-*/
+ There are 8 colors:   And 8 indices:
+ textFg                TEXT_FG_COLOR
+ textBg                TEXT_BG_COLOR
+ selectFg              SELECT_FG_COLOR
+ selectBg              SELECT_BG_COLOR
+ hiliteFg              HILITE_FG_COLOR
+ hiliteBg              HILITE_BG_COLOR
+ lineNoFg              LINENO_FG_COLOR
+ cursorFg              CURSOR_FG_COLOR
+ */
 
 #define MARGIN_SPACING 10
 
 /* 
  * Callbacks for field modifications
  */
-static void textFgModifiedCB(Widget w, XtPointer clientData,
-      XtPointer callData)
+static void textFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->textFgW, cd->textFgErrW);
 }
-    
-static void textBgModifiedCB(Widget w, XtPointer clientData,
-      XtPointer callData)
+
+static void textBgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->textBgW, cd->textBgErrW);
 }
 
-static void selectFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData)
+static void selectFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->selectFgW, cd->selectFgErrW);
 }
 
-static void selectBgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData)
+static void selectBgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->selectBgW, cd->selectBgErrW);
 }
 
-static void hiliteFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData)
+static void hiliteFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->hiliteFgW, cd->hiliteFgErrW);
 }
 
-static void hiliteBgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData)
+static void hiliteBgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->hiliteBgW, cd->hiliteBgErrW);
 }
 
-static void lineNoFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData)
+static void lineNoFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->lineNoFgW, cd->lineNoFgErrW);
 }
 
-static void cursorFgModifiedCB(Widget w, XtPointer clientData,
-        XtPointer callData)
+static void cursorFgModifiedCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
     showColorStatus(cd, cd->cursorFgW, cd->cursorFgErrW);
 }
-
 
 /* 
  * Helper functions for validating colors
@@ -6125,14 +5845,7 @@ static void cursorFgModifiedCB(Widget w, XtPointer clientData,
 static int verifyAllColors(colorDialog *cd)
 {
     /* Maybe just check for empty strings in error widgets instead? */
-    return (checkColorStatus(cd, cd->textFgW) &&
-            checkColorStatus(cd, cd->textBgW) &&
-            checkColorStatus(cd, cd->selectFgW) &&
-            checkColorStatus(cd, cd->selectBgW) &&
-            checkColorStatus(cd, cd->hiliteFgW) &&
-            checkColorStatus(cd, cd->hiliteBgW) &&
-            checkColorStatus(cd, cd->lineNoFgW) &&
-            checkColorStatus(cd, cd->cursorFgW) );
+    return (checkColorStatus(cd, cd->textFgW) && checkColorStatus(cd, cd->textBgW) && checkColorStatus(cd, cd->selectFgW) && checkColorStatus(cd, cd->selectBgW) && checkColorStatus(cd, cd->hiliteFgW) && checkColorStatus(cd, cd->hiliteBgW) && checkColorStatus(cd, cd->lineNoFgW) && checkColorStatus(cd, cd->cursorFgW));
 }
 
 /* Returns True if the color is valid, False if it's not */
@@ -6150,37 +5863,27 @@ static Boolean checkColorStatus(colorDialog *cd, Widget colorFieldW)
 }
 
 /* Show or hide errorLabelW depending on whether or not colorFieldW 
-    contains a valid color name. */
-static void showColorStatus(colorDialog *cd, Widget colorFieldW, 
-        Widget errorLabelW)
+ contains a valid color name. */
+static void showColorStatus(colorDialog *cd, Widget colorFieldW, Widget errorLabelW)
 {
     /* Should set the OK/Apply button sensitivity here, instead 
-       of leaving is sensitive and then complaining if an error. */
-    XtSetMappedWhenManaged( errorLabelW, !checkColorStatus(cd, colorFieldW) );
+     of leaving is sensitive and then complaining if an error. */
+    XtSetMappedWhenManaged(errorLabelW, !checkColorStatus(cd, colorFieldW));
 }
 
 /* Update the colors in the window or in the preferences */
 static void updateColors(colorDialog *cd)
 {
     WindowInfo *window;
-    
-    char    *textFg = XmTextGetString(cd->textFgW),
-            *textBg = XmTextGetString(cd->textBgW),
-            *selectFg = XmTextGetString(cd->selectFgW),
-            *selectBg = XmTextGetString(cd->selectBgW),
-            *hiliteFg = XmTextGetString(cd->hiliteFgW),
-            *hiliteBg = XmTextGetString(cd->hiliteBgW),
-            *lineNoFg = XmTextGetString(cd->lineNoFgW),
-            *cursorFg = XmTextGetString(cd->cursorFgW);
 
-    for (window = WindowList; window != NULL; window = window->next)
-    {
-        SetColors(window, textFg, textBg, selectFg, selectBg, hiliteFg, 
-                hiliteBg, lineNoFg, cursorFg);
+    char *textFg = XmTextGetString(cd->textFgW), *textBg = XmTextGetString(cd->textBgW), *selectFg = XmTextGetString(cd->selectFgW), *selectBg = XmTextGetString(cd->selectBgW), *hiliteFg = XmTextGetString(cd->hiliteFgW), *hiliteBg = XmTextGetString(cd->hiliteBgW), *lineNoFg = XmTextGetString(cd->lineNoFgW), *cursorFg = XmTextGetString(cd->cursorFgW);
+
+    for (window = WindowList; window != NULL; window = window->next) {
+        SetColors(window, textFg, textBg, selectFg, selectBg, hiliteFg, hiliteBg, lineNoFg, cursorFg);
     }
 
-    SetPrefColorName(TEXT_FG_COLOR  , textFg  );
-    SetPrefColorName(TEXT_BG_COLOR  , textBg  );
+    SetPrefColorName(TEXT_FG_COLOR, textFg);
+    SetPrefColorName(TEXT_BG_COLOR, textBg);
     SetPrefColorName(SELECT_FG_COLOR, selectFg);
     SetPrefColorName(SELECT_BG_COLOR, selectBg);
     SetPrefColorName(HILITE_FG_COLOR, hiliteFg);
@@ -6198,14 +5901,13 @@ static void updateColors(colorDialog *cd)
     NEditFree(cursorFg);
 }
 
-
 /* 
  * Dialog button callbacks
  */
 
 static void colorDestroyCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
 
     cd->window->colorDialog = NULL;
     NEditFree(cd);
@@ -6213,12 +5915,10 @@ static void colorDestroyCB(Widget w, XtPointer clientData, XtPointer callData)
 
 static void colorOkCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
-    
-    if(!verifyAllColors(cd))
-    {
-        DialogF(DF_ERR, w, 1, "Invalid Colors",
-                "All colors must be valid to proceed.", "OK");
+    colorDialog *cd = (colorDialog *) clientData;
+
+    if (!verifyAllColors(cd)) {
+        DialogF(DF_ERR, w, 1, "Invalid Colors", "All colors must be valid to proceed.", "OK");
         return;
     }
     updateColors(cd);
@@ -6229,12 +5929,10 @@ static void colorOkCB(Widget w, XtPointer clientData, XtPointer callData)
 
 static void colorApplyCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
-    
-    if(!verifyAllColors(cd))
-    {
-        DialogF(DF_ERR, w, 1, "Invalid Colors",
-                "All colors must be valid to be applied.", "OK");
+    colorDialog *cd = (colorDialog *) clientData;
+
+    if (!verifyAllColors(cd)) {
+        DialogF(DF_ERR, w, 1, "Invalid Colors", "All colors must be valid to be applied.", "OK");
         return;
     }
     updateColors(cd);
@@ -6242,75 +5940,66 @@ static void colorApplyCB(Widget w, XtPointer clientData, XtPointer callData)
 
 static void colorCloseCB(Widget w, XtPointer clientData, XtPointer callData)
 {
-    colorDialog *cd = (colorDialog *)clientData;
+    colorDialog *cd = (colorDialog *) clientData;
 
     /* pop down and destroy the dialog */
     XtDestroyWidget(cd->shell);
 }
 
-
 /* Add a label, error label, and text entry label with a validation
-    callback */
-static Widget addColorGroup( Widget parent, const char *name, char mnemonic, 
-        char *label, Widget *fieldW, Widget *errW, Widget topWidget, 
-        int leftPos, int rightPos, XtCallbackProc modCallback, 
-        colorDialog *cd )
+ callback */
+static Widget addColorGroup(Widget parent, const char *name, char mnemonic, char *label, Widget *fieldW, Widget *errW, Widget topWidget, int leftPos, int rightPos, XtCallbackProc modCallback, colorDialog *cd)
 {
     Widget lblW;
     char *longerName;
     XmString s1;
     int nameLen = strlen(name);
-    
+
     /* The label widget */
-    longerName = (char*)NEditMalloc(nameLen+7);
+    longerName = (char*) NEditMalloc(nameLen + 7);
     strcpy(longerName, name);
     strcat(longerName, "Lbl");
-    lblW = XtVaCreateManagedWidget(longerName,
-          xmLabelGadgetClass, parent,
-          XmNlabelString, s1=XmStringCreateSimple( label ),
-          XmNmnemonic, mnemonic,
-          XmNtopAttachment, XmATTACH_WIDGET,
-          XmNtopWidget, topWidget,
-          XmNtopOffset, MARGIN_SPACING,
-          XmNleftAttachment, XmATTACH_POSITION,
-          XmNleftPosition, leftPos, NULL);
+    lblW = XtVaCreateManagedWidget(longerName, xmLabelGadgetClass, parent,
+    XmNlabelString, s1 = XmStringCreateSimple(label),
+    XmNmnemonic, mnemonic,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, topWidget,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, leftPos, NULL);
     XmStringFree(s1);
 
     /* The error label widget */
     strcpy(&(longerName[nameLen]), "ErrLbl");
-    *errW = XtVaCreateManagedWidget(longerName,
-          xmLabelWidgetClass, parent,
-          XmNlabelString, s1=XmStringCreateSimple("(Invalid!)"),
-          XmNalignment, XmALIGNMENT_END,
-          XmNtopAttachment, XmATTACH_WIDGET,
-          XmNtopWidget, topWidget,
-          XmNtopOffset, MARGIN_SPACING,
-          XmNleftAttachment, XmATTACH_WIDGET,
-          XmNleftWidget, lblW,
-          XmNrightAttachment, XmATTACH_POSITION,
-          XmNrightPosition, rightPos, NULL);
+    *errW = XtVaCreateManagedWidget(longerName, xmLabelWidgetClass, parent,
+    XmNlabelString, s1 = XmStringCreateSimple("(Invalid!)"),
+    XmNalignment, XmALIGNMENT_END,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, topWidget,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_WIDGET,
+    XmNleftWidget, lblW,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, rightPos, NULL);
     XmStringFree(s1);
-    
+
     /* The text field entry widget */
-    *fieldW = XtVaCreateManagedWidget(name, xmTextWidgetClass,
-          parent,
-          XmNcolumns, MAX_COLOR_LEN-1,
-          XmNmaxLength, MAX_COLOR_LEN-1,
-          XmNleftAttachment, XmATTACH_POSITION,
-          XmNleftPosition, leftPos,
-          XmNrightAttachment, XmATTACH_POSITION,
-          XmNrightPosition, rightPos,
-          XmNtopAttachment, XmATTACH_WIDGET,
-          XmNtopWidget, lblW, NULL);
+    *fieldW = XtVaCreateManagedWidget(name, xmTextWidgetClass, parent,
+    XmNcolumns, MAX_COLOR_LEN - 1,
+    XmNmaxLength, MAX_COLOR_LEN - 1,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, leftPos,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, rightPos,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, lblW, NULL);
     RemapDeleteKey(*fieldW);
-    XtAddCallback(*fieldW, XmNvalueChangedCallback,
-          modCallback, cd);
+    XtAddCallback(*fieldW, XmNvalueChangedCallback, modCallback, cd);
     XtVaSetValues(lblW, XmNuserData, *fieldW, NULL);
-    
+
     NEditFree(longerName);
     return *fieldW;
 }
-
 
 /* 
  * Code for the dialog itself
@@ -6323,21 +6012,23 @@ void ChooseColors(WindowInfo *window)
     XmString s1;
     int ac;
     Arg args[20];
-    
+
     /* if the dialog is already displayed, just pop it to the top and return */
     if (window->colorDialog != NULL) {
-      RaiseDialogWindow(((colorDialog *)window->colorDialog)->shell);
-      return;
+        RaiseDialogWindow(((colorDialog *) window->colorDialog)->shell);
+        return;
     }
-    
+
     /* Create a structure for keeping track of dialog state */
     cd = NEditNew(colorDialog);
-    window->colorDialog = (void*)cd;
-    
+    window->colorDialog = (void*) cd;
+
     /* Create a form widget in a dialog shell */
     ac = 0;
-    XtSetArg(args[ac], XmNautoUnmanage, False); ac++;
-    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE); ac++;
+    XtSetArg(args[ac], XmNautoUnmanage, False);
+    ac++;
+    XtSetArg(args[ac], XmNresizePolicy, XmRESIZE_NONE);
+    ac++;
     form = CreateFormDialog(window->shell, "choose colors", args, ac);
     XtVaSetValues(form, XmNshadowThickness, 0, NULL);
     cd->shell = XtParent(form);
@@ -6345,156 +6036,131 @@ void ChooseColors(WindowInfo *window)
     XtVaSetValues(cd->shell, XmNtitle, "Colors", NULL);
     AddMotifCloseCallback(XtParent(form), colorCloseCB, cd);
     XtAddCallback(form, XmNdestroyCallback, colorDestroyCB, cd);
-    
+
     /* Information label */
-    infoLbl = XtVaCreateManagedWidget("infoLbl",
-            xmLabelGadgetClass, form,
-            XmNtopAttachment, XmATTACH_POSITION,
-            XmNtopPosition, 2,
-            XmNleftAttachment, XmATTACH_POSITION,
-            XmNleftPosition, 1,
-            XmNrightAttachment, XmATTACH_POSITION,
-            XmNrightPosition, 99,
-            XmNalignment, XmALIGNMENT_CENTER,
-            XmNlabelString, s1 = XmStringCreateLtoR(
-                "Colors can be entered as names (e.g. red, blue) or "
-                "as RGB triples\nin the format #RRGGBB, where each digit "
-                "is in the range 0-f.", XmFONTLIST_DEFAULT_TAG),
-            NULL);
+    infoLbl = XtVaCreateManagedWidget("infoLbl", xmLabelGadgetClass, form,
+    XmNtopAttachment, XmATTACH_POSITION,
+    XmNtopPosition, 2,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99,
+    XmNalignment, XmALIGNMENT_CENTER,
+    XmNlabelString, s1 = XmStringCreateLtoR("Colors can be entered as names (e.g. red, blue) or "
+            "as RGB triples\nin the format #RRGGBB, where each digit "
+            "is in the range 0-f.", XmFONTLIST_DEFAULT_TAG),
+    NULL);
     XmStringFree(s1);
-    
+
     topW = infoLbl;
-    
+
     /* The left column (foregrounds) of color entry groups */
-    tmpW = addColorGroup( form, "textFg", 'P', "Plain Text Foreground", 
-            &(cd->textFgW), &(cd->textFgErrW), topW, 1, 49, 
-            textFgModifiedCB, cd );
-    tmpW = addColorGroup( form, "selectFg", 'S', "Selection Foreground",
-            &(cd->selectFgW), &(cd->selectFgErrW), tmpW, 1, 49, 
-            selectFgModifiedCB, cd );
-    tmpW = addColorGroup( form, "hiliteFg", 'M', "Matching (..) Foreground",
-            &(cd->hiliteFgW), &(cd->hiliteFgErrW), tmpW, 1, 49, 
-            hiliteFgModifiedCB, cd );
-    tmpW = addColorGroup( form, "lineNoFg", 'L', "Line Numbers",
-            &(cd->lineNoFgW), &(cd->lineNoFgErrW), tmpW, 1, 49, 
-            lineNoFgModifiedCB, cd );
+    tmpW = addColorGroup(form, "textFg", 'P', "Plain Text Foreground", &(cd->textFgW), &(cd->textFgErrW), topW, 1, 49, textFgModifiedCB, cd);
+    tmpW = addColorGroup(form, "selectFg", 'S', "Selection Foreground", &(cd->selectFgW), &(cd->selectFgErrW), tmpW, 1, 49, selectFgModifiedCB, cd);
+    tmpW = addColorGroup(form, "hiliteFg", 'M', "Matching (..) Foreground", &(cd->hiliteFgW), &(cd->hiliteFgErrW), tmpW, 1, 49, hiliteFgModifiedCB, cd);
+    tmpW = addColorGroup(form, "lineNoFg", 'L', "Line Numbers", &(cd->lineNoFgW), &(cd->lineNoFgErrW), tmpW, 1, 49, lineNoFgModifiedCB, cd);
 
     /* The right column (backgrounds) */
-    tmpW = addColorGroup( form, "textBg", 'T', "Text Area Background",
-            &(cd->textBgW), &(cd->textBgErrW), topW, 51, 99, 
-            textBgModifiedCB, cd );
-    tmpW = addColorGroup( form, "selectBg", 'B', "Selection Background",
-            &(cd->selectBgW), &(cd->selectBgErrW), tmpW, 51, 99, 
-            selectBgModifiedCB, cd );
-    tmpW = addColorGroup( form, "hiliteBg", 'h', "Matching (..) Background",
-            &(cd->hiliteBgW), &(cd->hiliteBgErrW), tmpW, 51, 99, 
-            hiliteBgModifiedCB, cd );
-    tmpW = addColorGroup( form, "cursorFg", 'C', "Cursor Color",
-            &(cd->cursorFgW), &(cd->cursorFgErrW), tmpW, 51, 99, 
-            cursorFgModifiedCB, cd );
+    tmpW = addColorGroup(form, "textBg", 'T', "Text Area Background", &(cd->textBgW), &(cd->textBgErrW), topW, 51, 99, textBgModifiedCB, cd);
+    tmpW = addColorGroup(form, "selectBg", 'B', "Selection Background", &(cd->selectBgW), &(cd->selectBgErrW), tmpW, 51, 99, selectBgModifiedCB, cd);
+    tmpW = addColorGroup(form, "hiliteBg", 'h', "Matching (..) Background", &(cd->hiliteBgW), &(cd->hiliteBgErrW), tmpW, 51, 99, hiliteBgModifiedCB, cd);
+    tmpW = addColorGroup(form, "cursorFg", 'C', "Cursor Color", &(cd->cursorFgW), &(cd->cursorFgErrW), tmpW, 51, 99, cursorFgModifiedCB, cd);
 
-    tmpW = XtVaCreateManagedWidget("infoLbl",
-            xmLabelGadgetClass, form,
-            XmNtopAttachment, XmATTACH_WIDGET,
-            XmNtopWidget, tmpW,
-            XmNtopOffset, MARGIN_SPACING,
-            XmNleftAttachment, XmATTACH_POSITION,
-            XmNleftPosition, 1,
-            XmNrightAttachment, XmATTACH_POSITION,
-            XmNrightPosition, 99,
-            XmNalignment, XmALIGNMENT_CENTER,
-            XmNlabelString, s1 = XmStringCreateLtoR(
-                "NOTE: Foreground colors only apply when syntax highlighting "
-                "is DISABLED.\n", XmFONTLIST_DEFAULT_TAG),
-            NULL);
+    tmpW = XtVaCreateManagedWidget("infoLbl", xmLabelGadgetClass, form,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, tmpW,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 1,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 99,
+    XmNalignment, XmALIGNMENT_CENTER,
+    XmNlabelString, s1 = XmStringCreateLtoR("NOTE: Foreground colors only apply when syntax highlighting "
+            "is DISABLED.\n", XmFONTLIST_DEFAULT_TAG),
+    NULL);
     XmStringFree(s1);
-    
-    tmpW = XtVaCreateManagedWidget("sep",
-            xmSeparatorGadgetClass, form,
-            XmNtopAttachment, XmATTACH_WIDGET,
-            XmNtopWidget, tmpW,
-            XmNleftAttachment, XmATTACH_FORM,
-            XmNrightAttachment, XmATTACH_FORM, NULL);
-    
+
+    tmpW = XtVaCreateManagedWidget("sep", xmSeparatorGadgetClass, form,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, tmpW,
+    XmNleftAttachment, XmATTACH_FORM,
+    XmNrightAttachment, XmATTACH_FORM, NULL);
+
     /* The OK, Apply, and Cancel buttons */
-    okBtn = XtVaCreateManagedWidget("ok",
-            xmPushButtonWidgetClass, form,
-            XmNlabelString, s1=XmStringCreateSimple("OK"),
-            XmNmarginWidth, BUTTON_WIDTH_MARGIN,
-            XmNtopAttachment, XmATTACH_WIDGET,
-            XmNtopWidget, tmpW,
-            XmNtopOffset, MARGIN_SPACING,
-            XmNleftAttachment, XmATTACH_POSITION,
-            XmNleftPosition, 10,
-            XmNrightAttachment, XmATTACH_POSITION,
-            XmNrightPosition, 30,
-            NULL);
+    okBtn = XtVaCreateManagedWidget("ok", xmPushButtonWidgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple("OK"),
+    XmNmarginWidth, BUTTON_WIDTH_MARGIN,
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, tmpW,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 10,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 30,
+    NULL);
     XtAddCallback(okBtn, XmNactivateCallback, colorOkCB, cd);
     XmStringFree(s1);
 
-    applyBtn = XtVaCreateManagedWidget(
-            "apply", xmPushButtonWidgetClass, form,
-          XmNlabelString, s1=XmStringCreateSimple("Apply"),
-          XmNtopAttachment, XmATTACH_WIDGET,
-          XmNtopWidget, tmpW,
-          XmNtopOffset, MARGIN_SPACING,
-          XmNmnemonic, 'A',
-          XmNleftAttachment, XmATTACH_POSITION,
-          XmNleftPosition, 40,
-          XmNrightAttachment, XmATTACH_POSITION,
-          XmNrightPosition, 60, NULL);
+    applyBtn = XtVaCreateManagedWidget("apply", xmPushButtonWidgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple("Apply"),
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, tmpW,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNmnemonic, 'A',
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 40,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 60, NULL);
     XtAddCallback(applyBtn, XmNactivateCallback, colorApplyCB, cd);
     XmStringFree(s1);
-    
-    closeBtn = XtVaCreateManagedWidget("close",
-            xmPushButtonWidgetClass, form,
-            XmNlabelString, s1=XmStringCreateSimple("Close"),
-            XmNtopAttachment, XmATTACH_WIDGET,
-            XmNtopWidget, tmpW,
-            XmNtopOffset, MARGIN_SPACING,
-            XmNleftAttachment, XmATTACH_POSITION,
-            XmNleftPosition, 70,
-            XmNrightAttachment, XmATTACH_POSITION,
-            XmNrightPosition, 90,
-            NULL);
+
+    closeBtn = XtVaCreateManagedWidget("close", xmPushButtonWidgetClass, form,
+    XmNlabelString, s1 = XmStringCreateSimple("Close"),
+    XmNtopAttachment, XmATTACH_WIDGET,
+    XmNtopWidget, tmpW,
+    XmNtopOffset, MARGIN_SPACING,
+    XmNleftAttachment, XmATTACH_POSITION,
+    XmNleftPosition, 70,
+    XmNrightAttachment, XmATTACH_POSITION,
+    XmNrightPosition, 90,
+    NULL);
     XtAddCallback(closeBtn, XmNactivateCallback, colorCloseCB, cd);
     XmStringFree(s1);
- 
+
     /* Set initial default button */
     XtVaSetValues(form, XmNdefaultButton, okBtn, NULL);
     XtVaSetValues(form, XmNcancelButton, closeBtn, NULL);
-    
+
     /* Set initial values */
-    XmTextSetString(cd->textFgW,   GetPrefColorName(TEXT_FG_COLOR  ));
-    XmTextSetString(cd->textBgW,   GetPrefColorName(TEXT_BG_COLOR  ));
+    XmTextSetString(cd->textFgW, GetPrefColorName(TEXT_FG_COLOR));
+    XmTextSetString(cd->textBgW, GetPrefColorName(TEXT_BG_COLOR));
     XmTextSetString(cd->selectFgW, GetPrefColorName(SELECT_FG_COLOR));
     XmTextSetString(cd->selectBgW, GetPrefColorName(SELECT_BG_COLOR));
     XmTextSetString(cd->hiliteFgW, GetPrefColorName(HILITE_FG_COLOR));
     XmTextSetString(cd->hiliteBgW, GetPrefColorName(HILITE_BG_COLOR));
     XmTextSetString(cd->lineNoFgW, GetPrefColorName(LINENO_FG_COLOR));
     XmTextSetString(cd->cursorFgW, GetPrefColorName(CURSOR_FG_COLOR));
-    
+
     /* Handle mnemonic selection of buttons and focus to dialog */
     AddDialogMnemonicHandler(form, FALSE);
-    
+
     /* put up dialog */
     ManageDialogCenteredOnPointer(form);
 }
 
 /*
-**  This function passes up a pointer to the static name of the default
-**  shell, currently defined as the user's login shell.
-**  In case of errors, the fallback of "sh" will be returned.
-*/
-static const char* getDefaultShell(void)
+ **  This function passes up a pointer to the static name of the default
+ **  shell, currently defined as the user's login shell.
+ **  In case of errors, the fallback of "sh" will be returned.
+ */
+static const char* getDefaultShell()
 {
     struct passwd* passwdEntry = NULL;
     static char shellBuffer[MAXPATHLEN + 1] = "sh";
 
-    passwdEntry = getpwuid(getuid());   /*  getuid() never fails.  */
+    passwdEntry = getpwuid(getuid()); /*  getuid() never fails.  */
 
-    if (NULL == passwdEntry)
-    {
+    if (NULL == passwdEntry) {
         /*  Something bad happened! Do something, quick!  */
         perror("nedit: Failed to get passwd entry (falling back to 'sh')");
         return "sh";
@@ -6502,11 +6168,11 @@ static const char* getDefaultShell(void)
 
     /*  *passwdEntry may be overwritten  */
     /*  TODO: To make this and other function calling getpwuid() more robust,
-        passwdEntry should be kept in a central position (Core->sysinfo?).
-        That way, local code would always get a current copy of passwdEntry,
-        but could still be kept lean.  The obvious alternative of a central
-        facility within NEdit to access passwdEntry would increase coupling
-        and would have to cover a lot of assumptions.  */
+     passwdEntry should be kept in a central position (Core->sysinfo?).
+     That way, local code would always get a current copy of passwdEntry,
+     but could still be kept lean.  The obvious alternative of a central
+     facility within NEdit to access passwdEntry would increase coupling
+     and would have to cover a lot of assumptions.  */
     strncpy(shellBuffer, passwdEntry->pw_shell, MAXPATHLEN);
     shellBuffer[MAXPATHLEN] = '\0';
 
